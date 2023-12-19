@@ -91,11 +91,7 @@ class _SearchTabState extends State<SearchTab> {
                                 itemCount: snapshot.data!.length,
                                 itemBuilder: (context, index) {
                                   final product = data[index];
-                                  return CartItem(
-                                    imageUrl: product.imageUrl[0],
-                                    name: product.name,
-                                    price: product.price,
-                                  );
+                                  return const SizedBox();
                                 });
                           }
                         }),

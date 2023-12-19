@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:seed/src/app_cache/app_cache.dart';
 
 import '../../../../app_components/app_components.dart';
 import '../../../../colors.dart';
 import '../../../../provider/cart_provider.dart';
 import '../../../../size_setup.dart';
-import '../../../track_order/track_order_screen.dart';
 import 'componenets/cart_item.dart';
 import 'componenets/checkout_bottom_sheet.dart';
 
@@ -18,14 +17,14 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
-  late List<Map<String, dynamic>> cartList;
+  late Set<Map<String, dynamic>> cartList;
 
   @override
-  void initState() {
-    final appCache = AppCache();
-    final cartBox = appCache.getCartBox();
-    final cartData = cartBox.keys.map((key) {
-      final item = cartBox.get(key);
+  void didChangeDependencies() {
+    final cartProvider = Provider.of<CartProvider>(context);
+
+    final cartData = cartProvider.cartBox.keys.map((key) {
+      final item = cartProvider.cartBox.get(key);
       return {
         "key": key,
         "id": item["id"],
@@ -40,8 +39,8 @@ class _CartScreenState extends State<CartScreen> {
         "colors": item["colors"],
       };
     }).toList();
-    cartList = cartData.reversed.toList();
-    super.initState();
+    cartList = Set<Map<String, dynamic>>.from(cartData);
+    super.didChangeDependencies();
   }
 
   @override
@@ -62,16 +61,78 @@ class _CartScreenState extends State<CartScreen> {
               child: ListView.separated(
                 itemCount: cartList.length,
                 itemBuilder: (context, index) {
-                  final cartItem = cartList[index];
+                  final cartItem = cartList.toList()[index];
                   return Dismissible(
                     key: Key(cartItem["id"]),
                     onDismissed: (direction) {
                       showModalBottomSheet(
-                        context: context,
-                        builder: ((context) {
-                          return RemoveFromCardSheet(id: cartItem["id"]);
-                        }),
-                      );
+                          context: context,
+                          builder: (context) {
+                            return Container(
+                              height: SizeSetup.height! * 0.3,
+                              padding: EdgeInsets.all(rSize * 2),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    'Remove from Cart?',
+                                    style: TextStyle(
+                                      fontSize: rSize * 2,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Divider(height: rSize * 4),
+                                  // CartItem(
+                                  //   product: id,
+                                  // ),
+                                  const Spacer(),
+                                  SizedBox(
+                                    height: rSize * 7,
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child: ElevatedButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            style: ElevatedButton.styleFrom(
+                                              backgroundColor: AppColors
+                                                  .kTertiaryColor
+                                                  .withOpacity(0.05),
+                                            ),
+                                            child: const Text(
+                                              'Cancel',
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(width: rSize * 2),
+                                        Expanded(
+                                          child: Consumer<CartProvider>(builder:
+                                              (context, cartProvider, child) {
+                                            return ElevatedButton(
+                                              onPressed: () {
+                                                cartProvider
+                                                    .deleteCart(cartItem["id"]);
+                                              },
+                                              style: ElevatedButton.styleFrom(
+                                                backgroundColor:
+                                                    AppColors.kPrimaryColor,
+                                              ),
+                                              child: const Text(
+                                                'Yes, remove',
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            );
+                                          }),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          });
                     },
                     child: GestureDetector(
                       onTap: () {
@@ -85,6 +146,7 @@ class _CartScreenState extends State<CartScreen> {
                         imageUrl: cartItem["imageUrl"],
                         name: cartItem["name"],
                         price: cartItem["price"],
+                        cartKey: cartItem["key"],
                       ),
                     ),
                   );
@@ -99,10 +161,11 @@ class _CartScreenState extends State<CartScreen> {
           }),
           const Spacer(),
           CustomButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed(TrackOrderScreen.routeName);
-              },
-              title: 'Proceed'),
+            onPressed: () {
+              context.goNamed('confirm-order');
+            },
+            title: 'Proceed',
+          ),
         ],
       ),
     );
@@ -161,7 +224,7 @@ class RemoveFromCardSheet extends StatelessWidget {
                       builder: (context, cartProvider, child) {
                     return ElevatedButton(
                       onPressed: () {
-                        //cartProvider.deleteCartItem(id);
+                        cartProvider.deleteCart(id);
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.kPrimaryColor,

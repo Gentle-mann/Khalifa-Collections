@@ -4,10 +4,22 @@ import 'package:path_provider/path_provider.dart';
 import 'package:seed/src/app_cache/app_cache.dart';
 
 class AppStateProvider extends ChangeNotifier {
+  final _appCache = AppCache();
+  bool _isRegistered = false;
   bool _isLoggedIn = false;
   bool _hasOnboarded = false;
   bool _isDarkMode = false;
-  final _appCache = AppCache();
+  int _homePage = 0;
+  List<dynamic> favIds = [];
+
+  bool get isRegistered {
+    return _isRegistered;
+  }
+
+  int get homePage {
+    return _homePage;
+  }
+
   bool get isLoggedIn {
     return _isLoggedIn;
   }
@@ -17,13 +29,18 @@ class AppStateProvider extends ChangeNotifier {
   }
 
   Future<void> initializeApp() async {
+    _isRegistered = await _appCache.isUserRegistered();
     _isLoggedIn = await _appCache.isUserLoggedIn();
     _hasOnboarded = await _appCache.hasUserOnboarded();
     _isDarkMode = await _appCache.isDarkMode();
+    _homePage = await _appCache.getHomePage();
     final dir = await getApplicationDocumentsDirectory();
     Hive.init(dir.path);
+    favIds = await _appCache.getFavIds();
+
     await Hive.openBox('cart');
-    await Hive.openBox('fav1');
+    _appCache.getCartBox();
+    await Hive.openBox('favb');
   }
 
   bool get hasOnboarded {
@@ -32,6 +49,11 @@ class AppStateProvider extends ChangeNotifier {
 
   void login() {
     _isLoggedIn = true;
+    notifyListeners();
+  }
+
+  void register(bool newState) {
+    _isRegistered = newState;
     notifyListeners();
   }
 
@@ -45,5 +67,9 @@ class AppStateProvider extends ChangeNotifier {
     _isDarkMode = newState;
     _appCache.setDarkMode(_isDarkMode);
     notifyListeners();
+  }
+
+  void setHomePage(int page) {
+    _homePage = page;
   }
 }

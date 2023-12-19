@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../app_components/header_text.dart';
 import '../../app_components/social_media_card.dart';
@@ -66,7 +67,7 @@ class SignInScreen extends StatelessWidget {
                   UnderlinedText(
                     'Sign up',
                     onTap: () {
-                      Navigator.of(context).pushNamed(SignUpScreen.routeName);
+                      context.goNamed('/signin');
                     },
                   ),
                 ],

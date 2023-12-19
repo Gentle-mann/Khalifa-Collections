@@ -33,14 +33,13 @@ class DarkTheme {
   DarkTheme._();
   static ThemeData darkTheme() {
     return ThemeData(
-      // typography: Typography.material2021(
-      //   colorScheme: const ColorScheme.dark(),
-      //   black: darkTextTheme,
-      // ),
       fontFamily: 'Inter',
-      //colorScheme: ColorScheme.fromSeed(seedColor: AppColors.kDarkPrimary),
+      colorScheme: ColorScheme.fromSeed(
+        seedColor: AppColors.kDarkPrimary,
+        primary: AppColors.kDarkPrimary,
+        brightness: Brightness.dark,
+      ),
       useMaterial3: true,
-      brightness: Brightness.dark,
       checkboxTheme: CheckboxThemeData(
         fillColor: MaterialStateColor.resolveWith((states) {
           return AppColors.kDarkPrimary;

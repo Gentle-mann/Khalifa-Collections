@@ -2,8 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:seed/src/models/products_model.dart';
 import 'package:seed/src/provider/app_state_provider.dart';
+import 'package:seed/src/screens/help_center/help_center_screen.dart';
+import 'package:seed/src/screens/payment_methods/payment_methods_screen.dart';
+import 'package:seed/src/screens/profile_completion/components/profile_completion_form.dart';
 import 'package:seed/src/screens/settings/settings_screen.dart';
+import 'package:seed/src/screens/track_order/track_order_screen.dart';
 
+import 'screens/confirm_order/confirm_order_screen.dart';
 import 'screens/details/details_screen.dart';
 import 'screens/error/error_screen.dart';
 import 'screens/home/home_screen.dart';
@@ -49,49 +54,72 @@ class AppRouter {
         // const ProfileCompletionScreen(),
         //LocationRequestScreen.routeName: (context) => const LocationRequestScreen(),
         GoRoute(
-            path: '/home',
-            name: HomeScreen.routeName,
-            builder: (context, state) => const HomeScreen(),
-            routes: [
-              GoRoute(
-                  path: 'settings',
-                  name: 'settings',
-                  builder: (context, state) => const SettingsScreen())
-            ]),
-        GoRoute(
-            path: '/details',
-            name: DetailsScreen.routeName,
-            builder: (context, state) {
-              return DetailsScreen(
-                product: ModalRoute.of(context)?.settings.arguments as Products,
-              );
-            }),
-        //WishlistTab.routeName: (context) => const WishlistTab(),
-        //TrackOrderScreen.routeName: (context) => const TrackOrderScreen(),
-        //HelpCenterScreen.routeName: (context) => const HelpCenterScreen(),
-        //SettingsScreen.routeName: (context) => const SettingsScreen(),
-        //NotificationScreen.routeName: (context) => const NotificationScreen(),
-        //PaymentMethodsScreen.routeName: (context) => const PaymentMethodsScreen(),
-        //PrivacyPolicyScreen.routeName: (context) => const PrivacyPolicyScreen(),
-        //SplashScreen.routeName: (context) => const SplashScreen(),
+          path: '/home',
+          name: 'home',
+          builder: (context, state) => const HomeScreen(),
+          routes: [
+            GoRoute(
+                path: 'settings',
+                name: 'settings',
+                builder: (context, state) => const SettingsScreen(),
+                routes: [
+                  GoRoute(
+                    path: 'profile',
+                    name: 'profile',
+                    builder: (context, state) => const ProfileCompletionForm(),
+                  ),
+                  GoRoute(
+                    path: 'confirm-order',
+                    name: 'confirm-order',
+                    builder: (context, state) => const ConfirmOrderScreen(),
+                  ),
+                  GoRoute(
+                    path: 'help',
+                    name: 'help',
+                    builder: (context, state) => const HelpCenterScreen(),
+                  ),
+                  GoRoute(
+                    path: 'notification',
+                    name: 'notification',
+                    builder: (context, state) => const TrackOrderScreen(),
+                  ),
+                  GoRoute(
+                    path: 'payment',
+                    name: 'payment',
+                    builder: (context, state) => const PaymentMethodsScreen(),
+                  ),
+                ]),
+            GoRoute(
+                path: 'details',
+                name: 'details',
+                builder: (context, state) {
+                  return DetailsScreen(
+                    product: state.extra as Products,
+                  );
+                }),
+          ],
+        ),
       ],
       redirect: (context, state) {
         final hasUserOnboarded = appStateProvider.hasOnboarded;
-        print('has onboarded: $hasUserOnboarded');
         final isUserOnboarding = state.fullPath == '/welcome';
         if (!hasUserOnboarded) {
           return isUserOnboarding ? null : '/welcome';
         }
+        final isRegistered = appStateProvider.isRegistered;
+        if (!isRegistered) {
+          return '/signup';
+        }
         final isUserSignedIn = appStateProvider.isLoggedIn;
-        print('signed in: $isUserSignedIn');
         final isSigningIn = state.fullPath == '/';
 
         if (!isUserSignedIn) {
           return isSigningIn ? null : '/';
         }
+        final homePage = appStateProvider.homePage;
 
         if (isSigningIn || isUserOnboarding) {
-          return '/home';
+          return '/home/$homePage';
         }
         return null;
       });

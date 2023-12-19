@@ -21,7 +21,6 @@ class _WishlistTabState extends State<WishlistTab> {
   Widget build(BuildContext context) {
     final categories = ['All', 'Jacket', 'Shirt', 'Pant', 'T-shirt', 'Shoe'];
     final rSize = SizeSetup.rSize!;
-    final wishlistProvider = Provider.of<WishlistProvider>(context);
 
     return Padding(
       padding: EdgeInsets.only(
@@ -42,37 +41,35 @@ class _WishlistTabState extends State<WishlistTab> {
             SizedBox(height: rSize * 2),
             SizedBox(
               height: SizeSetup.height! * 0.7,
-              child: ListView.builder(
-                  itemCount: wishlistProvider.ids.length,
-                  itemBuilder: ((context, index) {
-                    final favorites = wishlistProvider.getAllData()[index];
-                    final product = Products(
-                      id: favorites["id"],
-                      name: favorites["name"],
-                      title: '',
-                      category: favorites["category"],
-                      imageUrl: favorites["imageUrl"],
-                      price: favorites["price"],
-                      sizes: [],
-                      description: '',
-                      subCategory: favorites["subCategory"],
-                      subSubCategory: favorites["subSubCategory"],
-                      updatedAt: '',
-                    );
-                    return GestureDetector(
-                      onTap: () {
-                        wishlistProvider.removeFav(favorites["key"]);
-                        wishlistProvider.ids.removeWhere(
-                            (element) => element == favorites["id"]);
-                        setState(() {});
-                      },
-                      child: CartItem(
-                        imageUrl: product.imageUrl[0],
-                        name: product.name,
-                        price: product.price,
-                      ),
-                    );
-                  })),
+              child: Consumer<WishlistProvider>(
+                  builder: (context, wishlistProvider, child) {
+                return ListView.builder(
+                    itemCount: wishlistProvider.ids.length,
+                    itemBuilder: ((context, index) {
+                      final favorites = wishlistProvider.getAllData()[index];
+                      final product = Products(
+                        id: favorites["id"],
+                        name: favorites["name"],
+                        title: '',
+                        category: favorites["category"],
+                        imageUrl: favorites["imageUrl"],
+                        price: favorites["price"],
+                        sizes: [],
+                        description: '',
+                        subCategory: favorites["subCategory"],
+                        subSubCategory: favorites["subSubCategory"],
+                        updatedAt: '',
+                      );
+                      return GestureDetector(
+                          onTap: () {
+                            wishlistProvider.removeFav(favorites["key"]);
+                            wishlistProvider.ids.removeWhere(
+                                (element) => element == favorites["id"]);
+                            //setState(() {});
+                          },
+                          child: const SizedBox());
+                    }));
+              }),
             )
           ],
         ),

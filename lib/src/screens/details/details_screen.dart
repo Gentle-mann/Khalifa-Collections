@@ -13,7 +13,6 @@ import 'components/size_selection_card.dart';
 class DetailsScreen extends StatelessWidget {
   const DetailsScreen({super.key, required this.product});
   final Products product;
-  static const routeName = '/details';
 
   @override
   Widget build(BuildContext context) {
@@ -108,18 +107,6 @@ class DetailsScreen extends StatelessWidget {
                             fontSize: rSize * 1.5,
                           ),
                         ),
-                        // SizedBox(height: rSize * 3),
-                        // const Row(
-                        //   children: [
-                        //     Icon(
-                        //       Icons.star,
-                        //       color: Color(
-                        //         0xFFF9A825,
-                        //       ),
-                        //     ),
-                        //     Text('4.5'),
-                        //   ],
-                        // ),
                       ],
                     ),
                     SizedBox(height: rSize),
@@ -132,30 +119,13 @@ class DetailsScreen extends StatelessWidget {
                     ),
                     SizedBox(height: rSize * 1.8),
                     Text(
-                      'Product Details',
+                      'Product Description',
                       style: TextStyle(
                         fontSize: rSize * 1.8,
                       ),
                     ),
-                    Row(
-                      children: [
-                        RichText(
-                          text: TextSpan(
-                            text: product.description,
-                            style: const TextStyle(color: Colors.black),
-                            children: const [
-                              TextSpan(
-                                text: ' Read more',
-                                style: TextStyle(
-                                  decoration: TextDecoration.underline,
-                                  color: AppColors.kPrimaryColor,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
+                    Text(
+                      product.description,
                     ),
                     const Divider(),
                     SizedBox(height: rSize),
@@ -260,7 +230,7 @@ class DetailsScreen extends StatelessWidget {
                           "subCategory": product.subCategory,
                           "subSubCategory": product.subSubCategory,
                           // "sizes": productNotifier.sizes
-                          //     .toString(),
+                          //.toString(),
                           "imageUrl": product.imageUrl[0],
                           "price": product.price,
                           "qty": 1,

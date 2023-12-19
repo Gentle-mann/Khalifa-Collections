@@ -19,7 +19,7 @@ class ScreenTitleRow extends StatelessWidget {
       children: [
         GestureDetector(
             onTap: () {
-              Navigator.of(context).pop();
+              //Navigator.of(context).pop();
             },
             child: const ActionAvatar(icon: 'assets/icons/back.svg')),
         ScreenTitle(title),

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:seed/src/models/products_model.dart';
 import 'package:seed/src/provider/wishlist_provider.dart';
 import 'package:seed/src/services/products_service.dart';
 
 import '../../../size_setup.dart';
-import '../../details/details_screen.dart';
 
 class ClothSale extends StatelessWidget {
   const ClothSale({
@@ -31,8 +31,7 @@ class ClothSale extends StatelessWidget {
             );
           } else {
             return SizedBox(
-              width: double.infinity,
-              height: 200,
+              height: SizeSetup.height! * 0.7,
               child: GridView.builder(
                   itemCount: snapshot.data!.length,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -43,8 +42,7 @@ class ClothSale extends StatelessWidget {
                     return GestureDetector(
                       onTap: () {
                         final parameters = snapshot.data![index];
-                        Navigator.of(context).pushNamed(DetailsScreen.routeName,
-                            arguments: parameters);
+                        context.goNamed('details', extra: parameters);
                       },
                       child: ClothSaleCard(
                         product: snapshot.data![index],

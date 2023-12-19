@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:seed/src/app_components/standard_bold_text.dart';
-import 'package:seed/src/app_theme/dark_theme.dart';
-import 'package:seed/src/app_theme/light_theme.dart';
+
 import 'package:seed/src/models/profile.dart';
 
 import '../../../../app_components/default_padding.dart';

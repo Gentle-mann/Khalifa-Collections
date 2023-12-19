@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:seed/src/app_cache/app_cache.dart';
 import 'package:seed/src/models/login_model.dart';
 import 'package:seed/src/provider/app_state_provider.dart';
 import 'package:seed/src/provider/auth_provider.dart';
@@ -80,10 +81,13 @@ class _SignInFormState extends State<SignInForm> {
                         if (signInResponse) {
                           Provider.of<AppStateProvider>(context, listen: false)
                               .login();
+                          AppCache().registerUser();
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  content: Text('Yo! sign in fail')));
+                            const SnackBar(
+                              content: Text('Yo! sign in fail'),
+                            ),
+                          );
                         }
                       });
                     }

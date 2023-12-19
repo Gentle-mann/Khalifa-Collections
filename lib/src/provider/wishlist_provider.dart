@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:seed/src/app_cache/app_cache.dart';
 
 class WishlistProvider extends ChangeNotifier {
-  final _favBox = AppCache().getFavBox();
+  final _appCache = AppCache();
 
   List<dynamic> _favorites = [];
   List<dynamic> _fav = [];
@@ -11,18 +12,27 @@ class WishlistProvider extends ChangeNotifier {
     return _ids;
   }
 
-  set ids(List<dynamic> newIds) {
+  Future<void> initializeApp() async {
+    _ids = await _appCache.getFavIds();
+    print('_ids: $_ids');
+    notifyListeners();
+  }
+
+  void setIds(List<String> newIds) async {
     _ids = newIds;
+    _appCache.setFavIds(newIds);
     notifyListeners();
   }
 
   List<dynamic> get favorites => _favorites;
   set favorites(List<dynamic> newFav) {
     _favorites = newFav;
+
     notifyListeners();
   }
 
   getFavorites() {
+    final _favBox = Hive.box('favb');
     final favData = _favBox.keys.map((key) {
       final item = _favBox.get(key);
       return {
@@ -31,11 +41,13 @@ class WishlistProvider extends ChangeNotifier {
       };
     }).toList();
     _favorites = favData.toList();
-    _ids = _favorites.map((item) => item["id"]).toList();
+    //_ids = ;
+    setIds(_favorites.map((item) => item["id"].toString()).toList());
     return _favorites;
   }
 
   Future<void> createFav(Map<String, dynamic> addFav) async {
+    final _favBox = Hive.box('favb');
     await _favBox.add(addFav);
     getFavorites();
     notifyListeners();
@@ -44,10 +56,12 @@ class WishlistProvider extends ChangeNotifier {
   List<dynamic> get fav => _fav;
   set fav(List<dynamic> newFav) {
     _fav = newFav;
+
     notifyListeners();
   }
 
   List<dynamic> getAllData() {
+    final _favBox = Hive.box('favb');
     final favData = _favBox.keys.map((key) {
       final item = _favBox.get(key);
       return {
@@ -63,12 +77,13 @@ class WishlistProvider extends ChangeNotifier {
       };
     }).toList();
     _fav = favData.reversed.toList();
-    notifyListeners();
+
     return _fav;
   }
 
   Future<void> removeFav(int key) async {
-    await _favBox.delete(key);
+    final favBox = Hive.box('favb');
+    await favBox.delete(key);
     notifyListeners();
   }
 }

@@ -2,20 +2,38 @@ import 'package:hive/hive.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AppCache {
+  static const kRegister = 'register';
+  static const kPage = 'page';
   static const kLogin = 'login';
   static const kOnboard = 'onboard';
   static const kUserToken = 'userToken';
   static const kUserId = 'userId';
   static const kDarkMode = 'darkMode';
   static const kCartBox = 'cart';
-  static const kFavBox = 'fav1';
+  static const kFavBox = 'fava';
+
+  void setFavIds(List<String> ids) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setStringList('ids', ids);
+  }
+
+  void saveHomePage(int page) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setInt(kPage, page);
+  }
+
+  Future<int> getHomePage() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getInt(kPage) ?? 0;
+  }
+
+  Future<List<String>> getFavIds() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getStringList('ids') ?? [];
+  }
 
   Box<dynamic> getCartBox() {
     return Hive.box(kCartBox);
-  }
-
-  Box<dynamic> getFavBox() {
-    return Hive.box(kFavBox);
   }
 
   Future<void> saveUserToken(String token) async {
@@ -39,9 +57,20 @@ class AppCache {
     await prefs.setBool(kOnboard, true);
   }
 
+  Future<void> registerUser() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(kRegister, true);
+  }
+
   Future<void> loginUser() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(kLogin, true);
+  }
+
+  Future<bool> isUserRegistered() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    return prefs.getBool(kRegister) ?? false;
   }
 
   Future<bool> isUserLoggedIn() async {

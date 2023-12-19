@@ -5,10 +5,6 @@ import 'package:go_router/go_router.dart';
 import '../../../app_components/app_components.dart';
 import '../../../colors.dart';
 import '../../../models/profile.dart';
-import '../../help_center/help_center_screen.dart';
-import '../../payment_methods/payment_methods_screen.dart';
-import '../../privacy_policy/privacy_policy_screen.dart';
-import '../settings_screen.dart';
 import '../../../size_setup.dart';
 
 class ProfileOptionCard extends StatelessWidget {
@@ -23,12 +19,11 @@ class ProfileOptionCard extends StatelessWidget {
       onTap: () {
         switch (option.title) {
           case 'Help Center':
-            Navigator.of(context).pushNamed(HelpCenterScreen.routeName);
+            context.goNamed('help');
           case 'Settings':
             context.pushNamed('settings');
-          // Navigator.of(context).pushNamed(SettingsScreen.routeName);
           case 'Payment Methods':
-            Navigator.of(context).pushNamed(PaymentMethodsScreen.routeName);
+            context.goNamed('payment');
           case 'Sign Out':
             showModalBottomSheet(
               context: context,
@@ -37,7 +32,7 @@ class ProfileOptionCard extends StatelessWidget {
               }),
             );
           case 'Privacy Policy':
-            Navigator.of(context).pushNamed(PrivacyPolicyScreen.routeName);
+          //context.goNamed('privacy');
         }
       },
       child: Card(

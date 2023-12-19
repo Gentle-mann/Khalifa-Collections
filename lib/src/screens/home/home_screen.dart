@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
+import 'package:seed/src/provider/app_state_provider.dart';
 import 'package:seed/src/screens/home/tabs/home/home_tab.dart';
 import 'package:seed/src/screens/home/tabs/search/search_tab.dart';
 
@@ -10,9 +12,9 @@ import 'tabs/profile/profile_tab.dart';
 import 'tabs/wishlist/wishlist_screen.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
-  static const routeName = '/home';
-
+  const HomeScreen({
+    super.key,
+  });
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
@@ -42,59 +44,57 @@ class _HomeScreenState extends State<HomeScreen> {
           color: AppColors.kSecondaryColor,
           borderRadius: BorderRadius.circular(40),
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            buildNavBarItem(
-              icon: 'assets/icons/home.svg',
-              onTap: () {
-                goToNavItem(0);
-              },
-              index: 0,
-            ),
-            buildNavBarItem(
-              icon: 'assets/icons/bag_filled.svg',
-              onTap: () {
-                goToNavItem(1);
-              },
-              index: 1,
-            ),
-            buildNavBarItem(
-              icon: 'assets/icons/heart_filled.svg',
-              onTap: () {
-                goToNavItem(2);
-              },
-              index: 2,
-            ),
-            buildNavBarItem(
-              icon: 'assets/icons/chat.svg',
-              onTap: () {
-                goToNavItem(3);
-              },
-              index: 3,
-            ),
-            buildNavBarItem(
-              icon: 'assets/icons/profile.svg',
-              onTap: () {
-                goToNavItem(4);
-              },
-              index: 4,
-            ),
-          ],
-        ),
+        child: Consumer<AppStateProvider>(
+            builder: (context, appStateProvider, child) {
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              buildNavBarItem(
+                icon: 'assets/icons/home.svg',
+                onTap: () {
+                  appStateProvider.setHomePage(0);
+                },
+                index: 0,
+              ),
+              buildNavBarItem(
+                icon: 'assets/icons/bag_filled.svg',
+                onTap: () {
+                  appStateProvider.setHomePage(1);
+                },
+                index: 1,
+              ),
+              buildNavBarItem(
+                icon: 'assets/icons/heart_filled.svg',
+                onTap: () {
+                  appStateProvider.setHomePage(2);
+                },
+                index: 2,
+              ),
+              buildNavBarItem(
+                icon: 'assets/icons/chat.svg',
+                onTap: () {
+                  appStateProvider.setHomePage(3);
+                },
+                index: 3,
+              ),
+              buildNavBarItem(
+                icon: 'assets/icons/profile.svg',
+                onTap: () {
+                  appStateProvider.setHomePage(4);
+                },
+                index: 4,
+              ),
+            ],
+          );
+        }),
       ),
     );
   }
 
-  void goToNavItem(index) {
-    setState(() {
-      selectedIndex = index;
-    });
-  }
-
   Widget buildNavBarItem(
       {required String icon, required VoidCallback onTap, required int index}) {
-    final isSelected = selectedIndex == index;
+    final tab = Provider.of<AppStateProvider>(context).homePage;
+    final isSelected = tab == index;
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -121,9 +121,13 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     SizeSetup().setReferenceSizes(context);
+    final tab = Provider.of<AppStateProvider>(context).homePage;
     return Scaffold(
       body: SafeArea(
-        child: tabs[selectedIndex],
+        child: IndexedStack(
+          index: tab,
+          children: tabs,
+        ),
       ),
       bottomNavigationBar: buildNavBar(),
     );

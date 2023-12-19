@@ -123,7 +123,7 @@ class HomeTab extends StatelessWidget {
             // ),
             SizedBox(height: rSize * 2),
             const Categories(),
-            SizedBox(height: rSize),
+            SizedBox(height: rSize * 2),
             const ClothSale(),
           ],
         ),

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../app_components/app_components.dart';
 
+import '../../provider/app_state_provider.dart';
 import '../../size_setup.dart';
-import '../signin/signin_screen.dart';
 import 'components/signup_form.dart';
 
 class SignUpScreen extends StatelessWidget {
@@ -12,6 +13,7 @@ class SignUpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SizeSetup().setReferenceSizes(context);
     final rSize = SizeSetup.rSize!;
     return Scaffold(
       body: Padding(
@@ -68,7 +70,8 @@ class SignUpScreen extends StatelessWidget {
                   UnderlinedText(
                     'Sign in',
                     onTap: () {
-                      Navigator.of(context).pushNamed(SignInScreen.routeName);
+                      Provider.of<AppStateProvider>(context, listen: false)
+                          .register(false);
                     },
                   ),
                 ],

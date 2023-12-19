@@ -5,6 +5,7 @@ import '../models/cart_products.dart';
 
 class CartProvider extends ChangeNotifier {
   final _cartBox = Hive.box('cart');
+  List<String> _ids = [];
   int _counter = 0;
   int get counter => _counter;
   List<dynamic> _cart = [];
@@ -12,9 +13,17 @@ class CartProvider extends ChangeNotifier {
     return _cart;
   }
 
+  get ids {
+    return _ids;
+  }
+
   set cart(List<dynamic> newCart) {
     _cart = newCart;
     notifyListeners();
+  }
+
+  Box<dynamic> get cartBox {
+    return _cartBox;
   }
 
   void increment() {
@@ -30,7 +39,12 @@ class CartProvider extends ChangeNotifier {
   }
 
   Future<void> createCart(Map<String, dynamic> newCart) async {
-    await _cartBox.add(newCart);
+    if (_ids.contains(newCart["id"])) {
+    } else {
+      await _cartBox.add(newCart);
+      _ids.add(newCart["id"]);
+    }
+
     notifyListeners();
   }
 
@@ -57,6 +71,8 @@ class CartProvider extends ChangeNotifier {
 
   Future<void> deleteCart(int key) async {
     await _cartBox.delete(key);
+    _ids.removeWhere((element) => _ids.indexOf(element) == key);
+    getCart();
     notifyListeners();
   }
 

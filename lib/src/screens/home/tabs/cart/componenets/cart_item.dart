@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:seed/src/provider/cart_provider.dart';
 
 import '../../../../../app_components/item_image_card.dart';
 import '../../../../../size_setup.dart';
@@ -10,10 +12,12 @@ class CartItem extends StatelessWidget {
     required this.imageUrl,
     required this.name,
     required this.price,
+    required this.cartKey,
   });
   final String imageUrl;
   final String name;
   final String price;
+  final int cartKey;
 
   @override
   Widget build(BuildContext context) {
@@ -58,6 +62,13 @@ class CartItem extends StatelessWidget {
                     ),
                   ],
                 ),
+                Consumer<CartProvider>(builder: (context, cartProvider, child) {
+                  return IconButton(
+                      onPressed: () {
+                        cartProvider.deleteCart(cartKey);
+                      },
+                      icon: const Icon(Icons.delete, color: Colors.red));
+                })
               ],
             ),
           ),

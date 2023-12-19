@@ -62,7 +62,7 @@ class WelcomeScreen extends StatelessWidget {
                   Provider.of<AppStateProvider>(context, listen: false)
                       .onboard();
 
-                  context.go('/signup');
+                  //context.go('/signup');
                   //Navigator.of(context).pushNamed(SignUpScreen.routeName);
                 },
               ),
@@ -77,6 +77,7 @@ class WelcomeScreen extends StatelessWidget {
                     onTap: () {
                       Provider.of<AppStateProvider>(context, listen: false)
                           .onboard();
+                      Provider.of<AppStateProvider>(context).register(true);
                     },
                   ),
                 ],

@@ -1,5 +1,5 @@
 class Config {
-  static const apiUrl = 'kc-backend.vercel.app';
+  static const apiUrl = 'kcbackend.onrender.com';
   static const String loginUrl = '/api/login';
   static const String paymentUrl = '/stripe/create-checkout-session';
   static const String signupUrl = '/api/register';

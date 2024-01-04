@@ -6,19 +6,19 @@ class ClothType {
   static final List<ClothType> categories = [
     ClothType(
       icon: 'assets/icons/shirt.svg',
-      title: 'T-shirt',
+      title: 'Shirts',
     ),
     ClothType(
       icon: 'assets/icons/jeans.svg',
-      title: 'Pants',
+      title: 'Trousers',
     ),
     ClothType(
       icon: 'assets/icons/dress2.svg',
-      title: 'Dress',
+      title: 'Shoes',
     ),
     ClothType(
       icon: 'assets/icons/jacket.svg',
-      title: 'Jacket',
+      title: 'Caps',
     ),
   ];
 }

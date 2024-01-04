@@ -28,19 +28,53 @@ class AppStateProvider extends ChangeNotifier {
     return _isDarkMode;
   }
 
+  String _selectedAddress = '';
+  String get selectedAddress => _selectedAddress;
+  List<String> _deliveryAddresses = [];
+  List<String> get deliveryAddresses => _deliveryAddresses;
+  String _phoneNumber = '';
+  String get phoneNumber => _phoneNumber;
+
+  void selectAddress(newAddress) {
+    _selectedAddress = newAddress;
+
+    notifyListeners();
+  }
+
+  void addAddress(String newAddress) {
+    deliveryAddresses.add(newAddress);
+    _appCache.saveAddressList(deliveryAddresses);
+    notifyListeners();
+  }
+
+  void removeAddress(String newAddress) {
+    deliveryAddresses.removeWhere((element) => newAddress == element);
+    _appCache.saveAddressList(deliveryAddresses);
+    notifyListeners();
+  }
+
+  void savePhoneNumber(String phoneNumber) {
+    _phoneNumber = phoneNumber;
+    _appCache.savePhone(phoneNumber);
+    notifyListeners();
+  }
+
   Future<void> initializeApp() async {
     _isRegistered = await _appCache.isUserRegistered();
     _isLoggedIn = await _appCache.isUserLoggedIn();
     _hasOnboarded = await _appCache.hasUserOnboarded();
     _isDarkMode = await _appCache.isDarkMode();
     _homePage = await _appCache.getHomePage();
+    _deliveryAddresses = await _appCache.getAddressList();
+    _phoneNumber = await _appCache.getPhone();
     final dir = await getApplicationDocumentsDirectory();
     Hive.init(dir.path);
     favIds = await _appCache.getFavIds();
 
-    await Hive.openBox('cart');
-    _appCache.getCartBox();
-    await Hive.openBox('favb');
+    await Hive.openBox('favc');
+    //_appCache.getFavBox();
+    await Hive.openBox('orders');
+    // _appCache.getOrdersBox();
   }
 
   bool get hasOnboarded {

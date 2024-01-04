@@ -1,29 +1,20 @@
 import 'package:flutter/foundation.dart';
-import 'package:hive/hive.dart';
+import 'package:seed/src/services/cart_service.dart';
 
+import '../models/add_to_cart.dart';
 import '../models/cart_products.dart';
 
 class CartProvider extends ChangeNotifier {
-  final _cartBox = Hive.box('cart');
-  List<String> _ids = [];
+  final List<String> _ids = [];
   int _counter = 0;
   int get counter => _counter;
-  List<dynamic> _cart = [];
-  List<dynamic> get cart {
+  List<CartProduct> _cart = [];
+  List<CartProduct> get cart {
     return _cart;
   }
 
-  get ids {
+  List<String> get ids {
     return _ids;
-  }
-
-  set cart(List<dynamic> newCart) {
-    _cart = newCart;
-    notifyListeners();
-  }
-
-  Box<dynamic> get cartBox {
-    return _cartBox;
   }
 
   void increment() {
@@ -38,41 +29,39 @@ class CartProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> createCart(Map<String, dynamic> newCart) async {
-    if (_ids.contains(newCart["id"])) {
-    } else {
-      await _cartBox.add(newCart);
-      _ids.add(newCart["id"]);
-    }
-
+  Future<bool> createCart(AddToCartModel addToCartModel) async {
     notifyListeners();
+    return CartService().addToCart(addToCartModel);
   }
 
-  getCart() {
-    final cartData = _cartBox.keys.map((key) {
-      final item = _cartBox.get(key);
-      return {
-        "key": key,
-        "id": item["id"],
-        "category": item["category"],
-        "subCategory": item["subCategory"],
-        "subSubCategory": item["subSubCategory"],
-        "name": item["name"],
-        "imageUrl": item["imageUrl"],
-        "price": item["price"],
-        "quantity": item["quantity"],
-        "sizes": item["sizes"],
-        "colors": item["colors"],
-      };
-    }).toList();
+  Future<List<CartProduct>> getCart() async {
+    // final cartData = _cartBox.keys.map((key) {
+    //   final item = _cartBox.get(key);
+    //   return {
+    //     "key": key,
+    //     "id": item["id"],
+    //     "category": item["category"],
+    //     "subCategory": item["subCategory"],
+    //     "subSubCategory": item["subSubCategory"],
+    //     "name": item["name"],
+    //     "imageUrl": item["imageUrl"],
+    //     "price": item["price"],
+    //     "quantity": item["quantity"],
+    //     "sizes": item["sizes"],
+    //     "colors": item["colors"],
+    //     "isSelected": item["isSelected"]
+    //   };
+    // }).toList();
 
-    _cart = cartData.reversed.toList();
+    // _cart = cartData.reversed.toList();
+    /// _cart = await CartService().getCart();
+    _cart = await CartService().getCart();
+
+    return CartService().getCart();
   }
 
-  Future<void> deleteCart(int key) async {
-    await _cartBox.delete(key);
-    _ids.removeWhere((element) => _ids.indexOf(element) == key);
-    getCart();
+  Future<void> deleteCart(String id) async {
+    await CartService().deleteCartItem(id);
     notifyListeners();
   }
 
@@ -94,5 +83,9 @@ class CartProvider extends ChangeNotifier {
   set setCheckoutList(List<CartProduct> newState) {
     _checkout = newState;
     notifyListeners();
+  }
+
+  List<CartProduct> findCartById(List<String> cartIds) {
+    return _cart.where((element) => cartIds.contains(element.id)).toList();
   }
 }

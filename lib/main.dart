@@ -4,6 +4,8 @@ import 'package:seed/src/app_theme/dark_theme.dart';
 import 'package:seed/src/provider/app_state_provider.dart';
 import 'package:seed/src/provider/auth_provider.dart';
 import 'package:seed/src/provider/auth_validation_provider.dart';
+import 'package:seed/src/provider/categories_provider.dart';
+import 'package:seed/src/provider/orders_provider.dart';
 import 'package:seed/src/provider/wishlist_provider.dart';
 import 'package:seed/src/router.dart';
 
@@ -13,25 +15,26 @@ import 'src/provider/cart_provider.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final appStateProvider = AppStateProvider();
-  final wishListProvider = WishlistProvider();
+  //final wishListProvider = WishlistProvider();
   await appStateProvider.initializeApp();
-  await wishListProvider.initializeApp();
+  // await wishListProvider.initializeApp();
 
   runApp(
     Seed(
       appStateProvider: appStateProvider,
-      wishlistProvider: wishListProvider,
+      //  wishlistProvider: wishListProvider,
     ),
   );
 }
 
 class Seed extends StatefulWidget {
-  const Seed(
-      {super.key,
-      required this.appStateProvider,
-      required this.wishlistProvider});
+  const Seed({
+    super.key,
+    required this.appStateProvider,
+    //required this.wishlistProvider
+  });
   final AppStateProvider appStateProvider;
-  final WishlistProvider wishlistProvider;
+  //final WishlistProvider wishlistProvider;
 
   @override
   State<Seed> createState() => _SeedState();
@@ -48,7 +51,9 @@ class _SeedState extends State<Seed> {
           ChangeNotifierProvider(create: (context) => AuthValidationProvider()),
           ChangeNotifierProvider(create: (context) => AuthProvider()),
           ChangeNotifierProvider(create: (context) => CartProvider()),
-          ChangeNotifierProvider(create: (context) => widget.wishlistProvider),
+          ChangeNotifierProvider(create: (context) => WishlistProvider()),
+          ChangeNotifierProvider(create: (context) => OrdersProvider()),
+          ChangeNotifierProvider(create: (context) => CategoriesProvider()),
         ],
         builder: (context, child) {
           return Consumer<AppStateProvider>(

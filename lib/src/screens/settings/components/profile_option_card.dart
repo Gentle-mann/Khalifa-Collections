@@ -31,8 +31,8 @@ class ProfileOptionCard extends StatelessWidget {
                 return const SignOutConfirmation();
               }),
             );
-          case 'Privacy Policy':
-          //context.goNamed('privacy');
+          case 'My Orders':
+            context.pushNamed('order');
         }
       },
       child: Card(

@@ -9,8 +9,30 @@ class AppCache {
   static const kUserToken = 'userToken';
   static const kUserId = 'userId';
   static const kDarkMode = 'darkMode';
-  static const kCartBox = 'cart';
   static const kFavBox = 'fava';
+  static const kOrdersBox = 'orders';
+  static const kAddressList = 'addressList';
+  static const kPhoneNumber = 'phoneNumber';
+
+  Future<void> saveAddressList(List<String> addressList) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setStringList(kAddressList, addressList);
+  }
+
+  Future<List<String>> getAddressList() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getStringList(kAddressList) ?? [];
+  }
+
+  Future<void> savePhone(String phone) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString(kPhoneNumber, phone);
+  }
+
+  Future<String> getPhone() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(kPhoneNumber) ?? '';
+  }
 
   void setFavIds(List<String> ids) async {
     final prefs = await SharedPreferences.getInstance();
@@ -32,8 +54,12 @@ class AppCache {
     return prefs.getStringList('ids') ?? [];
   }
 
-  Box<dynamic> getCartBox() {
-    return Hive.box(kCartBox);
+  Box<dynamic> getOrdersBox() {
+    return Hive.box(kOrdersBox);
+  }
+
+  Box<dynamic> getFavBox() {
+    return Hive.box(kFavBox);
   }
 
   Future<void> saveUserToken(String token) async {
@@ -50,6 +76,11 @@ class AppCache {
   Future<void> saveUserId(String id) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(kUserId, id);
+  }
+
+  Future<String> getUserId(String id) async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(kUserId) ?? '';
   }
 
   Future<void> onboardUser() async {

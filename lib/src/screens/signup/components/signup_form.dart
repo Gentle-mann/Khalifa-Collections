@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:seed/src/provider/app_state_provider.dart';
-import 'package:seed/src/screens/signin/signin_screen.dart';
 
 import '../../../app_components/app_components.dart';
 import '../../../colors.dart';
@@ -77,7 +76,10 @@ class _SignUpFormState extends State<SignUpForm> {
                             .register(true);
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Yo! sign up fail')));
+                          const SnackBar(
+                            content: Text('Yo! sign up fail'),
+                          ),
+                        );
                       }
                     });
                   }

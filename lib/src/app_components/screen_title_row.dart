@@ -7,25 +7,26 @@ class ScreenTitleRow extends StatelessWidget {
   const ScreenTitleRow({
     super.key,
     required this.title,
-    this.shouldAddFav = false,
+    this.shouldAddBackButton = true,
   });
   final String title;
-  final bool shouldAddFav;
+  final bool shouldAddBackButton;
 
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         GestureDetector(
             onTap: () {
-              //Navigator.of(context).pop();
+              Navigator.of(context).pop();
             },
-            child: const ActionAvatar(icon: 'assets/icons/back.svg')),
-        ScreenTitle(title),
-        shouldAddFav
-            ? const ActionAvatar(icon: 'assets/icons/heart.svg')
-            : const SizedBox.shrink(),
+            child: shouldAddBackButton
+                ? const ActionAvatar(icon: 'assets/icons/back.svg')
+                : const SizedBox.shrink()),
+        const SizedBox(
+          width: 50,
+        ),
+        Center(child: ScreenTitle(title)),
       ],
     );
   }

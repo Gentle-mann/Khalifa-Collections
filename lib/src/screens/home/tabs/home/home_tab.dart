@@ -5,16 +5,20 @@ import '../../../../app_components/app_components.dart';
 import '../../../../colors.dart';
 import '../../../../size_setup.dart';
 import '../../../notification/notification_screen.dart';
-import '../../../splash/splash_screen.dart';
 import '../../components/categories.dart';
 import '../../components/cloth_sale.dart';
 import '../../components/cloth_types.dart';
 
-class HomeTab extends StatelessWidget {
+class HomeTab extends StatefulWidget {
   const HomeTab({
     super.key,
   });
 
+  @override
+  State<HomeTab> createState() => _HomeTabState();
+}
+
+class _HomeTabState extends State<HomeTab> {
   @override
   Widget build(BuildContext context) {
     final rSize = SizeSetup.rSize!;
@@ -39,22 +43,23 @@ class HomeTab extends StatelessWidget {
                           colorFilter: const ColorFilter.mode(
                               AppColors.kLightPrimary, BlendMode.srcIn),
                         ),
+                        const SizedBox(width: 10),
                         const Text(
-                          ' Abuja, Nigeria',
+                          'Nigeria',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        IconButton(
-                          onPressed: () {
-                            Navigator.of(context)
-                                .pushNamed(SplashScreen.routeName);
-                          },
-                          icon: Icon(
-                            Icons.arrow_drop_down,
-                            size: rSize * 3,
-                          ),
-                        ),
+                        // IconButton(
+                        //   onPressed: () {
+                        //     Navigator.of(context)
+                        //         .pushNamed(SplashScreen.routeName);
+                        //   },
+                        //   icon: Icon(
+                        //     Icons.arrow_drop_down,
+                        //     size: rSize * 3,
+                        //   ),
+                        // ),
                       ],
                     ),
                   ],
@@ -96,7 +101,7 @@ class HomeTab extends StatelessWidget {
 
             SizedBox(height: rSize * 2),
             //const PromoInfo(),
-            const SectionHeader('Category'),
+            const SectionHeader('Categories'),
             const ClothTypes(),
             // SizedBox(height: rSize * 2),
             // Row(

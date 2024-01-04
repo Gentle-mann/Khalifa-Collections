@@ -7,6 +7,36 @@ import 'package:seed/src/services/auth_service.dart';
 class AuthProvider extends ChangeNotifier {
   final appCache = AppCache();
   bool _isLoading = false;
+  String _selectedAddress = '';
+  String get selectedAddress => _selectedAddress;
+  final List<String> _deliveryAddresses = [];
+  List<String> get deliveryAddresses => _deliveryAddresses;
+  String _phoneNumber = '';
+  String get phoneNumber => _phoneNumber;
+
+  void selectAddress(newAddress) {
+    _selectedAddress = newAddress;
+
+    notifyListeners();
+  }
+
+  void addAddress(String newAddress) {
+    deliveryAddresses.add(newAddress);
+    appCache.saveAddressList(deliveryAddresses);
+    notifyListeners();
+  }
+
+  void removeAddress(String newAddress) {
+    deliveryAddresses.removeWhere((element) => element == newAddress);
+    appCache.saveAddressList(deliveryAddresses);
+    notifyListeners();
+  }
+
+  void savePhoneNumber(String phoneNumber) {
+    _phoneNumber = phoneNumber;
+    appCache.savePhone(phoneNumber);
+    notifyListeners();
+  }
 
   bool get isLoading {
     return _isLoading;

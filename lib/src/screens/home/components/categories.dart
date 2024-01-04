@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:seed/src/provider/categories_provider.dart';
 
 import '../../../colors.dart';
 import '../../../size_setup.dart';
@@ -15,12 +17,11 @@ class Categories extends StatefulWidget {
 }
 
 class _CategoriesState extends State<Categories> {
-  int index = 0;
   int selectedIndex = 0;
   final List<String> categories = [
     'All',
     'Newest',
-    'Popular',
+    'Most Popular',
     'Men',
     'Women',
   ];
@@ -34,34 +35,38 @@ class _CategoriesState extends State<Categories> {
         scrollDirection: Axis.horizontal,
         itemCount: newCategories.length,
         itemBuilder: (context, index) {
-          return GestureDetector(
-            onTap: () {
-              setState(() {
-                selectedIndex = index;
-              });
-            },
-            child: Container(
-              alignment: Alignment.center,
-              margin: EdgeInsets.only(right: rSize),
-              padding: EdgeInsets.symmetric(
-                horizontal: rSize * 2,
-              ),
-              decoration: BoxDecoration(
-                color: index == selectedIndex
-                    ? AppColors.kPrimaryColor
-                    : Colors.white,
-                borderRadius: BorderRadius.circular(rSize * 3),
-                border: Border.all(),
-              ),
-              child: Text(
-                newCategories[index],
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: index == selectedIndex ? Colors.white : Colors.black,
+          return Consumer<CategoriesProvider>(
+              builder: (context, categoriesProvider, child) {
+            return GestureDetector(
+              onTap: () {
+                categoriesProvider.setIndex(index);
+                categoriesProvider.setCategory(categories[index]);
+              },
+              child: Container(
+                alignment: Alignment.center,
+                margin: EdgeInsets.only(right: rSize),
+                padding: EdgeInsets.symmetric(
+                  horizontal: rSize * 2,
+                ),
+                decoration: BoxDecoration(
+                  color: categoriesProvider.selectedIndex == index
+                      ? AppColors.kPrimaryColor
+                      : Colors.white,
+                  borderRadius: BorderRadius.circular(rSize * 3),
+                  border: Border.all(),
+                ),
+                child: Text(
+                  newCategories[index],
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: index == categoriesProvider.selectedIndex
+                        ? Colors.white
+                        : Colors.black,
+                  ),
                 ),
               ),
-            ),
-          );
+            );
+          });
         },
       ),
     );

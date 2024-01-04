@@ -71,7 +71,7 @@ class SignUpScreen extends StatelessWidget {
                     'Sign in',
                     onTap: () {
                       Provider.of<AppStateProvider>(context, listen: false)
-                          .register(false);
+                          .register(true);
                     },
                   ),
                 ],

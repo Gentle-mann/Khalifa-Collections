@@ -4,7 +4,7 @@ import 'package:seed/src/app_cache/app_cache.dart';
 
 class WishlistProvider extends ChangeNotifier {
   final _appCache = AppCache();
-
+  final favBox = Hive.box('favc');
   List<dynamic> _favorites = [];
   List<dynamic> _fav = [];
   List<dynamic> _ids = [];
@@ -14,7 +14,6 @@ class WishlistProvider extends ChangeNotifier {
 
   Future<void> initializeApp() async {
     _ids = await _appCache.getFavIds();
-    print('_ids: $_ids');
     notifyListeners();
   }
 
@@ -32,9 +31,8 @@ class WishlistProvider extends ChangeNotifier {
   }
 
   getFavorites() {
-    final _favBox = Hive.box('favb');
-    final favData = _favBox.keys.map((key) {
-      final item = _favBox.get(key);
+    final favData = favBox.keys.map((key) {
+      final item = favBox.get(key);
       return {
         "key": key,
         "id": item["id"],
@@ -47,8 +45,7 @@ class WishlistProvider extends ChangeNotifier {
   }
 
   Future<void> createFav(Map<String, dynamic> addFav) async {
-    final _favBox = Hive.box('favb');
-    await _favBox.add(addFav);
+    await favBox.add(addFav);
     getFavorites();
     notifyListeners();
   }
@@ -61,19 +58,19 @@ class WishlistProvider extends ChangeNotifier {
   }
 
   List<dynamic> getAllData() {
-    final _favBox = Hive.box('favb');
-    final favData = _favBox.keys.map((key) {
-      final item = _favBox.get(key);
+    final favData = favBox.keys.map((key) {
+      final item = favBox.get(key);
       return {
         "key": key,
         "id": item["id"],
         "name": item["name"],
-        // "title": item["title"],
+        "title": item["title"],
         "category": item["category"],
         "subCategory": item["subCategory"],
         "subSubCategory": item["subSubCategory"],
         "price": item["price"],
         "imageUrl": item["imageUrl"],
+        "description": item["description"]
       };
     }).toList();
     _fav = favData.reversed.toList();
@@ -82,7 +79,6 @@ class WishlistProvider extends ChangeNotifier {
   }
 
   Future<void> removeFav(int key) async {
-    final favBox = Hive.box('favb');
     await favBox.delete(key);
     notifyListeners();
   }

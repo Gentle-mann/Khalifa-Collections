@@ -5,7 +5,6 @@ import '../../app_components/header_text.dart';
 import '../../app_components/social_media_card.dart';
 import '../../app_components/underlined_text.dart';
 import '../../size_setup.dart';
-import '../signup/signup_screen.dart';
 import 'components/signin_form.dart';
 
 class SignInScreen extends StatelessWidget {

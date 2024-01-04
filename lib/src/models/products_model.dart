@@ -47,19 +47,19 @@ class Products {
   }
 
   Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['_id'] = id;
-    _data['name'] = name;
-    _data['title'] = title;
-    _data['category'] = category;
-    _data['imageUrl'] = imageUrl;
-    _data['price'] = price;
-    _data['sizes'] = sizes.map((e) => e.toJson()).toList();
-    _data['description'] = description;
-    _data['subCategory'] = subCategory;
-    _data['subSubCategory'] = subSubCategory;
-    _data['updatedAt'] = updatedAt;
-    return _data;
+    final data = <String, dynamic>{};
+    data['_id'] = id;
+    data['name'] = name;
+    data['title'] = title;
+    data['category'] = category;
+    data['imageUrl'] = imageUrl;
+    data['price'] = price;
+    data['sizes'] = sizes.map((e) => e.toJson()).toList();
+    data['description'] = description;
+    data['subCategory'] = subCategory;
+    data['subSubCategory'] = subSubCategory;
+    data['updatedAt'] = updatedAt;
+    return data;
   }
 }
 
@@ -80,10 +80,10 @@ class Sizes {
   }
 
   Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['size'] = size;
-    _data['isSelected'] = isSelected;
-    _data['_id'] = id;
-    return _data;
+    final data = <String, dynamic>{};
+    data['size'] = size;
+    data['isSelected'] = isSelected;
+    data['_id'] = id;
+    return data;
   }
 }

@@ -1,33 +1,38 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:seed/src/models/cart_products.dart';
+
 import 'package:seed/src/provider/cart_provider.dart';
 
 import '../../../../../app_components/item_image_card.dart';
 import '../../../../../size_setup.dart';
-import 'operator_card.dart';
 
-class CartItem extends StatelessWidget {
+class CartItem extends StatefulWidget {
   const CartItem({
-    super.key,
-    required this.imageUrl,
-    required this.name,
-    required this.price,
-    required this.cartKey,
-  });
-  final String imageUrl;
-  final String name;
-  final String price;
-  final int cartKey;
+    Key? key,
+    required this.cartItem,
+    required this.cartDeleteId,
+    this.shouldDelete = true,
+  }) : super(key: key);
+  final ProductItem cartItem;
+  final String cartDeleteId;
+  final bool shouldDelete;
 
+  @override
+  State<CartItem> createState() => _CartItemState();
+}
+
+class _CartItemState extends State<CartItem> {
   @override
   Widget build(BuildContext context) {
     final rSize = SizeSetup.rSize!;
-
     return Container(
+      margin: EdgeInsets.only(bottom: rSize),
       decoration: const BoxDecoration(),
       child: Row(
         children: [
-          ItemImageCard(imageUrl: imageUrl),
+          ItemImageCard(imageUrl: widget.cartItem.imageUrl[0]),
           SizedBox(width: rSize),
           Expanded(
             child: Row(
@@ -37,38 +42,26 @@ class CartItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      name,
+                      widget.cartItem.name,
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
-                    const Text('Size: XL'),
+                    const Text('Size: '),
                     Text(
-                      price,
+                      '₦${widget.cartItem.price}',
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),
-                Row(
-                  children: [
-                    const OperatorCard(
-                      '-',
-                      isPlus: false,
-                    ),
-                    SizedBox(width: rSize),
-                    const Text('1'),
-                    SizedBox(width: rSize),
-                    const OperatorCard(
-                      '+',
-                      isPlus: true,
-                    ),
-                  ],
-                ),
-                Consumer<CartProvider>(builder: (context, cartProvider, child) {
-                  return IconButton(
+                if (widget.shouldDelete)
+                  Consumer<CartProvider>(
+                      builder: (context, cartProvider, child) {
+                    return IconButton(
                       onPressed: () {
-                        cartProvider.deleteCart(cartKey);
+                        cartProvider.deleteCart(widget.cartDeleteId);
                       },
-                      icon: const Icon(Icons.delete, color: Colors.red));
-                })
+                      icon: const Icon(Icons.delete, color: Colors.red),
+                    );
+                  })
               ],
             ),
           ),

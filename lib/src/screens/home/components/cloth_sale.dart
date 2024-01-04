@@ -1,30 +1,54 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:seed/src/models/products_model.dart';
+import 'package:seed/src/provider/categories_provider.dart';
 import 'package:seed/src/provider/wishlist_provider.dart';
-import 'package:seed/src/services/products_service.dart';
 
 import '../../../size_setup.dart';
 
-class ClothSale extends StatelessWidget {
+class ClothSale extends StatefulWidget {
   const ClothSale({
     super.key,
   });
 
   @override
+  State<ClothSale> createState() => _ClothSaleState();
+}
+
+class _ClothSaleState extends State<ClothSale> {
+  late Future<List<Products>> products;
+  String category = 'All';
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final categoriesProvider =
+        Provider.of<CategoriesProvider>(context, listen: false);
+    category = Provider.of<CategoriesProvider>(context).category;
+    products = categoriesProvider.getProducts(category);
+  }
+
+  @override
   Widget build(BuildContext context) {
     final rSize = SizeSetup.rSize!;
     return FutureBuilder(
-        future: ProductsService().getAllProducts(),
+        future: products,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
               child: CircularProgressIndicator.adaptive(),
             );
           } else if (snapshot.hasError) {
-            return Text('Error Found: ${snapshot.error}');
+            return Center(
+              child: Text(
+                'Error Found: Poor connection or no internet',
+                style: TextStyle(
+                  fontSize: rSize * 2,
+                ),
+              ),
+            );
           } else if (!snapshot.hasData) {
             return const Center(
               child: Text('No data'),
@@ -58,14 +82,12 @@ class ClothSale extends StatelessWidget {
 class ClothSaleCard extends StatefulWidget {
   const ClothSaleCard({
     super.key,
-    //this.rating = '4.5',
     this.isFavorite = false,
     this.color = Colors.white,
     required this.product,
   });
   final Products product;
 
-  //final String rating;
   final bool isFavorite;
   final Color color;
 
@@ -93,9 +115,14 @@ class _ClothSaleCardState extends State<ClothSaleCard> {
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(rSize),
-                  child: Image.network(
-                    widget.product.imageUrl[0],
-                    fit: BoxFit.fill,
+                  child: CachedNetworkImage(
+                    key: UniqueKey(),
+                    imageUrl: widget.product.imageUrl[0],
+                    //fit: BoxFit.cover,
+                    placeholder: (context, url) =>
+                        const CircularProgressIndicator.adaptive(),
+                    errorWidget: (context, url, error) =>
+                        const Text('Image not found'),
                   ),
                 ),
                 Consumer<WishlistProvider>(
@@ -121,7 +148,6 @@ class _ClothSaleCardState extends State<ClothSaleCard> {
                             "subCategory": widget.product.subCategory,
                             "subSubCategory": widget.product.subSubCategory,
                           });
-                          //setState(() {});
                         }
                       },
                       child: Container(
@@ -156,25 +182,12 @@ class _ClothSaleCardState extends State<ClothSaleCard> {
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
-              // Row(
-              //   children: [
-              //     Icon(
-              //       Icons.star,
-              //       color: const Color(
-              //         0xFFF9A825,
-              //       ),
-              //       size: rSize * 2,
-              //     ),
-              //     // Text(widget.rating),
-              //   ],
-              // ),
             ],
           ),
         ),
         Center(
           child: Text(
             '₦${widget.product.price}',
-            // textAlign: TextAlign.center,
             style: const TextStyle(
               fontWeight: FontWeight.w500,
             ),

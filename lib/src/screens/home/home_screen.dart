@@ -28,6 +28,11 @@ class _HomeScreenState extends State<HomeScreen> {
     const SearchTab(),
     const ProfileTab(),
   ];
+  void goToTab(int index) {
+    Provider.of<AppStateProvider>(context, listen: false).setHomePage(index);
+    setState(() {});
+  }
+
   Widget buildNavBar() {
     return Padding(
       padding: const EdgeInsets.only(
@@ -44,57 +49,55 @@ class _HomeScreenState extends State<HomeScreen> {
           color: AppColors.kSecondaryColor,
           borderRadius: BorderRadius.circular(40),
         ),
-        child: Consumer<AppStateProvider>(
-            builder: (context, appStateProvider, child) {
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              buildNavBarItem(
-                icon: 'assets/icons/home.svg',
-                onTap: () {
-                  appStateProvider.setHomePage(0);
-                },
-                index: 0,
-              ),
-              buildNavBarItem(
-                icon: 'assets/icons/bag_filled.svg',
-                onTap: () {
-                  appStateProvider.setHomePage(1);
-                },
-                index: 1,
-              ),
-              buildNavBarItem(
-                icon: 'assets/icons/heart_filled.svg',
-                onTap: () {
-                  appStateProvider.setHomePage(2);
-                },
-                index: 2,
-              ),
-              buildNavBarItem(
-                icon: 'assets/icons/chat.svg',
-                onTap: () {
-                  appStateProvider.setHomePage(3);
-                },
-                index: 3,
-              ),
-              buildNavBarItem(
-                icon: 'assets/icons/profile.svg',
-                onTap: () {
-                  appStateProvider.setHomePage(4);
-                },
-                index: 4,
-              ),
-            ],
-          );
-        }),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            buildNavBarItem(
+              icon: 'assets/icons/home.svg',
+              onTap: () {
+                goToTab(0);
+              },
+              index: 0,
+            ),
+            buildNavBarItem(
+              icon: 'assets/icons/bag_filled.svg',
+              onTap: () {
+                goToTab(1);
+              },
+              index: 1,
+            ),
+            buildNavBarItem(
+              icon: 'assets/icons/heart_filled.svg',
+              onTap: () {
+                goToTab(2);
+              },
+              index: 2,
+            ),
+            buildNavBarItem(
+              icon: 'assets/icons/chat.svg',
+              onTap: () {
+                goToTab(3);
+              },
+              index: 3,
+            ),
+            buildNavBarItem(
+              icon: 'assets/icons/profile.svg',
+              onTap: () {
+                goToTab(4);
+              },
+              index: 4,
+            ),
+          ],
+        ),
       ),
     );
   }
 
   Widget buildNavBarItem(
       {required String icon, required VoidCallback onTap, required int index}) {
-    final tab = Provider.of<AppStateProvider>(context).homePage;
+    final tab = Provider.of<AppStateProvider>(context, listen: false).homePage;
     final isSelected = tab == index;
+
     return GestureDetector(
       onTap: onTap,
       child: Container(

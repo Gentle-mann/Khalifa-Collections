@@ -20,11 +20,6 @@ class AuthService {
     var response = await client.post(url,
         body: jsonEncode(signInModel.toJson()), headers: requestHeaders);
 
-    // final getResponse = await client.post(
-    //     Uri.parse(response.headers["location"]!),
-    //     body: jsonEncode(signInModel.toJson()),
-    //     headers: requestHeaders);
-
     if (response.statusCode == 200) {
       final userId = loginResponseModelFromJson(response.body).id;
       final userToken = loginResponseModelFromJson(response.body).token;
@@ -55,13 +50,14 @@ class AuthService {
   }
 
   Future<ProfileResponseModel> getUserProfile() async {
-    final userToken = appCache.getUserToken();
+    final userToken = await appCache.getUserToken();
     Map<String, String> requestHeaders = {
       'Content-Type': 'application/json',
       'token': 'Bearer $userToken'
     };
     var url = Uri.https(Config.apiUrl, Config.getUserUrl);
     var response = await client.get(url, headers: requestHeaders);
+    print('response: ${response.statusCode}');
     if (response.statusCode == 200) {
       var profile = profileResponseFromJson(response.body);
       return profile;

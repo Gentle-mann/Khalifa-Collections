@@ -27,10 +27,11 @@ class _DetailsScreenState extends State<DetailsScreen> {
   Widget build(BuildContext context) {
     final rSize = SizeSetup.rSize!;
     return Scaffold(
-      backgroundColor: AppColors.kPostTertiaryColor,
+      //backgroundColor: AppColors.kDarkBackground,
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
+            //backgroundColor: AppColors.kDarkBackground,
             automaticallyImplyLeading: false,
             leadingWidth: 0,
             pinned: true,
@@ -44,8 +45,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     height: SizeSetup.height! * 0.47,
                     width: double.infinity,
                     decoration: const BoxDecoration(
-                      color: Colors.white,
-                    ),
+                        //color: Colors.white,
+                        ),
                     child: Column(
                       children: [
                         Padding(
@@ -127,8 +128,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
                       vertical: rSize * 3,
                     ),
                     decoration: const BoxDecoration(
-                      color: AppColors.kPostTertiaryColor,
-                    ),
+                        //color: AppColors.kPostTertiaryColor,
+                        ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -179,19 +180,19 @@ class _DetailsScreenState extends State<DetailsScreen> {
                             children: [
                               ...widget.product.sizes.map(
                                 (sizes) => GestureDetector(
-                                    onTap: () {
-                                      setState(() {
-                                        selectedSize = sizes.size;
-                                      });
-                                    },
-                                    child: ChoiceChip(
-                                        label: Text(
-                                          sizes.size,
-                                          style: const TextStyle(
-                                            color: Colors.black,
-                                          ),
-                                        ),
-                                        selected: sizes.size == selectedSize)),
+                                  onTap: () {
+                                    setState(() {
+                                      selectedSize = sizes.size;
+                                    });
+                                  },
+                                  child: ChoiceChip(
+                                    label: Text(
+                                      sizes.size,
+                                      style: const TextStyle(),
+                                    ),
+                                    selected: sizes.size == selectedSize,
+                                  ),
+                                ),
                               ),
                             ],
                           ),
@@ -238,7 +239,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                       horizontal: rSize * 2,
                     ),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      //color: Colors.white,
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(rSize * 3),
                         topRight: Radius.circular(rSize * 3),

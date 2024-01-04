@@ -59,7 +59,10 @@ class ProfileOptionCard extends StatelessWidget {
                   SizedBox(width: rSize * 2),
                   Text(
                     option.title,
-                    style: TextStyle(fontSize: rSize * 1.7),
+                    style: TextStyle(
+                      fontSize: rSize * 1.7,
+                      color: Colors.black,
+                    ),
                   ),
                 ],
               ),

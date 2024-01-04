@@ -21,47 +21,47 @@ class SettingsScreen extends StatelessWidget {
               children: [
                 const ScreenTitleRow(title: 'Settings'),
                 const SizedBox(height: 30),
-                InkWell(
-                  onTap: () {},
-                  child: Card(
-                    color: Colors.white,
-                    elevation: 3,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(rSize * 2.5),
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.all(rSize * 1.5),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              SvgPicture.asset(
-                                'assets/icons/dark_mode.svg',
-                                height: rSize * 2,
-                                colorFilter: const ColorFilter.mode(
-                                  AppColors.kPrimaryColor,
-                                  BlendMode.srcIn,
-                                ),
+                Card(
+                  color: Colors.white,
+                  elevation: 3,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(rSize * 2.5),
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.all(rSize * 1.5),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            SvgPicture.asset(
+                              'assets/icons/dark_mode.svg',
+                              height: rSize * 2,
+                              colorFilter: const ColorFilter.mode(
+                                AppColors.kPrimaryColor,
+                                BlendMode.srcIn,
                               ),
-                              SizedBox(width: rSize * 2),
-                              Text(
-                                'Dark Theme',
-                                style: TextStyle(fontSize: rSize * 1.7),
+                            ),
+                            SizedBox(width: rSize * 2),
+                            Text(
+                              'Dark Theme',
+                              style: TextStyle(
+                                fontSize: rSize * 1.7,
+                                color: Colors.black,
                               ),
-                            ],
-                          ),
-                          Consumer<AppStateProvider>(
-                              builder: (context, appStateProvider, child) {
-                            return Switch.adaptive(
-                              value: appStateProvider.isDarkMode,
-                              onChanged: ((value) {
-                                appStateProvider.toggleDarkMode(value);
-                              }),
-                            );
-                          })
-                        ],
-                      ),
+                            ),
+                          ],
+                        ),
+                        Consumer<AppStateProvider>(
+                            builder: (context, appStateProvider, child) {
+                          return Switch.adaptive(
+                            value: appStateProvider.isDarkMode,
+                            onChanged: ((value) {
+                              appStateProvider.toggleDarkMode(value);
+                            }),
+                          );
+                        })
+                      ],
                     ),
                   ),
                 ),

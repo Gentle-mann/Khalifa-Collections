@@ -8,8 +8,20 @@ import 'package:seed/src/size_setup.dart';
 import '../../app_components/item_image_card.dart';
 import '../../utils/snackbar.dart';
 
-class OrdersScreen extends StatelessWidget {
+class OrdersScreen extends StatefulWidget {
   const OrdersScreen({super.key});
+
+  @override
+  State<OrdersScreen> createState() => _OrdersScreenState();
+}
+
+class _OrdersScreenState extends State<OrdersScreen> {
+  List<Map<String, dynamic>> orders = [];
+  @override
+  void initState() {
+    orders = Provider.of<OrdersProvider>(context, listen: false).orders;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +42,7 @@ class OrdersScreen extends StatelessWidget {
                 child: ListView.builder(
                   itemCount: ordersProvider.orders.length,
                   itemBuilder: (context, index) {
-                    final order = ordersProvider.orders[index];
+                    final order = orders[index];
                     return ordersProvider.orders.isEmpty
                         ? Text(
                             'You have no orders yet',

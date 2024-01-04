@@ -2,11 +2,17 @@ import 'package:flutter/material.dart';
 
 import '../../../models/expansion_panel_item.dart';
 import '../../../size_setup.dart';
-import 'faq_categories.dart';
 
-class FAQTab extends StatelessWidget {
+class FAQTab extends StatefulWidget {
   const FAQTab({super.key});
 
+  @override
+  State<FAQTab> createState() => _FAQTabState();
+}
+
+class _FAQTabState extends State<FAQTab> {
+  String selectedItem = '';
+  int selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
     final rSize = SizeSetup.rSize!;
@@ -37,13 +43,15 @@ class FAQTab extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const FAQCategories(),
-          SizedBox(height: rSize),
+          //const FAQCategories(),
+          //SizedBox(height: rSize),
           ExpansionPanelList(
             animationDuration: const Duration(seconds: 1),
             expansionCallback: (panelIndex, isExpanded) {
-              panelIndex = 0;
-              isExpanded = panelIndex == 0;
+              setState(() {
+                FAQItem.items[panelIndex].isExpanded =
+                    !FAQItem.items[panelIndex].isExpanded;
+              });
             },
             children: [
               ...FAQItem.items.map(

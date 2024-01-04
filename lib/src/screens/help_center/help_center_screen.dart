@@ -49,8 +49,8 @@ class _HelpCenterScreenState extends State<HelpCenterScreen>
                 title: 'Help Center',
               ),
               SizedBox(height: rSize * 2),
-              const SearchField(),
-              SizedBox(height: rSize * 2),
+              //const SearchField(),
+              //SizedBox(height: rSize * 2),
               TabBar(
                 indicatorSize: TabBarIndicatorSize.tab,
                 indicatorPadding: EdgeInsets.symmetric(horizontal: rSize),

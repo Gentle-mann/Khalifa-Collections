@@ -66,7 +66,7 @@ class _CartScreenState extends State<CartScreen> {
                         onRefresh: onRefresh,
                         child: SizedBox(
                           width: double.infinity,
-                          height: 300,
+                          height: SizeSetup.height! * 0.7,
                           child: ListView(
                             children: const [
                               Text(
@@ -91,17 +91,19 @@ class _CartScreenState extends State<CartScreen> {
                             controlAffinity: ListTileControlAffinity.leading,
                             value: cartProvider.ids == allIds,
                             onChanged: (value) {
-                              for (var element in snapshot.data!) {
-                                allIds.add(element.id);
-                              }
-                              if (cartProvider.ids != allIds) {
-                                cartProvider.ids = allIds;
-                              } else {
-                                allIds = [];
-                                cartProvider.ids = [];
-                              }
+                              setState(() {
+                                for (var element in snapshot.data!) {
+                                  allIds.add(element.id);
+                                }
+                                if (cartProvider.ids != allIds) {
+                                  cartProvider.ids = allIds;
+                                } else {
+                                  allIds = [];
+                                  cartProvider.ids = [];
+                                }
 
-                              cartProvider.setCheckoutList = snapshot.data!;
+                                cartProvider.setCheckoutList = snapshot.data!;
+                              });
                             },
                             title: const Text('Select all'),
                           ),
@@ -114,14 +116,16 @@ class _CartScreenState extends State<CartScreen> {
                                 final cartItem = snapshot.data![index];
                                 return GestureDetector(
                                   onTap: () {
-                                    !cartProvider.ids.contains(cartItem.id)
-                                        ? cartProvider.ids.add(cartItem.id)
-                                        : cartProvider.ids.removeWhere(
-                                            (element) =>
-                                                element == cartItem.id);
+                                    setState(() {
+                                      !cartProvider.ids.contains(cartItem.id)
+                                          ? cartProvider.ids.add(cartItem.id)
+                                          : cartProvider.ids.removeWhere(
+                                              (element) =>
+                                                  element == cartItem.id);
 
-                                    cartProvider.checkout
-                                        .insert(0, snapshot.data![index]);
+                                      cartProvider.checkout
+                                          .insert(0, snapshot.data![index]);
+                                    });
                                   },
                                   child: Row(
                                     children: [
@@ -166,7 +170,7 @@ class _CartScreenState extends State<CartScreen> {
             );
           }),
           const Spacer(),
-          allIds.isNotEmpty
+          provider.ids.isNotEmpty
               ? CustomButton(
                   onPressed: () {
                     final checkout = provider.findCartById(provider.ids);
@@ -175,7 +179,7 @@ class _CartScreenState extends State<CartScreen> {
                       extra: checkout,
                     );
                   },
-                  title: 'Proceed to checkout (${allIds.length})',
+                  title: 'Proceed to checkout (${provider.ids.length})',
                 )
               : const CustomTextCard(
                   child: Text('Click on an item to select it'),

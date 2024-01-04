@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../size_setup.dart';
-import '../colors.dart';
 
 class StandardBoldText extends StatelessWidget {
   const StandardBoldText(this.data, {super.key, this.isColored = false});
@@ -17,7 +16,7 @@ class StandardBoldText extends StatelessWidget {
       style: TextStyle(
         fontWeight: FontWeight.bold,
         fontSize: rSize * 1.8,
-        color: !isColored ? Colors.black : AppColors.kPrimaryColor,
+        //color: !isColored ? Colors.black : AppColors.kPrimaryColor,
       ),
     );
   }

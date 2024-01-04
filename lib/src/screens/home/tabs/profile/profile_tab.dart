@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:seed/src/app_components/standard_bold_text.dart';
 
 import 'package:seed/src/models/profile.dart';
+import 'package:seed/src/services/auth_service.dart';
 
 import '../../../../app_components/default_padding.dart';
 import '../../../settings/components/profile_option_card.dart';
@@ -29,7 +30,30 @@ class ProfileTab extends StatelessWidget {
               SizedBox(
                 height: rSize * 2,
               ),
-              const StandardBoldText('Mike Faber'),
+              FutureBuilder(
+                  future: AuthService().getUserProfile(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(
+                        child: CircularProgressIndicator.adaptive(),
+                      );
+                    } else if (snapshot.hasError) {
+                      return Center(
+                        child: Text(
+                          '@user',
+                          style: TextStyle(
+                            fontSize: rSize * 2,
+                          ),
+                        ),
+                      );
+                    } else if (!snapshot.hasData) {
+                      return const Center(
+                        child: Text('No data'),
+                      );
+                    } else {
+                      return StandardBoldText('@${snapshot.data!.username}');
+                    }
+                  }),
               SizedBox(height: rSize * 2),
               Column(
                 children: [

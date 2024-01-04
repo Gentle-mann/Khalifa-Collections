@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:seed/src/models/add_to_cart.dart';
 import 'package:seed/src/models/products_model.dart';
 import 'package:seed/src/provider/cart_provider.dart';
+import 'package:seed/src/utils/snackbar.dart';
 import '../../app_components/screen_title_row.dart';
 import '../../colors.dart';
 import '../../size_setup.dart';
@@ -20,7 +21,7 @@ class DetailsScreen extends StatefulWidget {
 
 class _DetailsScreenState extends State<DetailsScreen> {
   int activePage = 0;
-  String size = '';
+  String selectedSize = '';
   late final PageController pageController = PageController();
   @override
   Widget build(BuildContext context) {
@@ -82,8 +83,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                       child: CachedNetworkImage(
                                         imageUrl:
                                             widget.product.imageUrl[index],
-                                        height: 300,
-                                        fit: BoxFit.cover,
+                                        height: 350,
+                                        fit: BoxFit.contain,
                                       ),
                                     ),
                                     Positioned(
@@ -171,16 +172,29 @@ class _DetailsScreenState extends State<DetailsScreen> {
                           ),
                         ),
                         SizedBox(height: rSize),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            ...widget.product.sizes.map(
-                              (sizes) => SizeSelectionCard(
-                                isSelected: sizes.isSelected,
-                                title: sizes.size,
+                        SizedBox(
+                          width: SizeSetup.width! * 0.9,
+                          height: rSize * 2,
+                          child: Wrap(
+                            children: [
+                              ...widget.product.sizes.map(
+                                (sizes) => GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        selectedSize = sizes.size;
+                                      });
+                                    },
+                                    child: ChoiceChip(
+                                        label: Text(
+                                          sizes.size,
+                                          style: const TextStyle(
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                        selected: sizes.size == selectedSize)),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                         // SizedBox(height: rSize * 1.5),
                         // Row(
@@ -264,11 +278,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                   .createCart(addToCartModel)
                                   .then((value) {
                                 if (value) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text('Product added to cart'),
-                                    ),
-                                  );
+                                  ShowSnackBar.showSnackBar(
+                                      'Added to cart successfully!', context);
                                 } else {}
                               });
                               // final cartProvider = Provider.of<CartProvider>(

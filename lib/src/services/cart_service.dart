@@ -50,7 +50,7 @@ class CartService {
       final cart = List<CartProduct>.from(products.map((product) {
         return CartProduct.fromJson(product);
       }));
-      return cart;
+      return cart.reversed.toList();
     } else {
       throw Exception('Failed to get cart');
     }

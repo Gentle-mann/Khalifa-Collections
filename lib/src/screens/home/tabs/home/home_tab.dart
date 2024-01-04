@@ -67,10 +67,7 @@ class _HomeTabState extends State<HomeTab> {
                 Stack(
                   children: [
                     GestureDetector(
-                      onTap: () {
-                        Navigator.of(context)
-                            .pushNamed(NotificationScreen.routeName);
-                      },
+                      onTap: () {},
                       child: CircleAvatar(
                         backgroundColor:
                             AppColors.kTertiaryColor.withOpacity(0.3),

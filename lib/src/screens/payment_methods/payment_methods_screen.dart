@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:seed/src/app_components/account_details_card.dart';
 
 import '../../app_components/app_components.dart';
 
@@ -24,24 +25,38 @@ class PaymentMethodsScreen extends StatelessWidget {
               children: [
                 const ScreenTitleRow(title: 'Payment Methods'),
                 SizedBox(height: rSize * 4),
-                const StandardBoldText('Credit & Debit Cards'),
+                const StandardBoldText('Account Numbers'),
+                //SizedBox(height: rSize),
+                // const PaymentMethodCard(
+                //   icon: 'assets/icons/card.svg',
+                //   title: 'Add a new card',
+                // ),
+                // SizedBox(height: rSize * 2),
+                // const StandardBoldText('More Payment Options'),
+                // SizedBox(height: rSize * 2),
+                // const PaymentMethodCard(
+                //   icon: 'assets/icons/paypal.svg',
+                //   title: 'Paypal',
+                //   doesNeedColor: false,
+                // ),
+                // SizedBox(height: rSize * 2),
+                // const PaymentMethodCard(
+                //   icon: 'assets/icons/apple.svg',
+                //   title: 'Apple Pay',
+                // ),
+                const AccountDetailsCard(
+                  accountNumber: '6408272378',
+                  bankIcon: 'assets/icons/moniepoint.svg',
+                  bankName: 'MoniePoint',
+                  accountName: 'Khalifa Boutiquee',
+                ),
                 SizedBox(height: rSize),
-                const PaymentMethodCard(
-                  icon: 'assets/icons/card.svg',
-                  title: 'Add a new card',
-                ),
-                SizedBox(height: rSize * 2),
-                const StandardBoldText('More Payment Options'),
-                SizedBox(height: rSize * 2),
-                const PaymentMethodCard(
-                  icon: 'assets/icons/paypal.svg',
-                  title: 'Paypal',
-                  doesNeedColor: false,
-                ),
-                SizedBox(height: rSize * 2),
-                const PaymentMethodCard(
-                  icon: 'assets/icons/apple.svg',
-                  title: 'Apple Pay',
+                const AccountDetailsCard(
+                  accountNumber: '0037501315',
+                  bankIcon: 'assets/icons/stanbic.svg',
+                  bankName: 'Stanbic IBTC Bank',
+                  accountName: 'Ishaq Maiwalima Ibrahim',
+                  isStanbic: true,
                 ),
               ],
             ),

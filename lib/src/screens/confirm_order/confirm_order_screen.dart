@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:seed/src/provider/launch_link_provider.dart';
 import 'package:seed/src/utils/snackbar.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:whatsapp_unilink/whatsapp_unilink.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:seed/src/app_components/account_details_card.dart';
@@ -116,7 +114,12 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                   ),
                 ),
               ),
-              const AccountDetailsCard(),
+              const AccountDetailsCard(
+                accountNumber: '6408272378',
+                bankIcon: 'assets/icons/',
+                bankName: 'MoniePoint',
+                accountName: 'Khalifa Boutiquee',
+              ),
               SizedBox(
                 height: rSize,
               ),
@@ -188,19 +191,7 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
   }
 
   shareOrderToWhatsApp(String message) async {
-    final linksProvider =
-        Provider.of<LaunchLinkProvider>(context, listen: false);
-    final whatsappVal = await linksProvider.isWhatsAppInstalled();
-    final businessWhatsappVal = await linksProvider.isBusWhatsAppInstalled();
-    if (whatsappVal || businessWhatsappVal) {
-      final link = WhatsAppUnilink(
-        phoneNumber: '2349033696162',
-        text: message,
-      );
-
-      await launchUrl(link.asUri());
-    } else {
-      showSnackBar();
-    }
+    Provider.of<LaunchLinkProvider>(context, listen: false)
+        .shareOrderToWhatsApp(message, showSnackBar);
   }
 }

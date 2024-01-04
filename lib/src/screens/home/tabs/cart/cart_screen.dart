@@ -18,7 +18,8 @@ class CartScreen extends StatefulWidget {
 
 class _CartScreenState extends State<CartScreen> {
   late Future<List<CartProduct>> cart;
-  // List<Map<String, dynamic>> checkoutItems = [];
+  bool selectAll = false;
+  List<String> allIds = [];
 
   @override
   void didChangeDependencies() {
@@ -27,11 +28,17 @@ class _CartScreenState extends State<CartScreen> {
     super.didChangeDependencies();
   }
 
+  Future onRefresh() async {
+    final cartProvider = Provider.of<CartProvider>(context, listen: false);
+    cart = cartProvider.getCart();
+    await Future.delayed(const Duration(seconds: 2));
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     final rSize = SizeSetup.rSize!;
-    final provider = Provider.of<CartProvider>(context, listen: false);
-
+    final provider = Provider.of<CartProvider>(context);
     return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: rSize * 2,
@@ -43,81 +50,123 @@ class _CartScreenState extends State<CartScreen> {
             title: 'My Cart',
             shouldAddBackButton: false,
           ),
-          SizedBox(height: rSize * 3),
+          SizedBox(height: rSize * 2),
           Consumer<CartProvider>(builder: (context, cartProvider, child) {
-            return FutureBuilder(
-                future: cart,
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(
-                      child: CircularProgressIndicator.adaptive(),
-                    );
-                  } else if (snapshot.hasError) {
-                    return Text('Error Found: ${snapshot.error}');
-                  } else if (!snapshot.hasData) {
-                    return const Center(
-                      child: Text('No data'),
-                    );
-                  } else if (snapshot.data!.isEmpty) {
-                    return const Text(
-                      'My Cart is Empty (for now). Add products to cart to view them here',
-                      style: TextStyle(fontSize: 20),
-                    );
-                  } else {
-                    return SizedBox(
-                      height: SizeSetup.height! * 0.65,
-                      child: ListView.separated(
-                        itemCount: snapshot.data!.length,
-                        itemBuilder: (context, index) {
-                          final cartItem = snapshot.data![index];
-                          return GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                !cartProvider.ids.contains(cartItem.id)
-                                    ? cartProvider.ids.add(cartItem.id)
-                                    : cartProvider.ids.removeWhere(
-                                        (element) => element == cartItem.id);
-                              });
-                              cartProvider.setProductIndex = index;
-                              cartProvider.checkout
-                                  .insert(0, snapshot.data![index]);
+            return RefreshIndicator(
+              onRefresh: onRefresh,
+              child: FutureBuilder(
+                  future: cart,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(
+                        child: CircularProgressIndicator.adaptive(),
+                      );
+                    } else if (snapshot.hasError) {
+                      return RefreshIndicator(
+                        onRefresh: onRefresh,
+                        child: SizedBox(
+                          width: double.infinity,
+                          height: 300,
+                          child: ListView(
+                            children: const [
+                              Text(
+                                  'Error Found: Poor connection or no internet. Pull down to refresh'),
+                            ],
+                          ),
+                        ),
+                      );
+                    } else if (!snapshot.hasData) {
+                      return const Center(
+                        child: Text('No data'),
+                      );
+                    } else if (snapshot.data!.isEmpty) {
+                      return const Text(
+                        'My Cart is Empty (for now). Add products to cart to view them here',
+                        style: TextStyle(fontSize: 20),
+                      );
+                    } else {
+                      return Column(
+                        children: [
+                          CheckboxListTile(
+                            controlAffinity: ListTileControlAffinity.leading,
+                            value: cartProvider.ids == allIds,
+                            onChanged: (value) {
+                              for (var element in snapshot.data!) {
+                                allIds.add(element.id);
+                              }
+                              if (cartProvider.ids != allIds) {
+                                cartProvider.ids = allIds;
+                              } else {
+                                allIds = [];
+                                cartProvider.ids = [];
+                              }
+
+                              cartProvider.setCheckoutList = snapshot.data!;
                             },
-                            child: Row(
-                              children: [
-                                Checkbox(
-                                    value:
-                                        cartProvider.ids.contains(cartItem.id),
-                                    onChanged: (value) {
-                                      setState(() {
-                                        !cartProvider.ids.contains(cartItem.id)
-                                            ? cartProvider.ids.add(cartItem.id)
-                                            : cartProvider.ids.removeWhere(
-                                                (element) =>
-                                                    element == cartItem.id);
-                                      });
-                                    }),
-                                Expanded(
-                                  child: CartItem(
-                                    cartItem: cartItem.cartItem,
-                                    cartDeleteId: snapshot.data![index].id,
+                            title: const Text('Select all'),
+                          ),
+                          SizedBox(
+                            height: SizeSetup.height! * 0.6,
+                            child: ListView.separated(
+                              physics: const BouncingScrollPhysics(),
+                              itemCount: snapshot.data!.length,
+                              itemBuilder: (context, index) {
+                                final cartItem = snapshot.data![index];
+                                return GestureDetector(
+                                  onTap: () {
+                                    !cartProvider.ids.contains(cartItem.id)
+                                        ? cartProvider.ids.add(cartItem.id)
+                                        : cartProvider.ids.removeWhere(
+                                            (element) =>
+                                                element == cartItem.id);
+
+                                    cartProvider.checkout
+                                        .insert(0, snapshot.data![index]);
+                                  },
+                                  child: Row(
+                                    children: [
+                                      Checkbox(
+                                          value: cartProvider.ids
+                                                  .contains(cartItem.id) ||
+                                              selectAll,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              !cartProvider.ids
+                                                      .contains(cartItem.id)
+                                                  ? cartProvider.ids
+                                                      .add(cartItem.id)
+                                                  : cartProvider.ids
+                                                      .removeWhere((element) =>
+                                                          element ==
+                                                          cartItem.id);
+                                            });
+                                          }),
+                                      Expanded(
+                                        child: CartItem(
+                                          cartItem: cartItem.cartItem,
+                                          cartDeleteId:
+                                              snapshot.data![index].id,
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ),
-                              ],
+                                );
+                              },
+                              separatorBuilder: ((context, index) {
+                                return Divider(
+                                  height: rSize * 4,
+                                );
+                              }),
                             ),
-                          );
-                        },
-                        separatorBuilder: ((context, index) {
-                          return Divider(
-                            height: rSize * 4,
-                          );
-                        }),
-                      ),
-                    );
-                  }
-                });
+                          ),
+                        ],
+                      );
+                    }
+                  }),
+            );
           }),
           const Spacer(),
-          provider.ids.isNotEmpty
+          allIds.isNotEmpty
               ? CustomButton(
                   onPressed: () {
                     final checkout = provider.findCartById(provider.ids);
@@ -126,7 +175,7 @@ class _CartScreenState extends State<CartScreen> {
                       extra: checkout,
                     );
                   },
-                  title: 'Proceed to checkout (${provider.ids.length})',
+                  title: 'Proceed to checkout (${allIds.length})',
                 )
               : const CustomTextCard(
                   child: Text('Click on an item to select it'),

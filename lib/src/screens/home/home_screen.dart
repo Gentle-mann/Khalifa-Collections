@@ -74,7 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
               index: 2,
             ),
             buildNavBarItem(
-              icon: 'assets/icons/chat.svg',
+              icon: 'assets/icons/search.svg',
               onTap: () {
                 goToTab(3);
               },

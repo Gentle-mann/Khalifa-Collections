@@ -43,7 +43,7 @@ class _SearchTabState extends State<SearchTab> {
                     decoration: InputDecoration(
                       contentPadding: EdgeInsets.all(rSize * 1.5),
                       prefixIcon: Icon(Icons.search, size: rSize * 3),
-                      hintText: 'Search',
+                      hintText: 'e.g. t-shirts, sneakers, boots...',
                       suffixIcon: IconButton(
                         onPressed: () {
                           setState(() {
@@ -102,6 +102,8 @@ class _SearchTabState extends State<SearchTab> {
                             return const Center(
                               child: Text('No data'),
                             );
+                          } else if (snapshot.data!.isEmpty) {
+                            return const Text('No results for your search');
                           } else {
                             final data = snapshot.data!;
                             return ListView.builder(

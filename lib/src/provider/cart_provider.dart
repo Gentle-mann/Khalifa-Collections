@@ -5,7 +5,7 @@ import '../models/add_to_cart.dart';
 import '../models/cart_products.dart';
 
 class CartProvider extends ChangeNotifier {
-  final List<String> _ids = [];
+  List<String> _ids = [];
   int _counter = 0;
   int get counter => _counter;
   List<CartProduct> _cart = [];
@@ -15,6 +15,11 @@ class CartProvider extends ChangeNotifier {
 
   List<String> get ids {
     return _ids;
+  }
+
+  set ids(List<String> newIds) {
+    _ids = newIds;
+    notifyListeners();
   }
 
   void increment() {
@@ -78,6 +83,11 @@ class CartProvider extends ChangeNotifier {
   List<CartProduct> _checkout = [];
   List<CartProduct> get checkout {
     return _checkout;
+  }
+
+  set checkout(newCheckout) {
+    checkout = newCheckout;
+    notifyListeners();
   }
 
   set setCheckoutList(List<CartProduct> newState) {

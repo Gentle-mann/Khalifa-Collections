@@ -11,7 +11,6 @@ import '../../../../size_setup.dart';
 
 class WishlistTab extends StatefulWidget {
   const WishlistTab({super.key});
-  static const routeName = '/wishlist';
 
   @override
   State<WishlistTab> createState() => _WishlistTabState();
@@ -35,7 +34,7 @@ class _WishlistTabState extends State<WishlistTab> {
               title: 'My Favorites',
               shouldAddBackButton: false,
             ),
-            SizedBox(height: rSize * 2),
+            SizedBox(height: rSize * 4),
             SizedBox(
               height: SizeSetup.height! * 0.7,
               child: Consumer<WishlistProvider>(

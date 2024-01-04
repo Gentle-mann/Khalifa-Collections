@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:seed/src/app_components/app_components.dart';
-import 'package:seed/src/app_components/screen_title.dart';
+import 'package:seed/src/provider/launch_link_provider.dart';
 import 'package:seed/src/provider/orders_provider.dart';
 import 'package:seed/src/size_setup.dart';
 
 import '../../app_components/item_image_card.dart';
+import '../../utils/snackbar.dart';
 
 class OrdersScreen extends StatelessWidget {
   const OrdersScreen({super.key});
@@ -13,11 +14,16 @@ class OrdersScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final rSize = SizeSetup.rSize!;
+    void showSnackBar() {
+      ShowSnackBar.showSnackBar(
+          'Text us your order via WhatsApp @ 09033696162', context);
+    }
+
     return Scaffold(
       body: DefaultPadding(
         child: Column(
           children: [
-            const ScreenTitle('My Orders'),
+            const ScreenTitleRow(title: 'My Orders'),
             Consumer<OrdersProvider>(builder: (context, ordersProvider, child) {
               return SizedBox(
                 height: SizeSetup.height! * 0.8,
@@ -79,7 +85,11 @@ class OrdersScreen extends StatelessWidget {
             const Spacer(),
             CustomButton(
               title: 'Contact Us',
-              onPressed: () {},
+              onPressed: () {
+                Provider.of<LaunchLinkProvider>(context, listen: false)
+                    .shareOrderToWhatsApp(
+                        'Hello Khalifa Boutique:\n', showSnackBar);
+              },
             ),
           ],
         ),

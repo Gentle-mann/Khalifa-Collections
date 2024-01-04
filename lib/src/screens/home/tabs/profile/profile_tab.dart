@@ -31,13 +31,15 @@ class ProfileTab extends StatelessWidget {
               ),
               const StandardBoldText('Mike Faber'),
               SizedBox(height: rSize * 2),
-              Column(children: [
-                ...ProfileOption.options.map(
-                  (option) => ProfileOptionCard(
-                    option: option,
+              Column(
+                children: [
+                  ...ProfileOption.options.map(
+                    (option) => ProfileOptionCard(
+                      option: option,
+                    ),
                   ),
-                ),
-              ])
+                ],
+              ),
             ],
           ),
         ),
@@ -60,7 +62,7 @@ class ProfileImage extends StatelessWidget {
       alignment: Alignment.center,
       children: [
         CircleAvatar(
-          backgroundImage: const AssetImage('assets/images/profile.png'),
+          backgroundImage: const AssetImage('assets/images/profilepic.jpeg'),
           radius: rSize * 6,
         ),
         Positioned(

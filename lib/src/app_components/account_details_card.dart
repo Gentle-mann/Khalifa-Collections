@@ -5,7 +5,16 @@ import 'package:seed/src/colors.dart';
 import 'package:seed/src/size_setup.dart';
 
 class AccountDetailsCard extends StatelessWidget {
-  const AccountDetailsCard({super.key});
+  const AccountDetailsCard(
+      {super.key,
+      required this.accountNumber,
+      required this.bankIcon,
+      required this.bankName,
+      required this.accountName,
+      this.isStanbic = false});
+  final String accountNumber;
+  final String bankIcon, bankName, accountName;
+  final bool isStanbic;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +30,7 @@ class AccountDetailsCard extends StatelessWidget {
             AccountDetailsInfo(
               icon: 'assets/icons/numbers.svg',
               title: 'Account Number',
-              subtitle: '6408272378',
+              subtitle: accountNumber,
               iconHeight: rSize * 3,
               colorFilter: const ColorFilter.mode(
                 AppColors.kLightPrimary,
@@ -32,16 +41,16 @@ class AccountDetailsCard extends StatelessWidget {
             ),
             const Divider(),
             AccountDetailsInfo(
-              icon: 'assets/icons/moniepoint.svg',
+              icon: bankIcon,
               title: 'Bank',
-              subtitle: 'MoniePoint',
-              iconHeight: rSize * 3,
+              subtitle: bankName,
+              iconHeight: isStanbic ? rSize * 8 : rSize * 3,
             ),
             const Divider(),
             AccountDetailsInfo(
               icon: 'assets/icons/profile.svg',
               title: 'Name',
-              subtitle: 'Khalifa Boutiquee',
+              subtitle: accountName,
               iconHeight: rSize * 3,
               colorFilter: const ColorFilter.mode(
                 AppColors.kLightPrimary,
@@ -52,7 +61,7 @@ class AccountDetailsCard extends StatelessWidget {
             ElevatedButton(
               onPressed: () async {
                 await Clipboard.setData(
-                  const ClipboardData(text: '6408272378'),
+                  ClipboardData(text: accountNumber),
                 );
               },
               child: const Text('Copy Account Number'),

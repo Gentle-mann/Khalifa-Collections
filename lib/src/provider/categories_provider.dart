@@ -32,6 +32,12 @@ class CategoriesProvider extends ChangeNotifier {
       case 'Most Popular':
         products = ProductsService().getAllProducts();
         break;
+      case 'Affordable':
+        products = ProductsService().getAffordableProducts();
+        break;
+      case 'Exclusive':
+        products = ProductsService().getExclusiveProducts();
+        break;
       case 'Men':
         products = ProductsService().getMaleProducts();
 

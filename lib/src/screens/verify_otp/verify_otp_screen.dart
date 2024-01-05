@@ -45,9 +45,7 @@ class VerifyOTPScreen extends StatelessWidget {
             SizedBox(height: rSize * 3),
             CustomButton(
               title: 'Verify',
-              onPressed: () {
-                Navigator.of(context).pushNamed(SignInScreen.routeName);
-              },
+              onPressed: () {},
             ),
           ],
         ),

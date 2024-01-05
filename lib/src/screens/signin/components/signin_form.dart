@@ -31,34 +31,33 @@ class _SignInFormState extends State<SignInForm> {
           const EmailField(),
           SizedBox(height: rSize),
           const PasswordField(),
-          SizedBox(height: rSize),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  Checkbox(
-                    value: true,
-                    onChanged: (value) {},
-                  ),
-                  const Text('Remember me'),
-                ],
-              ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.of(context)
-                      .pushNamed(ChangePasswordScreen.routeName);
-                },
-                child: const Text(
-                  'Forgot Password',
-                  style: TextStyle(
-                    color: AppColors.kPrimaryColor,
-                    decoration: TextDecoration.underline,
-                  ),
-                ),
-              ),
-            ],
-          ),
+          // SizedBox(height: rSize),
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //   children: [
+          //     Row(
+          //       children: [
+          //         Checkbox(
+          //           value: true,
+          //           onChanged: (value) {},
+          //         ),
+          //         const Text('Remember me'),
+          //       ],
+          //     ),
+          //     GestureDetector(
+          //       onTap: () {
+
+          //       },
+          //       child: const Text(
+          //         'Forgot Password',
+          //         style: TextStyle(
+          //           color: AppColors.kPrimaryColor,
+          //           decoration: TextDecoration.underline,
+          //         ),
+          //       ),
+          //     ),
+          //   ],
+          // ),
           SizedBox(height: rSize * 3),
           Consumer<AuthValidationProvider>(
               builder: (context, authValidationProvider, child) {
@@ -85,7 +84,7 @@ class _SignInFormState extends State<SignInForm> {
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                              content: Text('Yo! sign in fail'),
+                              content: Text('Sign in fail'),
                             ),
                           );
                         }

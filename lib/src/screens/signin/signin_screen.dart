@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+import 'package:seed/src/provider/app_state_provider.dart';
 
 import '../../app_components/header_text.dart';
 import '../../app_components/social_media_card.dart';
@@ -9,7 +10,6 @@ import 'components/signin_form.dart';
 
 class SignInScreen extends StatelessWidget {
   const SignInScreen({super.key});
-  static const routeName = '/signin';
 
   @override
   Widget build(BuildContext context) {
@@ -28,36 +28,36 @@ class SignInScreen extends StatelessWidget {
               const Text('Hello, welcome back. You\'ve been missed! 😊'),
               SizedBox(height: rSize * 3),
               const SignInForm(),
-              SizedBox(height: rSize * 5),
-              const Row(
-                children: [
-                  Expanded(
-                    child: Divider(),
-                  ),
-                  Text('Or sign in with'),
-                  Expanded(
-                    child: Divider(),
-                  ),
-                ],
-              ),
-              SizedBox(height: rSize * 3),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SocialMediaCard(
-                    'assets/icons/apple.svg',
-                    onTap: () {},
-                  ),
-                  SocialMediaCard(
-                    'assets/icons/google.svg',
-                    onTap: () {},
-                  ),
-                  SocialMediaCard(
-                    'assets/icons/facebook.svg',
-                    onTap: () {},
-                  ),
-                ],
-              ),
+              // SizedBox(height: rSize * 5),
+              // const Row(
+              //   children: [
+              //     Expanded(
+              //       child: Divider(),
+              //     ),
+              //     Text('Or sign in with'),
+              //     Expanded(
+              //       child: Divider(),
+              //     ),
+              //   ],
+              // ),
+              // SizedBox(height: rSize * 3),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   children: [
+              //     SocialMediaCard(
+              //       'assets/icons/apple.svg',
+              //       onTap: () {},
+              //     ),
+              //     SocialMediaCard(
+              //       'assets/icons/google.svg',
+              //       onTap: () {},
+              //     ),
+              //     SocialMediaCard(
+              //       'assets/icons/facebook.svg',
+              //       onTap: () {},
+              //     ),
+              //   ],
+              // ),
               SizedBox(height: rSize * 3),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -66,7 +66,9 @@ class SignInScreen extends StatelessWidget {
                   UnderlinedText(
                     'Sign up',
                     onTap: () {
-                      context.goNamed('/signin');
+                      Provider.of<AppStateProvider>(context, listen: false)
+                          .register(false);
+                      //context.goNamed('/signin');
                     },
                   ),
                 ],

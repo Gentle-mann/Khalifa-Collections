@@ -57,7 +57,6 @@ class AuthService {
     };
     var url = Uri.https(Config.apiUrl, Config.getUserUrl);
     var response = await client.get(url, headers: requestHeaders);
-    print('response: ${response.statusCode}');
     if (response.statusCode == 200) {
       var profile = profileResponseFromJson(response.body);
       return profile;

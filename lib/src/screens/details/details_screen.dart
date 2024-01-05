@@ -9,7 +9,6 @@ import 'package:seed/src/utils/snackbar.dart';
 import '../../app_components/screen_title_row.dart';
 import '../../colors.dart';
 import '../../size_setup.dart';
-import 'components/size_selection_card.dart';
 
 class DetailsScreen extends StatefulWidget {
   const DetailsScreen({super.key, required this.product});

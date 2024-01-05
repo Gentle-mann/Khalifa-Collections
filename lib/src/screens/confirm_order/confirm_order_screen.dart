@@ -174,7 +174,7 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                         '${orderNameList.indexOf(element) + 1}. $element\n';
                   }
                   message +=
-                      'Delivery Address: ${authProvider.selectedAddress}\nTotal Cost: ${totalCost.toInt()}';
+                      'Delivery Address: ${authProvider.selectedAddress}\nTotal Cost: ₦${totalCost.toInt()}';
                   shareOrderToWhatsApp(message);
                 },
               ),

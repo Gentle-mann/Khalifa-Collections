@@ -4,7 +4,6 @@ import 'package:flutter_svg/svg.dart';
 import '../../../../app_components/app_components.dart';
 import '../../../../colors.dart';
 import '../../../../size_setup.dart';
-import '../../../notification/notification_screen.dart';
 import '../../components/categories.dart';
 import '../../components/cloth_sale.dart';
 import '../../components/cloth_types.dart';
@@ -95,8 +94,26 @@ class _HomeTabState extends State<HomeTab> {
                 ),
               ],
             ),
+            SizedBox(height: rSize),
 
-            SizedBox(height: rSize * 2),
+            Container(
+              padding: EdgeInsets.symmetric(
+                horizontal: rSize,
+                vertical: rSize,
+              ),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(rSize * 2),
+                color: AppColors.kLightPrimary,
+              ),
+              width: double.infinity,
+              child: const Center(
+                child: SelectableText(
+                  'Call or WhatsApp to order quickly: 09033696162',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ),
+
             //const PromoInfo(),
             const SectionHeader('Categories'),
             const ClothTypes(),

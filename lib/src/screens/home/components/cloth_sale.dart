@@ -100,100 +100,98 @@ class _ClothSaleCardState extends State<ClothSaleCard> {
   Widget build(BuildContext context) {
     final rSize = SizeSetup.rSize!;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Expanded(
-          child: Container(
-            width: double.infinity,
-            decoration: BoxDecoration(
-              //color: Colors.red,
-              borderRadius: BorderRadius.circular(rSize),
-            ),
-            child: Stack(
-              fit: StackFit.expand,
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(rSize),
-                  child: CachedNetworkImage(
+    return Card(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: Container(
+              padding: const EdgeInsets.only(top: 8),
+              width: double.infinity,
+              decoration: BoxDecoration(
+                //color: Colors.red,
+                borderRadius: BorderRadius.circular(rSize),
+              ),
+              child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  CachedNetworkImage(
                     key: UniqueKey(),
                     imageUrl: widget.product.imageUrl[0],
-                    //fit: BoxFit.cover,
+                    fit: BoxFit.fitHeight,
                     placeholder: (context, url) =>
                         const CircularProgressIndicator.adaptive(),
                     errorWidget: (context, url, error) =>
                         const Text('Image not found'),
                   ),
-                ),
-                Consumer<WishlistProvider>(
-                    builder: (context, wishlistProvider, child) {
-                  return Positioned(
-                    top: rSize,
-                    right: rSize,
-                    child: GestureDetector(
-                      onTap: () {
-                        if (wishlistProvider.ids.contains(widget.product.id)) {
-                          // Navigator.of(context).push(MaterialPageRoute(builder: ((context) {
-                          //   return const WishlistTab();
-                          // })));
-                        } else {
-                          wishlistProvider.createFav({
-                            "id": widget.product.id,
-                            "name": widget.product.name,
-                            "title": widget.product.title,
-                            "category": widget.product.category,
-                            "price": widget.product.price,
-                            "imageUrl": widget.product.imageUrl,
-                            "description": widget.product.description,
-                            "subCategory": widget.product.subCategory,
-                            "subSubCategory": widget.product.subSubCategory,
-                          });
-                        }
-                      },
-                      child: Container(
-                        height: rSize * 3,
-                        width: rSize * 3,
-                        padding: EdgeInsets.all(rSize * 0.5),
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.white.withOpacity(0.8),
-                        ),
-                        child: SvgPicture.asset(
-                          wishlistProvider.ids.contains(widget.product.id)
-                              ? 'assets/icons/heart_red_filled.svg'
-                              : 'assets/icons/heart.svg',
+                  Consumer<WishlistProvider>(
+                      builder: (context, wishlistProvider, child) {
+                    return Positioned(
+                      top: rSize,
+                      right: rSize,
+                      child: GestureDetector(
+                        onTap: () {
+                          if (wishlistProvider.ids
+                              .contains(widget.product.id)) {
+                          } else {
+                            wishlistProvider.createFav({
+                              "id": widget.product.id,
+                              "name": widget.product.name,
+                              "title": widget.product.title,
+                              "category": widget.product.category,
+                              "price": widget.product.price,
+                              "imageUrl": widget.product.imageUrl,
+                              "description": widget.product.description,
+                              "subCategory": widget.product.subCategory,
+                              "subSubCategory": widget.product.subSubCategory,
+                            });
+                          }
+                        },
+                        child: Container(
+                          height: rSize * 3,
+                          width: rSize * 3,
+                          padding: EdgeInsets.all(rSize * 0.5),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.white.withOpacity(0.8),
+                          ),
+                          child: SvgPicture.asset(
+                            wishlistProvider.ids.contains(widget.product.id)
+                                ? 'assets/icons/heart_red_filled.svg'
+                                : 'assets/icons/heart.svg',
+                          ),
                         ),
                       ),
-                    ),
-                  );
-                }),
+                    );
+                  }),
+                ],
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Text(
+                    widget.product.title,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
               ],
             ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: Text(
-                  widget.product.title,
-                  overflow: TextOverflow.ellipsis,
-                ),
+          Center(
+            child: Text(
+              '₦${widget.product.price}',
+              style: const TextStyle(
+                fontWeight: FontWeight.w500,
               ),
-            ],
-          ),
-        ),
-        Center(
-          child: Text(
-            '₦${widget.product.price}',
-            style: const TextStyle(
-              fontWeight: FontWeight.w500,
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

@@ -27,6 +27,34 @@ class ProductsService {
     }
   }
 
+  Future<List<Products>> getAffordableProducts() async {
+    var url = Uri.http(Config.apiUrl, Config.products);
+    var response = await client.get(url);
+    if (response.statusCode == 200) {
+      final products = productsFromJson(response.body);
+
+      return products.where((element) {
+        return double.parse(element.price.replaceAll(',', '')) < 6000;
+      }).toList();
+    } else {
+      throw Exception('Failed to get products');
+    }
+  }
+
+  Future<List<Products>> getExclusiveProducts() async {
+    var url = Uri.http(Config.apiUrl, Config.products);
+    var response = await client.get(url);
+    if (response.statusCode == 200) {
+      final products = productsFromJson(response.body);
+
+      return products.where((element) {
+        return double.parse(element.price.replaceAll(',', '')) > 6000;
+      }).toList();
+    } else {
+      throw Exception('Failed to get products');
+    }
+  }
+
   Future<List<Products>> getMaleProducts() async {
     var url = Uri.http(Config.apiUrl, Config.products);
     var response = await client.get(url);

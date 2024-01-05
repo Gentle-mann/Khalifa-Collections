@@ -48,7 +48,7 @@ class AppRouter {
       ),
       GoRoute(
         path: '/',
-        name: SignInScreen.routeName,
+        name: 'sign-in',
         builder: (context, state) => const SignInScreen(),
       ),
       //ChangePasswordScreen.routeName: (context) => const ChangePasswordScreen(),

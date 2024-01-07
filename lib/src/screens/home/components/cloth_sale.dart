@@ -54,8 +54,7 @@ class _ClothSaleState extends State<ClothSale> {
               child: Text('No data'),
             );
           } else {
-            return SizedBox(
-              height: SizeSetup.height! * 0.7,
+            return Expanded(
               child: GridView.builder(
                   itemCount: snapshot.data!.length,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

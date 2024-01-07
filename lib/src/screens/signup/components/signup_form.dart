@@ -30,28 +30,6 @@ class _SignUpFormState extends State<SignUpForm> {
           const PasswordField(),
           const ConfirmPasswordField(),
           SizedBox(height: rSize),
-          Row(
-            children: [
-              RichText(
-                text: const TextSpan(
-                  text: 'By clicking Sign Up, you agree with our ',
-                  style: TextStyle(
-                    color: Colors.black,
-                  ),
-                  children: [
-                    TextSpan(
-                      text: 'Terms and Conditions',
-                      style: TextStyle(
-                        decoration: TextDecoration.underline,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.kPrimaryColor,
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ],
-          ),
           SizedBox(height: rSize * 3),
           Consumer<AuthValidationProvider>(
               builder: (context, authValidationProvider, child) {
@@ -60,7 +38,6 @@ class _SignUpFormState extends State<SignUpForm> {
               return CustomButton(
                 title: 'Sign up',
                 onPressed: () async {
-                  //Navigator.of(context).pushNamed(HomeScreen.routeName);
                   if (_formKey.currentState!.validate()) {
                     _formKey.currentState!.save();
                     final signUpModel = SignUpModel(

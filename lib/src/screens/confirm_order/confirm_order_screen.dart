@@ -116,7 +116,7 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
               ),
               const AccountDetailsCard(
                 accountNumber: '6408272378',
-                bankIcon: 'assets/icons/',
+                bankIcon: 'assets/icons/moniepoint.svg',
                 bankName: 'MoniePoint',
                 accountName: 'Khalifa Boutiquee',
               ),
@@ -132,9 +132,9 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                 child: ListView.builder(
                   itemCount: widget.checkoutItems.length,
                   primary: false,
+                  //shrinkWrap: true,
                   itemBuilder: (context, index) {
                     final checkout = widget.checkoutItems[index];
-
                     return CartItem(
                       cartItem: checkout.cartItem,
                       cartDeleteId: '',
@@ -153,7 +153,7 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                 title: 'Confirm Order & Contact Us',
                 onPressed: () async {
                   List<String> orderNameList = [];
-                  String message = 'You have ordered:\n';
+                  String message = 'Hey Khalifa Collections, I have ordered:\n';
                   final ordersProvider =
                       Provider.of<OrdersProvider>(context, listen: false);
                   for (var element in widget.checkoutItems) {
@@ -175,6 +175,7 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                   }
                   message +=
                       'Delivery Address: ${authProvider.selectedAddress}\nTotal Cost: ₦${totalCost.toInt()}';
+
                   shareOrderToWhatsApp(message);
                 },
               ),

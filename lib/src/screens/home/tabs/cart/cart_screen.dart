@@ -117,11 +117,17 @@ class _CartScreenState extends State<CartScreen> {
                                 return GestureDetector(
                                   onTap: () {
                                     setState(() {
-                                      !cartProvider.ids.contains(cartItem.id)
-                                          ? cartProvider.ids.add(cartItem.id)
-                                          : cartProvider.ids.removeWhere(
-                                              (element) =>
-                                                  element == cartItem.id);
+                                      if (!cartProvider.ids
+                                          .contains(cartItem.id)) {
+                                        cartProvider.ids.add(cartItem.id);
+                                        allIds.add(cartItem.id);
+                                      } else {
+                                        cartProvider.ids.removeWhere(
+                                            (element) =>
+                                                element == cartItem.id);
+                                        allIds.removeWhere((element) =>
+                                            element == cartItem.id);
+                                      }
 
                                       cartProvider.checkout
                                           .insert(0, snapshot.data![index]);
@@ -169,7 +175,6 @@ class _CartScreenState extends State<CartScreen> {
                   }),
             );
           }),
-          const Spacer(),
           provider.ids.isNotEmpty
               ? CustomButton(
                   onPressed: () {

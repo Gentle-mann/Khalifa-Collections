@@ -8,9 +8,7 @@ import 'package:seed/src/provider/auth_validation_provider.dart';
 
 import '../../../app_components/custom_button.dart';
 import '../../../app_components/custom_form_field.dart';
-import '../../../colors.dart';
 import '../../../size_setup.dart';
-import '../../change_password/change_password_screen.dart';
 
 class SignInForm extends StatefulWidget {
   const SignInForm({super.key});

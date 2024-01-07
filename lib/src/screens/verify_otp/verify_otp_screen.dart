@@ -4,7 +4,6 @@ import '../../app_components/app_components.dart';
 
 import '../../colors.dart';
 import '../../size_setup.dart';
-import '../signin/signin_screen.dart';
 import 'components/otp_form.dart';
 
 class VerifyOTPScreen extends StatelessWidget {

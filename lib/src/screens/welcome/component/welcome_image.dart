@@ -5,13 +5,11 @@ import '../../../size_setup.dart';
 class WelcomeImages extends StatelessWidget {
   const WelcomeImages({
     super.key,
-    required this.rSize,
   });
-
-  final double rSize;
 
   @override
   Widget build(BuildContext context) {
+    final rSize = SizeSetup.rSize!;
     return SizedBox(
       height: SizeSetup.height! * 0.5,
       child: Row(

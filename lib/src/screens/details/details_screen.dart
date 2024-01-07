@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:seed/src/models/add_to_cart.dart';
 import 'package:seed/src/models/products_model.dart';
+import 'package:seed/src/provider/app_state_provider.dart';
 import 'package:seed/src/provider/cart_provider.dart';
 import 'package:seed/src/utils/snackbar.dart';
 import '../../app_components/screen_title_row.dart';
@@ -23,14 +24,21 @@ class _DetailsScreenState extends State<DetailsScreen> {
   String selectedSize = '';
   late final PageController pageController = PageController();
   @override
+  void dispose() {
+    pageController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final rSize = SizeSetup.rSize!;
+    final isDarkMode =
+        Provider.of<AppStateProvider>(context, listen: false).isDarkMode;
     return Scaffold(
-      //backgroundColor: AppColors.kDarkBackground,
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-            //backgroundColor: AppColors.kDarkBackground,
+            backgroundColor: isDarkMode ? Colors.black : null,
             automaticallyImplyLeading: false,
             leadingWidth: 0,
             pinned: true,
@@ -40,12 +48,9 @@ class _DetailsScreenState extends State<DetailsScreen> {
             flexibleSpace: FlexibleSpaceBar(
               background: Column(
                 children: [
-                  Container(
+                  SizedBox(
                     height: SizeSetup.height! * 0.47,
                     width: double.infinity,
-                    decoration: const BoxDecoration(
-                        //color: Colors.white,
-                        ),
                     child: Column(
                       children: [
                         Padding(
@@ -81,11 +86,23 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                     SizedBox(
                                       width: double.infinity,
                                       child: CachedNetworkImage(
-                                        imageUrl:
-                                            widget.product.imageUrl[index],
-                                        height: 350,
-                                        fit: BoxFit.contain,
-                                      ),
+                                          imageUrl:
+                                              widget.product.imageUrl[index],
+                                          height: SizeSetup.height! * 0.4,
+                                          fit: BoxFit.contain,
+                                          progressIndicatorBuilder:
+                                              (context, image, progress) {
+                                            return Center(
+                                              child: SizedBox(
+                                                height: rSize * 3,
+                                                width: rSize * 3,
+                                                child: CircularProgressIndicator
+                                                    .adaptive(
+                                                  value: progress.progress,
+                                                ),
+                                              ),
+                                            );
+                                          }),
                                     ),
                                     Positioned(
                                       bottom: 50,
@@ -94,8 +111,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                           widget.product.imageUrl.length,
                                           (index) => Container(
                                             width:
-                                                index == activePage ? 30 : 15,
-                                            height: rSize * 1.5,
+                                                index == activePage ? 25 : 10,
+                                            height: rSize,
                                             margin: EdgeInsets.only(
                                                 right: rSize * 0.5),
                                             decoration: BoxDecoration(
@@ -126,109 +143,123 @@ class _DetailsScreenState extends State<DetailsScreen> {
                       horizontal: rSize * 2,
                       vertical: rSize * 3,
                     ),
-                    decoration: const BoxDecoration(
-                        //color: AppColors.kPostTertiaryColor,
-                        ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              widget.product.category,
-                              style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: rSize * 1.5,
-                              ),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            'Product Name',
+                            style: TextStyle(
+                              fontSize: rSize * 1.8,
+                              fontWeight: FontWeight.bold,
                             ),
-                          ],
-                        ),
-                        SizedBox(height: rSize),
-                        Text(
-                          widget.product.title,
-                          style: TextStyle(
-                            fontSize: rSize * 2,
-                            fontWeight: FontWeight.bold,
                           ),
-                        ),
-                        SizedBox(height: rSize * 1.8),
-                        Text(
-                          'Product Description',
-                          style: TextStyle(
-                            fontSize: rSize * 1.8,
+                          Text(
+                            widget.product.name,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: rSize * 1.5,
+                            ),
                           ),
-                        ),
-                        Text(
-                          widget.product.description,
-                        ),
-                        const Divider(),
-                        SizedBox(height: rSize),
-                        Text(
-                          'Select size',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: rSize * 1.8,
+                          SizedBox(height: rSize),
+                          Text(
+                            widget.product.category,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: rSize * 1.5,
+                            ),
                           ),
-                        ),
-                        SizedBox(height: rSize),
-                        SizedBox(
-                          width: SizeSetup.width! * 0.9,
-                          height: rSize * 2,
-                          child: Wrap(
-                            children: [
-                              ...widget.product.sizes.map(
-                                (sizes) => GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      selectedSize = sizes.size;
-                                    });
-                                  },
-                                  child: ChoiceChip(
-                                    label: Text(
-                                      sizes.size,
-                                      style: const TextStyle(),
+                          SizedBox(height: rSize),
+                          Text(
+                            widget.product.title,
+                            style: TextStyle(
+                              fontSize: rSize * 2,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(height: rSize * 1.8),
+                          Text(
+                            'Product Description',
+                            style: TextStyle(
+                                fontSize: rSize * 1.8,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            widget.product.description,
+                            maxLines: null,
+                            //overflow: TextOverflow.ellipsis,
+                          ),
+                          const Divider(),
+                          SizedBox(height: rSize),
+                          Text(
+                            'Select size',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: rSize * 1.8,
+                            ),
+                          ),
+                          SizedBox(height: rSize),
+                          SizedBox(
+                            width: SizeSetup.width! * 0.9,
+                            height: rSize * 4,
+                            child: Wrap(
+                              children: [
+                                ...widget.product.sizes.map(
+                                  (sizes) => GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        selectedSize = sizes.size;
+                                      });
+                                    },
+                                    child: ChoiceChip(
+                                      label: Text(
+                                        sizes.size,
+                                        style: const TextStyle(),
+                                      ),
+                                      selected: sizes.size == selectedSize,
                                     ),
-                                    selected: sizes.size == selectedSize,
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
-                        // SizedBox(height: rSize * 1.5),
-                        // Row(
-                        //   children: [
-                        //     Text(
-                        //       'Select color: ',
-                        //       style: TextStyle(
-                        //           fontWeight: FontWeight.bold,
-                        //           fontSize: rSize * 1.8),
-                        //     ),
-                        //     const Text('Brown'),
-                        //   ],
-                        // ),
-                        SizedBox(height: rSize * 0.7),
-                        // const Row(
-                        //   children: [
-                        //     ColorSelectionCard(color: Color(0xFF704F38)),
-                        //     ColorSelectionCard(
-                        //       color: Color(0xFF954535),
-                        //       isSelected: true,
-                        //     ),
-                        //     ColorSelectionCard(
-                        //       color: Color(0xFF7B3F00),
-                        //     ),
-                        //     ColorSelectionCard(
-                        //       color: Color(0xFFD27D2D),
-                        //     ),
-                        //     ColorSelectionCard(
-                        //       color: Color(0xFF6F4E37),
-                        //     ),
-                        //     ColorSelectionCard(color: Color(0xFF954535)),
-                        //   ],
-                        // ),
-                      ],
+                          // SizedBox(height: rSize * 1.5),
+                          // Row(
+                          //   children: [
+                          //     Text(
+                          //       'Select color: ',
+                          //       style: TextStyle(
+                          //           fontWeight: FontWeight.bold,
+                          //           fontSize: rSize * 1.8),
+                          //     ),
+                          //     const Text('Brown'),
+                          //   ],
+                          // ),
+                          //
+                          //SizedBox(height: rSize * 0.7),
+                          // const Row(
+                          //   children: [
+                          //     ColorSelectionCard(color: Color(0xFF704F38)),
+                          //     ColorSelectionCard(
+                          //       color: Color(0xFF954535),
+                          //       isSelected: true,
+                          //     ),
+                          //     ColorSelectionCard(t5
+                          //       color: Color(0xFF7B3F00),
+                          //     ),
+                          //     ColorSelectionCard(
+                          //       color: Color(0xFFD27D2D),
+                          //     ),
+                          //     ColorSelectionCard(
+                          //       color: Color(0xFF6F4E37),
+                          //     ),
+                          //     ColorSelectionCard(color: Color(0xFF954535)),
+                          //   ],
+                          // ),
+                          const SizedBox(height: 10),
+                        ],
+                      ),
                     ),
                   ),
                   Container(

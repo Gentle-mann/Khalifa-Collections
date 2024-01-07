@@ -5,16 +5,18 @@ import 'package:seed/src/colors.dart';
 import 'package:seed/src/size_setup.dart';
 
 class AccountDetailsCard extends StatelessWidget {
-  const AccountDetailsCard(
-      {super.key,
-      required this.accountNumber,
-      required this.bankIcon,
-      required this.bankName,
-      required this.accountName,
-      this.isStanbic = false});
+  const AccountDetailsCard({
+    super.key,
+    required this.accountNumber,
+    required this.bankIcon,
+    required this.bankName,
+    required this.accountName,
+    this.isStanbic = false,
+    this.isOpay = false,
+  });
   final String accountNumber;
   final String bankIcon, bankName, accountName;
-  final bool isStanbic;
+  final bool isStanbic, isOpay;
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +47,10 @@ class AccountDetailsCard extends StatelessWidget {
               title: 'Bank',
               subtitle: bankName,
               iconHeight: isStanbic ? rSize * 8 : rSize * 3,
+              colorFilter: isOpay
+                  ? const ColorFilter.mode(
+                      AppColors.kLightPrimary, BlendMode.srcIn)
+                  : null,
             ),
             const Divider(),
             AccountDetailsInfo(

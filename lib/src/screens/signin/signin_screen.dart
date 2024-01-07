@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:seed/src/provider/app_state_provider.dart';
 
 import '../../app_components/header_text.dart';
-import '../../app_components/social_media_card.dart';
 import '../../app_components/underlined_text.dart';
 import '../../size_setup.dart';
 import 'components/signin_form.dart';
@@ -25,7 +24,7 @@ class SignInScreen extends StatelessWidget {
           child: Column(
             children: [
               const HeaderText('Sign In'),
-              const Text('Hello, welcome back. You\'ve been missed! 😊'),
+              const Text('Hello, welcome back. We\'ve missed you! 😊'),
               SizedBox(height: rSize * 3),
               const SignInForm(),
               // SizedBox(height: rSize * 5),

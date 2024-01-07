@@ -1,3 +1,34 @@
 [
-    
+    {
+        "name": "Nike Slippers",
+        "title": "Double reinforce Nike Slippers",
+        "description": "You've seen the picture, and you love what you see. Order one today!",       
+        "category": "Unisex",
+        "subCategory": "Shoes",
+        "subSubCategory": "Slippers",
+        "price": "5,000.00",
+        "imageUrl": [
+            "https://res.cloudinary.com/dxjimzdsw/image/upload/v1702854955/kc/uon24ghcwhrj5cs341wi.jpg"
+            ],
+        "sizes": [
+                {
+                    "size": "39", "isSelected": false
+                },
+                {
+                    "size": "40", "isSelected": false
+                },
+                {
+                    "size": "41",
+                    "isSelected": false
+                },
+                {
+                    "size": "42",
+                    "isSelected": false
+                },
+                {
+                    "size": "43",
+                    "isSelected": false
+                }
+            ]
+        }
 ]

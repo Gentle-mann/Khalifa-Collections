@@ -60,7 +60,8 @@ class ProductsService {
     var response = await client.get(url);
     if (response.statusCode == 200) {
       final products = productsFromJson(response.body);
-      var maleProducts = products.where((element) => element.category == 'Men');
+      var maleProducts = products.where((element) =>
+          element.category == 'Men' || element.category == 'Unisex');
       return maleProducts.toList();
     } else {
       throw Exception('Failed to get products');
@@ -72,8 +73,8 @@ class ProductsService {
     var response = await client.get(url);
     if (response.statusCode == 200) {
       final products = productsFromJson(response.body);
-      var maleProducts =
-          products.where((element) => element.category == 'Women');
+      var maleProducts = products.where((element) =>
+          element.category == 'Women' || element.category == 'Unisex');
       return maleProducts.toList();
     } else {
       throw Exception('Failed to get products');

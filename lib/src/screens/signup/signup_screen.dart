@@ -17,9 +17,10 @@ class SignUpScreen extends StatelessWidget {
     final rSize = SizeSetup.rSize!;
     return Scaffold(
       body: Padding(
-        padding: EdgeInsets.symmetric(
-          horizontal: rSize * 2,
-          vertical: rSize * 5,
+        padding: EdgeInsets.only(
+          right: rSize * 2,
+          left: rSize * 2,
+          top: rSize * 5,
         ),
         child: SingleChildScrollView(
           child: Column(
@@ -43,24 +44,24 @@ class SignUpScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: rSize * 2),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SocialMediaCard(
-                    'assets/icons/apple.svg',
-                    onTap: () {},
-                  ),
-                  SocialMediaCard(
-                    'assets/icons/google.svg',
-                    onTap: () {},
-                  ),
-                  SocialMediaCard(
-                    'assets/icons/facebook.svg',
-                    onTap: () {},
-                  ),
-                ],
-              ),
+              // SizedBox(height: rSize * 2),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   children: [
+              //     SocialMediaCard(
+              //       'assets/icons/apple.svg',
+              //       onTap: () {},
+              //     ),
+              //     SocialMediaCard(
+              //       'assets/icons/google.svg',
+              //       onTap: () {},
+              //     ),
+              //     SocialMediaCard(
+              //       'assets/icons/facebook.svg',
+              //       onTap: () {},
+              //     ),
+              //   ],
+              // ),
               SizedBox(height: rSize * 2),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,

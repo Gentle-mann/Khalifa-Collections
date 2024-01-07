@@ -106,4 +106,12 @@ class AppStateProvider extends ChangeNotifier {
   void setHomePage(int page) {
     _homePage = page;
   }
+
+  void logoutUser() {
+    _hasOnboarded = false;
+    _isRegistered = false;
+    _isLoggedIn = false;
+    _homePage = 0;
+    notifyListeners();
+  }
 }

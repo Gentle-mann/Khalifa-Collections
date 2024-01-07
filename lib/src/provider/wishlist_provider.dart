@@ -41,6 +41,7 @@ class WishlistProvider extends ChangeNotifier {
     _favorites = favData.toList();
     //_ids = ;
     setIds(_favorites.map((item) => item["id"].toString()).toList());
+    notifyListeners();
     return _favorites;
   }
 

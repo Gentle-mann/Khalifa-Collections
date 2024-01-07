@@ -19,11 +19,11 @@ class Categories extends StatefulWidget {
 class _CategoriesState extends State<Categories> {
   int selectedIndex = 0;
   final List<String> categories = [
-    'Newest',
+    'All',
     'Affordable',
     'Exclusive',
     'Most Popular',
-    'All',
+    'Newest',
     'Men',
     'Women',
   ];

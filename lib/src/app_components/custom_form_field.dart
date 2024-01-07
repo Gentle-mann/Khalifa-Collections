@@ -91,26 +91,27 @@ class PasswordField extends StatelessWidget {
     return Consumer<AuthValidationProvider>(
         builder: (context, authProvider, child) {
       return CustomFormField(
-          obscureText: true,
-          hintText: 'Enter your password',
-          title: 'Password',
-          textInputType: TextInputType.visiblePassword,
-          onChanged: (password) {
-            authProvider.onPasswordChangedOrSaved(password);
-          },
-          validator: (password) {
-            if (password!.length < 6) {
-              return 'Password needs to be at least 6 characters';
-            }
-            return null;
-          },
-          onSaved: (password) {
-            authProvider.onPasswordChangedOrSaved(password!);
-          },
-          suffixIcon: IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.visibility_off),
-          ));
+        obscureText: true,
+        hintText: 'Enter your password',
+        title: 'Password',
+        textInputType: TextInputType.visiblePassword,
+        onChanged: (password) {
+          authProvider.onPasswordChangedOrSaved(password);
+        },
+        validator: (password) {
+          if (password!.length < 6) {
+            return 'Password needs to be at least 6 characters';
+          }
+          return null;
+        },
+        onSaved: (password) {
+          authProvider.onPasswordChangedOrSaved(password!);
+        },
+        // suffixIcon: IconButton(
+        //   onPressed: () {},
+        //   icon: const Icon(Icons.visibility_off),
+        // ),
+      );
     });
   }
 }

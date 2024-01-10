@@ -78,7 +78,7 @@ class _SignInFormState extends State<SignInForm> {
                         if (signInResponse) {
                           Provider.of<AppStateProvider>(context, listen: false)
                               .login();
-                          AppCache().registerUser();
+                          AppCache.registerUser();
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(

@@ -5,14 +5,13 @@ import 'package:seed/src/models/signup_model.dart';
 import 'package:seed/src/services/auth_service.dart';
 
 class AuthProvider extends ChangeNotifier {
-  final appCache = AppCache();
   bool _isLoading = false;
   String _selectedAddress = '';
   String get selectedAddress => _selectedAddress;
   final List<String> _deliveryAddresses = [];
   List<String> get deliveryAddresses => _deliveryAddresses;
-  String _phoneNumber = '';
-  String get phoneNumber => _phoneNumber;
+  //String _phoneNumber = '';
+  //String get phoneNumber => _phoneNumber;
 
   void selectAddress(newAddress) {
     _selectedAddress = newAddress;
@@ -22,21 +21,21 @@ class AuthProvider extends ChangeNotifier {
 
   void addAddress(String newAddress) {
     deliveryAddresses.add(newAddress);
-    appCache.saveAddressList(deliveryAddresses);
+    AppCache.saveAddressList(deliveryAddresses);
     notifyListeners();
   }
 
   void removeAddress(String newAddress) {
     deliveryAddresses.removeWhere((element) => element == newAddress);
-    appCache.saveAddressList(deliveryAddresses);
+    AppCache.saveAddressList(deliveryAddresses);
     notifyListeners();
   }
-
-  void savePhoneNumber(String phoneNumber) {
-    _phoneNumber = phoneNumber;
-    appCache.savePhone(phoneNumber);
-    notifyListeners();
-  }
+ 
+  // void savePhoneNumber(String phoneNumber) {
+  //   _phoneNumber = phoneNumber;
+  //   AppCache.savePhone(phoneNumber);
+  //   notifyListeners();
+  // }
 
   bool get isLoading {
     return _isLoading;
@@ -72,7 +71,7 @@ class AuthProvider extends ChangeNotifier {
     final response = await AuthService().signIn(signInModel);
     setLoginResponse(response);
     _isLoading = false;
-    final isUserLoggedIn = await appCache.isUserLoggedIn();
+    final isUserLoggedIn = await AppCache.isUserLoggedIn();
     toggleUserLoggedIn(isUserLoggedIn);
     notifyListeners();
     return loginResponse;

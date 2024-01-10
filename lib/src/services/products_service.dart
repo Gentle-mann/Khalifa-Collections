@@ -34,7 +34,7 @@ class ProductsService {
       final products = productsFromJson(response.body);
 
       return products.where((element) {
-        return double.parse(element.price.replaceAll(',', '')) < 6000;
+        return double.parse(element.price.replaceAll(',', '')) < 6001;
       }).toList();
     } else {
       throw Exception('Failed to get products');

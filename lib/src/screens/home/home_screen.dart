@@ -125,6 +125,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     SizeSetup().setReferenceSizes(context);
     final tab = Provider.of<AppStateProvider>(context).homePage;
+
     return Scaffold(
       body: SafeArea(
         child: IndexedStack(

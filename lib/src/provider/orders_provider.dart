@@ -8,6 +8,9 @@ class OrdersProvider extends ChangeNotifier {
   List<Map<String, dynamic>> get orders => _orders;
   List<String> get ids => _ids;
   Box<dynamic> get orderBox => _ordersBox;
+  Future<void> initialize() async {
+    getOrders();
+  }
 
   Future<void> createOrder(List<Map<String, dynamic>> newOrder) async {
     for (var i = 0; i < newOrder.length; i++) {
@@ -15,6 +18,7 @@ class OrdersProvider extends ChangeNotifier {
         await _ordersBox.add(newOrder[i]);
         _ids.add(newOrder[i]["id"]);
       }
+
       getOrders();
     }
 
@@ -45,7 +49,7 @@ class OrdersProvider extends ChangeNotifier {
     }).toList();
 
     _orders = ordersData.reversed.toList();
-    //notifyListeners();
+    notifyListeners();
   }
 
   Future<void> deleteOrder(int key, String id) async {

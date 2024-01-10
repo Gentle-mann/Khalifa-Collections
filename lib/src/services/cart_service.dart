@@ -8,11 +8,10 @@ import '../models/cart_products.dart';
 import 'config.dart';
 
 class CartService {
-  var appCache = AppCache();
   var client = https.Client();
 
   Future<bool> addToCart(AddToCartModel addToCartModel) async {
-    final userToken = await appCache.getUserToken();
+    final userToken = await AppCache.getUserToken();
     Map<String, String> requestHeaders = {
       'Content-Type': 'application/json',
       'token': 'Bearer $userToken',
@@ -32,7 +31,7 @@ class CartService {
   }
 
   Future<List<CartProduct>> getCart() async {
-    final userToken = await appCache.getUserToken();
+    final userToken = await AppCache.getUserToken();
     Map<String, String> requestHeaders = {
       'Content-Type': 'application/json',
       'token': 'Bearer $userToken'
@@ -57,7 +56,7 @@ class CartService {
   }
 
   Future<void> deleteCartItem(String id) async {
-    final userToken = await appCache.getUserToken();
+    final userToken = await AppCache.getUserToken();
     Map<String, String> requestHeaders = {
       'Content-Type': 'application/json',
       'token': 'Bearer $userToken'

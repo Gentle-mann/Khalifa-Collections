@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:seed/src/app_cache/app_cache.dart';
+import 'package:seed/src/provider/orders_provider.dart';
+import 'package:seed/src/provider/wishlist_provider.dart';
 
 class AppStateProvider extends ChangeNotifier {
-  final _appCache = AppCache();
   bool _isRegistered = false;
   bool _isLoggedIn = false;
   bool _hasOnboarded = false;
@@ -43,38 +44,38 @@ class AppStateProvider extends ChangeNotifier {
 
   void addAddress(String newAddress) {
     deliveryAddresses.add(newAddress);
-    _appCache.saveAddressList(deliveryAddresses);
+    AppCache.saveAddressList(deliveryAddresses);
     notifyListeners();
   }
 
   void removeAddress(String newAddress) {
     deliveryAddresses.removeWhere((element) => newAddress == element);
-    _appCache.saveAddressList(deliveryAddresses);
+    AppCache.saveAddressList(deliveryAddresses);
     notifyListeners();
   }
 
   void savePhoneNumber(String phoneNumber) {
     _phoneNumber = phoneNumber;
-    _appCache.savePhone(phoneNumber);
+    AppCache.savePhone(phoneNumber);
     notifyListeners();
   }
 
   Future<void> initializeApp() async {
-    _isRegistered = await _appCache.isUserRegistered();
-    _isLoggedIn = await _appCache.isUserLoggedIn();
-    _hasOnboarded = await _appCache.hasUserOnboarded();
-    _isDarkMode = await _appCache.isDarkMode();
-    _homePage = await _appCache.getHomePage();
-    _deliveryAddresses = await _appCache.getAddressList();
-    _phoneNumber = await _appCache.getPhone();
+    _isRegistered = await AppCache.isUserRegistered();
+    _isLoggedIn = await AppCache.isUserLoggedIn();
+    _hasOnboarded = await AppCache.hasUserOnboarded();
+    _isDarkMode = await AppCache.isDarkMode();
+    _homePage = await AppCache.getHomePage();
+    _deliveryAddresses = await AppCache.getAddressList();
+    // _phoneNumber = await _appCache.getPhone();
     final dir = await getApplicationDocumentsDirectory();
     Hive.init(dir.path);
-    favIds = await _appCache.getFavIds();
 
     await Hive.openBox('favc');
-    //_appCache.getFavBox();
+
     await Hive.openBox('orders');
-    // _appCache.getOrdersBox();
+    WishlistProvider().initialize();
+    await OrdersProvider().initialize();
   }
 
   bool get hasOnboarded {
@@ -93,13 +94,13 @@ class AppStateProvider extends ChangeNotifier {
 
   void onboard() {
     _hasOnboarded = true;
-    _appCache.onboardUser();
+    AppCache.onboardUser();
     notifyListeners();
   }
 
   void toggleDarkMode(bool newState) {
     _isDarkMode = newState;
-    _appCache.setDarkMode(_isDarkMode);
+    AppCache.setDarkMode(_isDarkMode);
     notifyListeners();
   }
 

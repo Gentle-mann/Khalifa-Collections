@@ -11,7 +11,6 @@ import 'config.dart';
 
 class AuthService {
   var client = https.Client();
-  var appCache = AppCache();
   Future<bool> signIn(SignInModel signInModel) async {
     Map<String, String> requestHeaders = {
       'Content-Type': 'application/json',
@@ -24,9 +23,9 @@ class AuthService {
       final userId = loginResponseModelFromJson(response.body).id;
       final userToken = loginResponseModelFromJson(response.body).token;
 
-      await appCache.saveUserToken(userToken);
-      await appCache.saveUserId(userId);
-      await appCache.loginUser();
+      await AppCache.saveUserToken(userToken);
+      await AppCache.saveUserId(userId);
+      await AppCache.loginUser();
       return true;
     } else {
       return false;
@@ -50,7 +49,7 @@ class AuthService {
   }
 
   Future<ProfileResponseModel> getUserProfile() async {
-    final userToken = await appCache.getUserToken();
+    final userToken = await AppCache.getUserToken();
     Map<String, String> requestHeaders = {
       'Content-Type': 'application/json',
       'token': 'Bearer $userToken'

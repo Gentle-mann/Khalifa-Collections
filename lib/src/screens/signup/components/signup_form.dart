@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:seed/src/provider/app_state_provider.dart';
 
 import '../../../app_components/app_components.dart';
-import '../../../colors.dart';
 import '../../../models/signup_model.dart';
 import '../../../provider/auth_provider.dart';
 import '../../../provider/auth_validation_provider.dart';

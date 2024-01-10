@@ -1,26 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:seed/src/app_cache/app_cache.dart';
 
 class WishlistProvider extends ChangeNotifier {
-  final _appCache = AppCache();
   final favBox = Hive.box('favc');
   List<dynamic> _favorites = [];
   List<dynamic> _fav = [];
-  List<dynamic> _ids = [];
-  List<dynamic> get ids {
+  List<String> _ids = [];
+  List<String> get ids {
     return _ids;
   }
 
-  Future<void> initializeApp() async {
-    _ids = await _appCache.getFavIds();
-    notifyListeners();
+  void initialize() {
+    getFavorites();
   }
 
   void setIds(List<String> newIds) async {
     _ids = newIds;
-    _appCache.setFavIds(newIds);
-    notifyListeners();
   }
 
   List<dynamic> get favorites => _favorites;
@@ -39,7 +34,7 @@ class WishlistProvider extends ChangeNotifier {
       };
     }).toList();
     _favorites = favData.toList();
-    //_ids = ;
+
     setIds(_favorites.map((item) => item["id"].toString()).toList());
     notifyListeners();
     return _favorites;
@@ -75,6 +70,7 @@ class WishlistProvider extends ChangeNotifier {
       };
     }).toList();
     _fav = favData.reversed.toList();
+    setIds(_favorites.map((item) => item["id"].toString()).toList());
 
     return _fav;
   }

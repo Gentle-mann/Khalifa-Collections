@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:seed/src/app_theme/dark_theme.dart';
@@ -17,10 +18,18 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final appStateProvider = AppStateProvider();
   await appStateProvider.initializeApp();
+  if (!kIsWeb) {
+    final wishlistProvider = WishlistProvider();
+    wishlistProvider.initialize();
+    final ordersProvider = OrdersProvider();
+    ordersProvider.initialize();
+  }
 
   runApp(
     Seed(
       appStateProvider: appStateProvider,
+      wishlistProvider: wishlistProvider,
+      ordersProvider: ordersProvider,
     ),
   );
 }
@@ -29,8 +38,12 @@ class Seed extends StatefulWidget {
   const Seed({
     super.key,
     required this.appStateProvider,
+    required this.wishlistProvider,
+    required this.ordersProvider,
   });
   final AppStateProvider appStateProvider;
+  final WishlistProvider wishlistProvider;
+  final OrdersProvider ordersProvider;
 
   @override
   State<Seed> createState() => _SeedState();
@@ -47,8 +60,8 @@ class _SeedState extends State<Seed> {
           ChangeNotifierProvider(create: (context) => AuthValidationProvider()),
           ChangeNotifierProvider(create: (context) => AuthProvider()),
           ChangeNotifierProvider(create: (context) => CartProvider()),
-          ChangeNotifierProvider(create: (context) => WishlistProvider()),
-          ChangeNotifierProvider(create: (context) => OrdersProvider()),
+          ChangeNotifierProvider(create: (context) => widget.wishlistProvider),
+          ChangeNotifierProvider(create: (context) => widget.ordersProvider),
           ChangeNotifierProvider(create: (context) => CategoriesProvider()),
           ChangeNotifierProvider(create: (context) => LaunchLinkProvider()),
         ],

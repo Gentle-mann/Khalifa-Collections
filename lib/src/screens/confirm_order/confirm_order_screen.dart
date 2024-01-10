@@ -120,6 +120,12 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                 bankName: 'MoniePoint',
                 accountName: 'Khalifa Boutiquee',
               ),
+              ElevatedButton(
+                onPressed: () {
+                  context.goNamed('payment');
+                },
+                child: const Text('Use another account number'),
+              ),
               SizedBox(
                 height: rSize,
               ),

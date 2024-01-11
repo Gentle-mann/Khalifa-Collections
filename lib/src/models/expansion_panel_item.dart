@@ -53,13 +53,13 @@ class ContactUsItem {
   static final contactItems = [
     ContactUsItem(
       header: 'Customer Service',
-      body: '+2349033696162',
+      body: 'https://wa.me/2349033696162',
       icon: 'assets/icons/customer_service.svg',
       isExpanded: false,
     ),
     ContactUsItem(
       header: 'WhatsApp',
-      body: '+2349033696162',
+      body: 'https://wa.me/2349033696162',
       icon: 'assets/icons/whatsapp.svg',
       isExpanded: true,
     ),
@@ -71,7 +71,7 @@ class ContactUsItem {
     // ),
     ContactUsItem(
       header: 'Instagram',
-      body: 'https://www.instagram.com/khalifa_boutique1/',
+      body: 'https://www.instagram.com/khalifa_collections_official/',
       icon: 'assets/icons/instagram.svg',
       isExpanded: false,
     ),

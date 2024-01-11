@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:seed/src/colors.dart';
 import 'package:seed/src/size_setup.dart';
+import 'package:seed/src/core/utils/snackbar.dart';
 
 class AccountDetailsCard extends StatelessWidget {
   const AccountDetailsCard({
@@ -68,6 +69,11 @@ class AccountDetailsCard extends StatelessWidget {
               onPressed: () async {
                 await Clipboard.setData(
                   ClipboardData(text: accountNumber),
+                ).then(
+                  (_) => ShowSnackBar.showSnackBar(
+                    'Account Number copied successfully!',
+                    context,
+                  ),
                 );
               },
               child: const Text('Copy Account Number'),

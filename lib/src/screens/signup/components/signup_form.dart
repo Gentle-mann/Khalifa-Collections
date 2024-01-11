@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:seed/src/provider/app_state_provider.dart';
 
@@ -7,6 +8,7 @@ import '../../../models/signup_model.dart';
 import '../../../provider/auth_provider.dart';
 import '../../../provider/auth_validation_provider.dart';
 import '../../../size_setup.dart';
+import '../../../core/utils/snackbar.dart';
 
 class SignUpForm extends StatefulWidget {
   const SignUpForm({super.key});
@@ -37,6 +39,8 @@ class _SignUpFormState extends State<SignUpForm> {
               return CustomButton(
                 title: 'Sign up',
                 onPressed: () async {
+                  print(
+                      'pass: ${authValidationProvider.password} and confpass: ${authValidationProvider.confirmPassword}, email: ${authValidationProvider.email}, username: ${authValidationProvider.username}');
                   if (_formKey.currentState!.validate()) {
                     _formKey.currentState!.save();
                     final signUpModel = SignUpModel(
@@ -50,11 +54,16 @@ class _SignUpFormState extends State<SignUpForm> {
                       if (signUpResponse) {
                         Provider.of<AppStateProvider>(context, listen: false)
                             .register(true);
+
+                        Provider.of<AuthValidationProvider>(context,
+                                listen: false)
+                            .onEmailSaved(authValidationProvider.email);
+
+                        context.goNamed('sign-in');
                       } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Yo! sign up fail'),
-                          ),
+                        ShowSnackBar.showSnackBar(
+                          'Sign up not successful',
+                          context,
                         );
                       }
                     });

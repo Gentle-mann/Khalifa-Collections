@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:seed/src/provider/app_state_provider.dart';
 
@@ -13,8 +14,9 @@ class SignOutConfirmation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final rSize = SizeSetup.rSize!;
+
     return Container(
-      height: SizeSetup.height! * 0.25,
+      height: SizeSetup.height! * 0.5,
       padding: EdgeInsets.only(
         top: rSize * 4,
         right: rSize * 2,
@@ -49,6 +51,7 @@ class SignOutConfirmation extends StatelessWidget {
                   onPressed: () {
                     Provider.of<AppStateProvider>(context, listen: false)
                         .logoutUser();
+                    context.pushReplacementNamed('sign-in');
                   },
                   child: const Text('Yes'),
                 ),

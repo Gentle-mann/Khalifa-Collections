@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
+import 'package:seed/src/provider/launch_link_provider.dart';
 
 import '../../colors.dart';
 import '../../models/expansion_panel_item.dart';
@@ -78,10 +80,19 @@ class _ContactUsTabState extends State<ContactUsTab> {
               ),
               SizedBox(width: rSize * 0.8),
               Expanded(
-                child: Text(
-                  item.body,
-                  maxLines: null,
-                  style: const TextStyle(decoration: TextDecoration.underline),
+                child: GestureDetector(
+                  onTap: () {
+                    Provider.of<LaunchLinkProvider>(context, listen: false)
+                        .launchLink(
+                      Uri.parse(item.body),
+                    );
+                  },
+                  child: Text(
+                    item.body,
+                    maxLines: null,
+                    style:
+                        const TextStyle(decoration: TextDecoration.underline),
+                  ),
                 ),
               ),
             ],

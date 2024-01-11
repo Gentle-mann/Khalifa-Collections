@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:seed/src/app_cache/app_cache.dart';
@@ -11,11 +12,22 @@ class AppStateProvider extends ChangeNotifier {
   bool _hasOnboarded = false;
   bool _isDarkMode = false;
   int _homePage = 0;
+  String _userEmail = '';
   List<dynamic> favIds = [];
 
   bool get isRegistered {
     return _isRegistered;
   }
+
+  String get userEmail => _userEmail;
+  // void saveUserEmail(String email) {
+  //   _userEmail = email;
+  //   AppCache.saveUserEmail(_userEmail);
+  // }
+
+  // void getUserEmail() async {
+  //   _userEmail = await AppCache.getUserEmail();
+  // }
 
   int get homePage {
     return _homePage;
@@ -68,14 +80,12 @@ class AppStateProvider extends ChangeNotifier {
     _homePage = await AppCache.getHomePage();
     _deliveryAddresses = await AppCache.getAddressList();
     // _phoneNumber = await _appCache.getPhone();
-    final dir = await getApplicationDocumentsDirectory();
-    Hive.init(dir.path);
+    // final dir = await getApplicationDocumentsDirectory();
+    // Hive.init(dir.path);
 
     await Hive.openBox('favc');
 
     await Hive.openBox('orders');
-    WishlistProvider().initialize();
-    await OrdersProvider().initialize();
   }
 
   bool get hasOnboarded {
@@ -113,6 +123,7 @@ class AppStateProvider extends ChangeNotifier {
     _isRegistered = false;
     _isLoggedIn = false;
     _homePage = 0;
+
     notifyListeners();
   }
 }

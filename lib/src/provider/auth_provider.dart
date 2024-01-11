@@ -19,6 +19,10 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void saveAddress(List<String> addressList) {
+    AppCache.saveAddressList(addressList);
+  }
+
   void addAddress(String newAddress) {
     deliveryAddresses.add(newAddress);
     AppCache.saveAddressList(deliveryAddresses);
@@ -30,7 +34,7 @@ class AuthProvider extends ChangeNotifier {
     AppCache.saveAddressList(deliveryAddresses);
     notifyListeners();
   }
- 
+
   // void savePhoneNumber(String phoneNumber) {
   //   _phoneNumber = phoneNumber;
   //   AppCache.savePhone(phoneNumber);

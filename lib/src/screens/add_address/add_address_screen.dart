@@ -43,6 +43,8 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                     onPressed: () {
                       if (address.isNotEmpty) {
                         authProvider.addAddress(address);
+                        authProvider
+                            .saveAddress(authProvider.deliveryAddresses);
                       }
                       setState(() {
                         address = '';
@@ -67,6 +69,8 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                                 trailing: IconButton(
                                   onPressed: () {
                                     authProvider.removeAddress(e);
+                                    authProvider.saveAddress(
+                                        authProvider.deliveryAddresses);
                                   },
                                   icon: const Icon(Icons.delete),
                                   color: Colors.red,

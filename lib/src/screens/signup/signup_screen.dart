@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../app_components/app_components.dart';
@@ -28,7 +29,7 @@ class SignUpScreen extends StatelessWidget {
               const HeaderText('Sign Up'),
               SizedBox(height: rSize),
               const Text(
-                'Fill in the information below or register with any of your social media accounts',
+                'We\'re so excited to have you! 😄\nFill in the information below to register 👇🏿',
               ),
               SizedBox(height: rSize * 2),
               const SignUpForm(),
@@ -73,6 +74,7 @@ class SignUpScreen extends StatelessWidget {
                     onTap: () {
                       Provider.of<AppStateProvider>(context, listen: false)
                           .register(true);
+                      context.goNamed('sign-in');
                     },
                   ),
                 ],

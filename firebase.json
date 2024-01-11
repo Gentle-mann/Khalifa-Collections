@@ -1,0 +1,10 @@
+{
+  "hosting": {
+    "public": "khalifacollections",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}

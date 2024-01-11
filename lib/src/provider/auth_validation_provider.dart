@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:seed/src/app_cache/app_cache.dart';
 
 class AuthValidationProvider extends ChangeNotifier {
   String _username = '';
@@ -43,6 +44,7 @@ class AuthValidationProvider extends ChangeNotifier {
 
   void onEmailSaved(String email) {
     _email = email;
+    AppCache.saveUserEmail(_email);
     notifyListeners();
   }
 
@@ -58,5 +60,6 @@ class AuthValidationProvider extends ChangeNotifier {
 
   void toggleRememberMe(bool value) {
     _rememberMe = value;
+    notifyListeners();
   }
 }

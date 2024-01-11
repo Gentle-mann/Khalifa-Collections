@@ -43,7 +43,7 @@ class _ClothSaleState extends State<ClothSale> {
           } else if (snapshot.hasError) {
             return Center(
               child: Text(
-                'Error Found: Poor connection or no internet',
+                'Error Found: Poor connection or no internet. %${snapshot.error}',
                 style: TextStyle(
                   fontSize: rSize * 2,
                 ),
@@ -54,25 +54,27 @@ class _ClothSaleState extends State<ClothSale> {
               child: Text('No data'),
             );
           } else {
-            return Expanded(
-              child: GridView.builder(
-                  itemCount: snapshot.data!.length,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: rSize,
-                      mainAxisSpacing: rSize),
-                  itemBuilder: ((context, index) {
-                    return GestureDetector(
-                      onTap: () {
-                        final parameters = snapshot.data![index];
-                        context.goNamed('details', extra: parameters);
-                      },
-                      child: ClothSaleCard(
-                        product: snapshot.data![index],
-                      ),
-                    );
-                  })),
-            );
+            return GridView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                primary: false,
+                itemCount: snapshot.data!.length,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount:
+                        MediaQuery.of(context).size.width > 600 ? 4 : 2,
+                    crossAxisSpacing: rSize,
+                    mainAxisSpacing: rSize),
+                itemBuilder: ((context, index) {
+                  return GestureDetector(
+                    onTap: () {
+                      final parameters = snapshot.data![index];
+                      context.goNamed('details', extra: parameters);
+                    },
+                    child: ClothSaleCard(
+                      product: snapshot.data![index],
+                    ),
+                  );
+                }));
           }
         });
   }

@@ -17,13 +17,15 @@ import 'src/provider/cart_provider.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final appStateProvider = AppStateProvider();
+
   await appStateProvider.initializeApp();
-  if (!kIsWeb) {
-    final wishlistProvider = WishlistProvider();
-    wishlistProvider.initialize();
-    final ordersProvider = OrdersProvider();
-    ordersProvider.initialize();
-  }
+
+  final wishlistProvider = WishlistProvider();
+
+  final ordersProvider = OrdersProvider();
+
+  wishlistProvider.initialize();
+  ordersProvider.initialize();
 
   runApp(
     Seed(

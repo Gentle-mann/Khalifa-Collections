@@ -43,6 +43,7 @@ class _WishlistTabState extends State<WishlistTab> {
                   itemCount: wishlistProvider.getAllData().length,
                   itemBuilder: ((context, index) {
                     final favorites = wishlistProvider.getAllData()[index];
+
                     return GestureDetector(
                       onTap: () {
                         final product = Products(

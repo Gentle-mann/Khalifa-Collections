@@ -5,6 +5,7 @@ class AppCache {
   static const kRegister = 'register';
   static const kPage = 'page';
   static const kLogin = 'login';
+  static const kEmail = 'email';
   static const kOnboard = 'onboard';
   static const kUserToken = 'userToken';
   static const kUserId = 'userId';
@@ -19,6 +20,16 @@ class AppCache {
   static Future<void> saveAddressList(List<String> addressList) async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setStringList(kAddressList, addressList);
+  }
+
+  static Future<void> saveUserEmail(String email) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString(kEmail, email);
+  }
+
+  static Future<String> getUserEmail() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(kEmail) ?? '';
   }
 
   static Future<List<String>> getAddressList() async {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:seed/src/app_components/standard_bold_text.dart';
+import 'package:seed/src/core/responsive/responsive.dart';
 
 import 'package:seed/src/models/profile.dart';
 import 'package:seed/src/services/auth_service.dart';

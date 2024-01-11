@@ -60,7 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
               index: 0,
             ),
             buildNavBarItem(
-              icon: 'assets/icons/bag_filled.svg',
+              icon: 'assets/icons/bag.svg',
               onTap: () {
                 goToTab(1);
               },

@@ -39,10 +39,10 @@ class CustomFormField extends StatelessWidget {
           TextFormField(
             style: TextStyle(fontSize: rSize * 1.5),
             onSaved: onSaved,
-            onChanged: onChanged,
             validator: validator,
             autocorrect: false,
             keyboardType: textInputType,
+            onChanged: onChanged,
             decoration: InputDecoration(
               hintText: hintText,
               floatingLabelBehavior: FloatingLabelBehavior.auto,
@@ -97,6 +97,7 @@ class PasswordField extends StatelessWidget {
         textInputType: TextInputType.visiblePassword,
         onChanged: (password) {
           authProvider.onPasswordChangedOrSaved(password);
+          print(' password: ${authProvider.password}');
         },
         validator: (password) {
           if (password!.length < 6) {
@@ -128,6 +129,7 @@ class ConfirmPasswordField extends StatelessWidget {
         title: 'Confirm password',
         onSaved: (confirmPassword) {
           authProvider.onConfirmPasswordChangedOrSaved(confirmPassword!);
+          print('confirm password: ${authProvider.confirmPassword}');
         },
         validator: (confirmPassword) {
           if (confirmPassword != authProvider.password) {

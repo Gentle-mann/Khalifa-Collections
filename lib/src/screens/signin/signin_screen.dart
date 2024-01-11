@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:seed/src/provider/app_state_provider.dart';
 
@@ -14,6 +15,7 @@ class SignInScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     SizeSetup().setReferenceSizes(context);
     final rSize = SizeSetup.rSize!;
+
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.symmetric(
@@ -67,7 +69,7 @@ class SignInScreen extends StatelessWidget {
                     onTap: () {
                       Provider.of<AppStateProvider>(context, listen: false)
                           .register(false);
-                      //context.goNamed('/signin');
+                      context.goNamed('/signup');
                     },
                   ),
                 ],

@@ -1,8 +1,10 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:seed/src/models/cart_products.dart';
 import 'package:seed/src/models/products_model.dart';
 import 'package:seed/src/provider/app_state_provider.dart';
+import 'package:seed/src/screens/guest/guest_screen.dart';
 import 'package:seed/src/screens/help_center/help_center_screen.dart';
 import 'package:seed/src/screens/payment_methods/payment_methods_screen.dart';
 import 'package:seed/src/screens/profile_completion/components/profile_completion_form.dart';
@@ -37,27 +39,7 @@ class AppRouter {
     ),
     routes: [
       GoRoute(
-        path: '/welcome',
-        name: WelcomeScreen.routeName,
-        builder: (context, state) => const WelcomeScreen(),
-      ),
-      GoRoute(
-        path: '/signup',
-        name: SignUpScreen.routeName,
-        builder: (context, state) => const SignUpScreen(),
-      ),
-      GoRoute(
         path: '/',
-        name: 'sign-in',
-        builder: (context, state) => const SignInScreen(),
-      ),
-      //ChangePasswordScreen.routeName: (context) => const ChangePasswordScreen(),
-      //VerifyOTPScreen.routeName: (context) => const VerifyOTPScreen(),
-      //ProfileCompletionScreen.routeName: (context) =>
-      // const ProfileCompletionScreen(),
-      //LocationRequestScreen.routeName: (context) => const LocationRequestScreen(),
-      GoRoute(
-        path: '/home',
         name: 'home',
         builder: (context, state) => const HomeScreen(),
         routes: [
@@ -104,42 +86,68 @@ class AppRouter {
         ],
       ),
       GoRoute(
-          path: '/confirm-order',
-          name: 'confirm-order',
-          builder: (context, state) {
-            final items = state.extra as List<CartProduct>;
-            return ConfirmOrderScreen(
-              checkoutItems: items,
-            );
-          },
-          routes: [
-            GoRoute(
-              path: 'add-address',
-              name: 'add-address',
-              builder: (context, state) => const AddAddressScreen(),
-            ),
-          ]),
-    ],
-    redirect: (context, state) {
-      final hasUserOnboarded = appStateProvider.hasOnboarded;
-      final isUserOnboarding = state.fullPath == '/welcome';
-      if (!hasUserOnboarded) {
-        return isUserOnboarding ? null : '/welcome';
-      }
-      final isRegistered = appStateProvider.isRegistered;
-      if (!isRegistered) {
-        return '/signup';
-      }
-      final isUserSignedIn = appStateProvider.isLoggedIn;
-      final isSigningIn = state.fullPath == '/';
+        path: '/welcome',
+        name: 'welcome',
+        builder: (context, state) => const WelcomeScreen(),
+      ),
+      GoRoute(
+        path: '/signup',
+        name: SignUpScreen.routeName,
+        builder: (context, state) => const SignUpScreen(),
+      ),
+      GoRoute(
+        path: '/sign-in',
+        name: 'sign-in',
+        builder: (context, state) => const SignInScreen(),
+      ),
+      //ChangePasswordScreen.routeName: (context) => const ChangePasswordScreen(),
+      //VerifyOTPScreen.routeName: (context) => const VerifyOTPScreen(),
+      //ProfileCompletionScreen.routeName: (context) =>
+      // const ProfileCompletionScreen(),
+      //LocationRequestScreen.routeName: (context) => const LocationRequestScreen(),
 
-      if (!isUserSignedIn) {
-        return isSigningIn ? null : '/';
-      }
-      if (isSigningIn || isUserOnboarding) {
-        return '/home';
-      }
-      return null;
-    },
+      GoRoute(
+        path: '/confirm-order',
+        name: 'confirm-order',
+        builder: (context, state) {
+          final items = state.extra as List<CartProduct>;
+          return ConfirmOrderScreen(
+            checkoutItems: items,
+          );
+        },
+        routes: [
+          GoRoute(
+            path: 'add-address',
+            name: 'add-address',
+            builder: (context, state) => const AddAddressScreen(),
+          ),
+        ],
+      ),
+      GoRoute(path: '/guest', builder: (context, state) => const GuestScreen()),
+    ],
+    // redirect: (context, state) {
+    //   if (!kIsWeb) {
+    //     final hasUserOnboarded = appStateProvider.hasOnboarded;
+    //     final isUserOnboarding = state.fullPath == '/welcome';
+    //     if (!hasUserOnboarded) {
+    //       return isUserOnboarding ? null : '/welcome';
+    //     }
+    //     final isRegistered = appStateProvider.isRegistered;
+    //     if (!isRegistered) {
+    //       return '/signup';
+    //     }
+    //     final isUserSignedIn = appStateProvider.isLoggedIn;
+    //     final isSigningIn = state.fullPath == '/';
+
+    //     if (!isUserSignedIn) {
+    //       return isSigningIn ? null : '/';
+    //     }
+    //     if (isSigningIn || isUserOnboarding) {
+    //       return '/home';
+    //     }
+    //     return null;
+    //   }
+    //   return null;
+    // },
   );
 }

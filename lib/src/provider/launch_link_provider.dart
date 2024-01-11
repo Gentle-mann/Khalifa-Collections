@@ -1,9 +1,10 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:whatsapp_share/whatsapp_share.dart';
 import 'package:whatsapp_unilink/whatsapp_unilink.dart';
 
-import '../utils/snackbar.dart';
+import '../core/utils/snackbar.dart';
 
 class LaunchLinkProvider extends ChangeNotifier {
   void showSnackBar(context) {
@@ -31,18 +32,27 @@ class LaunchLinkProvider extends ChangeNotifier {
     }
   }
 
-  shareOrderToWhatsApp(String message, Function showSnackBar) async {
-    final whatsappVal = await isWhatsAppInstalled();
-    final businessWhatsappVal = await isBusWhatsAppInstalled();
-    if (whatsappVal || businessWhatsappVal) {
-      final link = WhatsAppUnilink(
-        phoneNumber: '2349033696162',
-        text: message,
-      );
+  void launchLink(Uri link) async {
+    await launchUrl(link);
+  }
 
+  Future<void> shareOrderToWhatsApp(
+      String message, Function showSnackBar) async {
+    final link = WhatsAppUnilink(
+      phoneNumber: '2349033696162',
+      text: message,
+    );
+    if (kIsWeb) {
       await launchUrl(link.asUri());
     } else {
-      showSnackBar;
+      final whatsappVal = await isWhatsAppInstalled();
+      final businessWhatsappVal = await isBusWhatsAppInstalled();
+
+      if (whatsappVal || businessWhatsappVal) {
+        await launchUrl(link.asUri());
+      } else {
+        showSnackBar;
+      }
     }
   }
 }

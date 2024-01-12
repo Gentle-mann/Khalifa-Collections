@@ -125,26 +125,26 @@ class AppRouter {
       ),
       GoRoute(path: '/guest', builder: (context, state) => const GuestScreen()),
     ],
-    redirect: (context, state) {
-      final hasUserOnboarded = appStateProvider.hasOnboarded;
-      final isUserOnboarding = state.fullPath == '/welcome';
-      if (!hasUserOnboarded) {
-        return isUserOnboarding ? null : '/welcome';
-      }
-      final isRegistered = appStateProvider.isRegistered;
-      if (!isRegistered) {
-        return '/signup';
-      }
-      final isUserSignedIn = appStateProvider.isLoggedIn;
-      final isSigningIn = state.fullPath == '/sign-in';
+    // redirect: (context, state) {
+    //   final hasUserOnboarded = appStateProvider.hasOnboarded;
+    //   final isUserOnboarding = state.fullPath == '/welcome';
+    //   if (!hasUserOnboarded) {
+    //     return isUserOnboarding ? null : '/welcome';
+    //   }
+    //   final isRegistered = appStateProvider.isRegistered;
+    //   if (!isRegistered) {
+    //     return '/signup';
+    //   }
+    //   final isUserSignedIn = appStateProvider.isLoggedIn;
+    //   final isSigningIn = state.fullPath == '/sign-in';
 
-      if (!isUserSignedIn) {
-        return isSigningIn ? null : '/sign-in';
-      }
-      if (isSigningIn || isUserOnboarding) {
-        return '/';
-      }
-      return null;
-    },
+    //   if (!isUserSignedIn) {
+    //     return isSigningIn ? null : '/sign-in';
+    //   }
+    //   if (isSigningIn || isUserOnboarding) {
+    //     return '/';
+    //   }
+    //   return null;
+    // },
   );
 }

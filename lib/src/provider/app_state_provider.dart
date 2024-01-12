@@ -80,7 +80,6 @@ class AppStateProvider extends ChangeNotifier {
     _isDarkMode = await AppCache.isDarkMode();
     _homePage = await AppCache.getHomePage();
     _deliveryAddresses = await AppCache.getAddressList();
-    // _phoneNumber = await _appCache.getPhone();
     if (!kIsWeb) {
       final dir = await getApplicationDocumentsDirectory();
       Hive.init(dir.path);

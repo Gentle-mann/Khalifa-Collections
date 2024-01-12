@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:seed/src/provider/app_state_provider.dart';
+import 'package:seed/src/provider/auth_provider.dart';
 
 import '../../app_components/header_text.dart';
 import '../../app_components/underlined_text.dart';
@@ -69,6 +70,8 @@ class SignInScreen extends StatelessWidget {
                     onTap: () {
                       Provider.of<AppStateProvider>(context, listen: false)
                           .register(false);
+                      Provider.of<AuthProvider>(context, listen: false)
+                          .toggleLoading(false);
                       context.goNamed('/signup');
                     },
                   ),

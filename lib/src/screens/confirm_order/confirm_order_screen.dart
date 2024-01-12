@@ -59,50 +59,50 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                   const ScreenTitleRow(title: 'Confirm your Order'),
                   SizedBox(height: rSize * 2),
                   if (authProvider.deliveryAddresses.isNotEmpty)
-                    SizedBox(
-                      height: rSize * 15,
-                      child: ListView.builder(
-                          itemCount: authProvider.deliveryAddresses.length,
-                          itemBuilder: (context, index) {
-                            return CustomTextCard(
-                              child: Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      Checkbox(
-                                          value: authProvider.selectedAddress ==
+                    ListView.builder(
+                        shrinkWrap: true,
+                        primary: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: authProvider.deliveryAddresses.length,
+                        itemBuilder: (context, index) {
+                          return CustomTextCard(
+                            child: Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    Checkbox(
+                                        value: authProvider.selectedAddress ==
+                                            authProvider
+                                                .deliveryAddresses[index],
+                                        onChanged: (value) {
+                                          authProvider.selectAddress(
                                               authProvider
-                                                  .deliveryAddresses[index],
-                                          onChanged: (value) {
-                                            authProvider.selectAddress(
-                                                authProvider
-                                                    .deliveryAddresses[index]);
-                                          }),
-                                      SizedBox(width: rSize),
-                                      SvgPicture.asset(
-                                        'assets/icons/location.svg',
-                                        height: rSize * 2,
-                                      ),
-                                      SizedBox(
-                                        width: rSize,
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          authProvider.deliveryAddresses[index],
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                            fontSize: rSize * 1.5,
-                                            fontStyle: FontStyle.italic,
-                                          ),
+                                                  .deliveryAddresses[index]);
+                                        }),
+                                    SizedBox(width: rSize),
+                                    SvgPicture.asset(
+                                      'assets/icons/location.svg',
+                                      height: rSize * 2,
+                                    ),
+                                    SizedBox(
+                                      width: rSize,
+                                    ),
+                                    Expanded(
+                                      child: Text(
+                                        authProvider.deliveryAddresses[index],
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                          fontSize: rSize * 1.5,
+                                          fontStyle: FontStyle.italic,
                                         ),
                                       ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            );
-                          }),
-                    ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          );
+                        }),
                   CustomTextCard(
                     child: GestureDetector(
                       onTap: () {
@@ -136,20 +136,19 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                     'Orders',
                     style: TextStyle(fontSize: rSize * 2),
                   ),
-                  SizedBox(
-                    height: SizeSetup.height! * 0.33,
-                    child: ListView.builder(
-                      itemCount: widget.checkoutItems.length,
-                      primary: false,
-                      itemBuilder: (context, index) {
-                        final checkout = widget.checkoutItems[index];
-                        return CartItem(
-                          cartItem: checkout.cartItem,
-                          cartDeleteId: '',
-                          shouldDelete: false,
-                        );
-                      },
-                    ),
+                  ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    primary: true,
+                    itemCount: widget.checkoutItems.length,
+                    itemBuilder: (context, index) {
+                      final checkout = widget.checkoutItems[index];
+                      return CartItem(
+                        cartItem: checkout.cartItem,
+                        cartDeleteId: '',
+                        shouldDelete: false,
+                      );
+                    },
                   ),
                   CustomTextCard(
                     child: Text(

@@ -24,12 +24,12 @@ class _CartScreenState extends State<CartScreen> {
   bool selectAll = false;
   List<String> allIds = [];
 
-  // @override
-  // void didChangeDependencies() {
-  //   final cartProvider = Provider.of<CartProvider>(context);
-  //   cart = cartProvider.getCart();
-  //   super.didChangeDependencies();
-  // }
+  @override
+  void didChangeDependencies() {
+    final cartProvider = Provider.of<CartProvider>(context);
+    cart = cartProvider.getCart();
+    super.didChangeDependencies();
+  }
 
   Future onRefresh() async {
     final cartProvider = Provider.of<CartProvider>(context, listen: false);
@@ -50,75 +50,78 @@ class _CartScreenState extends State<CartScreen> {
               horizontal: rSize * 2,
               vertical: rSize * 3,
             ),
-            child: Column(
-              children: [
-                const ScreenTitleRow(
-                  title: 'My Cart',
-                  shouldAddBackButton: false,
-                ),
-                SizedBox(height: rSize * 2),
-                Consumer<CartProvider>(builder: (context, cartProvider, child) {
-                  return RefreshIndicator(
-                    onRefresh: onRefresh,
-                    child: FutureBuilder(
-                        future: cartProvider.getCart(),
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return const Center(
-                              child: CircularProgressIndicator.adaptive(),
-                            );
-                          } else if (snapshot.hasError) {
-                            return RefreshIndicator(
-                              onRefresh: onRefresh,
-                              child: SizedBox(
-                                height: SizeSetup.height! * 0.5,
-                                child: ListView(
-                                  children: const [
-                                    Text(
-                                        'Error Found: Poor connection or no internet. Refresh page.'),
-                                  ],
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  const ScreenTitleRow(
+                    title: 'My Cart',
+                    shouldAddBackButton: false,
+                  ),
+                  SizedBox(height: rSize * 2),
+                  Consumer<CartProvider>(
+                      builder: (context, cartProvider, child) {
+                    return RefreshIndicator(
+                      onRefresh: onRefresh,
+                      child: FutureBuilder(
+                          future: cart,
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const Center(
+                                child: CircularProgressIndicator.adaptive(),
+                              );
+                            } else if (snapshot.hasError) {
+                              return RefreshIndicator(
+                                onRefresh: onRefresh,
+                                child: SizedBox(
+                                  height: SizeSetup.height! * 0.5,
+                                  child: ListView(
+                                    children: const [
+                                      Text(
+                                          'Error Found: Poor connection or no internet.'),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            );
-                          } else if (!snapshot.hasData) {
-                            return const Center(
-                              child: Text('No data'),
-                            );
-                          } else if (snapshot.data!.isEmpty) {
-                            return const Text(
-                              'My Cart is Empty (for now). Add products to cart to view them here',
-                              style: TextStyle(fontSize: 20),
-                            );
-                          } else {
-                            return Column(
-                              children: [
-                                CheckboxListTile(
-                                  controlAffinity:
-                                      ListTileControlAffinity.leading,
-                                  value: cartProvider.ids == allIds,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      for (var element in snapshot.data!) {
-                                        allIds.add(element.id);
-                                      }
-                                      if (cartProvider.ids != allIds) {
-                                        cartProvider.ids = allIds;
-                                      } else {
-                                        allIds = [];
-                                        cartProvider.ids = [];
-                                      }
+                              );
+                            } else if (!snapshot.hasData) {
+                              return const Center(
+                                child: Text('No data'),
+                              );
+                            } else if (snapshot.data!.isEmpty) {
+                              return const Text(
+                                'My Cart is Empty (for now). Add products to cart to view them here',
+                                style: TextStyle(fontSize: 20),
+                              );
+                            } else {
+                              return Column(
+                                children: [
+                                  CheckboxListTile(
+                                    controlAffinity:
+                                        ListTileControlAffinity.leading,
+                                    value: cartProvider.ids == allIds,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        for (var element in snapshot.data!) {
+                                          allIds.add(element.id);
+                                        }
+                                        if (cartProvider.ids != allIds) {
+                                          cartProvider.ids = allIds;
+                                        } else {
+                                          allIds = [];
+                                          cartProvider.ids = [];
+                                        }
 
-                                      cartProvider.setCheckoutList =
-                                          snapshot.data!;
-                                    });
-                                  },
-                                  title: const Text('Select all'),
-                                ),
-                                SizedBox(
-                                  height: SizeSetup.height! * 0.4,
-                                  child: ListView.separated(
-                                    physics: const BouncingScrollPhysics(),
+                                        cartProvider.setCheckoutList =
+                                            snapshot.data!;
+                                      });
+                                    },
+                                    title: const Text('Select all'),
+                                  ),
+                                  ListView.separated(
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    shrinkWrap: true,
+                                    primary: true,
                                     itemCount: snapshot.data!.length,
                                     itemBuilder: (context, index) {
                                       final cartItem = snapshot.data![index];
@@ -179,31 +182,33 @@ class _CartScreenState extends State<CartScreen> {
                                       );
                                     }),
                                   ),
-                                ),
-                              ],
-                            );
-                          }
-                        }),
-                  );
-                }),
-                provider.ids.isNotEmpty
-                    ? Responsive(
-                        child: CustomButton(
-                          onPressed: () {
-                            final checkout =
-                                provider.findCartById(provider.ids);
-                            context.pushNamed(
-                              'confirm-order',
-                              extra: checkout,
-                            );
-                          },
-                          title: 'Proceed to checkout (${provider.ids.length})',
+                                ],
+                              );
+                            }
+                          }),
+                    );
+                  }),
+                  //const Spacer(),
+                  provider.ids.isNotEmpty
+                      ? Responsive(
+                          child: CustomButton(
+                            onPressed: () {
+                              final checkout =
+                                  provider.findCartById(provider.ids);
+                              context.pushNamed(
+                                'confirm-order',
+                                extra: checkout,
+                              );
+                            },
+                            title:
+                                'Proceed to checkout (${provider.ids.length})',
+                          ),
+                        )
+                      : const CustomTextCard(
+                          child: Text('Click on an item to select it'),
                         ),
-                      )
-                    : const CustomTextCard(
-                        child: Text('Click on an item to select it'),
-                      ),
-              ],
+                ],
+              ),
             ),
           );
   }

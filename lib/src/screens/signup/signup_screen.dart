@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../../app_components/app_components.dart';
 
 import '../../provider/app_state_provider.dart';
+import '../../provider/auth_provider.dart';
 import '../../size_setup.dart';
 import 'components/signup_form.dart';
 
@@ -74,6 +75,8 @@ class SignUpScreen extends StatelessWidget {
                     onTap: () {
                       Provider.of<AppStateProvider>(context, listen: false)
                           .register(true);
+                      Provider.of<AuthProvider>(context, listen: false)
+                          .toggleLoading(false);
                       context.goNamed('sign-in');
                     },
                   ),

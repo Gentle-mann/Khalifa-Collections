@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive/hive.dart';
@@ -80,8 +81,10 @@ class AppStateProvider extends ChangeNotifier {
     _homePage = await AppCache.getHomePage();
     _deliveryAddresses = await AppCache.getAddressList();
     // _phoneNumber = await _appCache.getPhone();
-    // final dir = await getApplicationDocumentsDirectory();
-    // Hive.init(dir.path);
+    if (!kIsWeb) {
+      final dir = await getApplicationDocumentsDirectory();
+      Hive.init(dir.path);
+    }
 
     await Hive.openBox('favc');
 

@@ -5,8 +5,9 @@ import 'package:http/http.dart' as http;
 class ProductsService {
   static var client = http.Client();
   Future<List<Products>> getNewestProducts() async {
-    var url = Uri.http(Config.apiUrl, Config.products);
+    var url = Uri.https(Config.apiUrl, Config.products);
     var response = await client.get(url);
+    print('newest: ${response.statusCode}');
     if (response.statusCode == 200) {
       final products = productsFromJson(response.body);
       return products;
@@ -16,8 +17,10 @@ class ProductsService {
   }
 
   Future<List<Products>> getAllProducts() async {
-    var url = Uri.http(Config.apiUrl, Config.products);
+    print('all products: ');
+    var url = Uri.https(Config.apiUrl, Config.products);
     var response = await client.get(url);
+    print('all products: ${response.statusCode}');
     if (response.statusCode == 200) {
       final products = productsFromJson(response.body);
       products.shuffle();
@@ -28,8 +31,9 @@ class ProductsService {
   }
 
   Future<List<Products>> getAffordableProducts() async {
-    var url = Uri.http(Config.apiUrl, Config.products);
+    var url = Uri.https(Config.apiUrl, Config.products);
     var response = await client.get(url);
+    print('affordable: ${response.statusCode}');
     if (response.statusCode == 200) {
       final products = productsFromJson(response.body);
 
@@ -42,7 +46,7 @@ class ProductsService {
   }
 
   Future<List<Products>> getExclusiveProducts() async {
-    var url = Uri.http(Config.apiUrl, Config.products);
+    var url = Uri.https(Config.apiUrl, Config.products);
     var response = await client.get(url);
     if (response.statusCode == 200) {
       final products = productsFromJson(response.body);
@@ -56,7 +60,7 @@ class ProductsService {
   }
 
   Future<List<Products>> getMaleProducts() async {
-    var url = Uri.http(Config.apiUrl, Config.products);
+    var url = Uri.https(Config.apiUrl, Config.products);
     var response = await client.get(url);
     if (response.statusCode == 200) {
       final products = productsFromJson(response.body);
@@ -69,7 +73,7 @@ class ProductsService {
   }
 
   Future<List<Products>> getFemaleProducts() async {
-    var url = Uri.http(Config.apiUrl, Config.products);
+    var url = Uri.https(Config.apiUrl, Config.products);
     var response = await client.get(url);
     if (response.statusCode == 200) {
       final products = productsFromJson(response.body);
@@ -82,7 +86,7 @@ class ProductsService {
   }
 
   Future<List<Products>> searchProducts(String searchQuery) async {
-    var url = Uri.http(Config.apiUrl, '${Config.search}$searchQuery');
+    var url = Uri.https(Config.apiUrl, '${Config.search}$searchQuery');
     var response = await client.get(url);
     if (response.statusCode == 200) {
       final results = productsFromJson(response.body);

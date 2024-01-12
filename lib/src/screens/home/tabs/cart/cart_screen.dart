@@ -24,12 +24,12 @@ class _CartScreenState extends State<CartScreen> {
   bool selectAll = false;
   List<String> allIds = [];
 
-  @override
-  void didChangeDependencies() {
-    final cartProvider = Provider.of<CartProvider>(context);
-    cart = cartProvider.getCart();
-    super.didChangeDependencies();
-  }
+  // @override
+  // void didChangeDependencies() {
+  //   final cartProvider = Provider.of<CartProvider>(context);
+  //   cart = cartProvider.getCart();
+  //   super.didChangeDependencies();
+  // }
 
   Future onRefresh() async {
     final cartProvider = Provider.of<CartProvider>(context, listen: false);
@@ -61,7 +61,7 @@ class _CartScreenState extends State<CartScreen> {
                   return RefreshIndicator(
                     onRefresh: onRefresh,
                     child: FutureBuilder(
-                        future: cart,
+                        future: cartProvider.getCart(),
                         builder: (context, snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {

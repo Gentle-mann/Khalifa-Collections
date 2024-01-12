@@ -22,6 +22,7 @@ class CartService {
       body: jsonEncode(addToCartModel.toJson()),
       headers: requestHeaders,
     );
+    print('addcart: ${response.statusCode}');
 
     if (response.statusCode == 200) {
       return true;
@@ -41,6 +42,7 @@ class CartService {
       url,
       headers: requestHeaders,
     );
+    print('all cart: ${response.statusCode}');
 
     if (response.statusCode == 200) {
       var data = json.decode(response.body);

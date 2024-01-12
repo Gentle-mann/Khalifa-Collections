@@ -18,6 +18,7 @@ class AuthService {
     var url = Uri.https(Config.apiUrl, Config.loginUrl);
     var response = await client.post(url,
         body: jsonEncode(signInModel.toJson()), headers: requestHeaders);
+    print('login: ${response.statusCode}');
 
     if (response.statusCode == 200) {
       final userId = loginResponseModelFromJson(response.body).id;
@@ -33,14 +34,17 @@ class AuthService {
   }
 
   Future<bool> signUp(SignUpModel model) async {
+    print('running sign up');
     Map<String, String> requestHeaders = {
       'Content-Type': 'application/json',
     };
     var url = Uri.https(Config.apiUrl, Config.signupUrl);
+    print('url run running sign up');
     var response = await https.post(url,
         headers: requestHeaders, body: jsonEncode(model.toJson()));
 
     // 5
+    print('login: ${response.statusCode}');
     if (response.statusCode == 201) {
       return true;
     } else {

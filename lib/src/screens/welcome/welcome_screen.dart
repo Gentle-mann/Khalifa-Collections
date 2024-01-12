@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:seed/src/provider/app_state_provider.dart';
 
@@ -60,6 +61,7 @@ class WelcomeScreen extends StatelessWidget {
                   onPressed: () {
                     Provider.of<AppStateProvider>(context, listen: false)
                         .onboard();
+                    context.goNamed('sign-up');
                   },
                 ),
                 SizedBox(height: rSize * 2),
@@ -75,6 +77,7 @@ class WelcomeScreen extends StatelessWidget {
                             .onboard();
                         Provider.of<AppStateProvider>(context, listen: false)
                             .register(true);
+                        context.goNamed('sign-in');
                       },
                     ),
                   ],

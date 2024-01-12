@@ -97,7 +97,8 @@ class _SearchTabState extends State<SearchTab> {
                               child: CircularProgressIndicator.adaptive(),
                             );
                           } else if (snapshot.hasError) {
-                            return Text('Error Found: ${snapshot.error}');
+                            return const Text(
+                                'Error Found: Poor connection or no internet');
                           } else if (!snapshot.hasData) {
                             return const Center(
                               child: Text('No data'),

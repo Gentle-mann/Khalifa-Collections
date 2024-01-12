@@ -43,7 +43,7 @@ class _ClothSaleState extends State<ClothSale> {
           } else if (snapshot.hasError) {
             return Center(
               child: Text(
-                'Error Found: Poor connection or no internet. %${snapshot.error}',
+                'Error Found: Poor connection or no internet.',
                 style: TextStyle(
                   fontSize: rSize * 2,
                 ),

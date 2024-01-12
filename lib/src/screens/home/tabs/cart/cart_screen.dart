@@ -74,9 +74,9 @@ class _CartScreenState extends State<CartScreen> {
                               child: SizedBox(
                                 height: SizeSetup.height! * 0.5,
                                 child: ListView(
-                                  children: [
+                                  children: const [
                                     Text(
-                                        'Error Found: Poor connection or no internet. Refresh page. ${snapshot.error}'),
+                                        'Error Found: Poor connection or no internet. Refresh page.'),
                                   ],
                                 ),
                               ),

@@ -34,9 +34,7 @@ class WishlistProvider extends ChangeNotifier {
       };
     }).toList();
     _favorites = favData.toList();
-
     setIds(_favorites.map((item) => item["id"].toString()).toList());
-    notifyListeners();
     return _favorites;
   }
 
@@ -75,8 +73,11 @@ class WishlistProvider extends ChangeNotifier {
     return _fav;
   }
 
-  Future<void> removeFav(int key) async {
+  Future<void> removeFav(int key, String id) async {
     await favBox.delete(key);
+    _ids.removeWhere((element) => element == id);
+    getFavorites();
+
     notifyListeners();
   }
 }

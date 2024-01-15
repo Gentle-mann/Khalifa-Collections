@@ -90,11 +90,8 @@ class _WishlistTabState extends State<WishlistTab> {
                                   ),
                                   GestureDetector(
                                     onTap: () {
-                                      wishlistProvider
-                                          .removeFav(favorites["key"]);
-                                      wishlistProvider.ids.removeWhere(
-                                          (element) =>
-                                              element == favorites["id"]);
+                                      wishlistProvider.removeFav(
+                                          favorites["key"], favorites["id"]);
                                     },
                                     child: Container(
                                       height: rSize * 3,

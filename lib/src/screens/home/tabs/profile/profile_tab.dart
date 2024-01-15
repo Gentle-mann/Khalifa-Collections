@@ -6,7 +6,6 @@ import 'package:seed/src/services/auth_service.dart';
 
 import '../../../../app_components/default_padding.dart';
 import '../../../settings/components/profile_option_card.dart';
-import '../../../../colors.dart';
 import '../../../../size_setup.dart';
 
 class ProfileTab extends StatelessWidget {

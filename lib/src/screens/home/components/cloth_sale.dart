@@ -131,7 +131,7 @@ class _ClothSaleCardState extends State<ClothSaleCard> {
                       value: progress.progress,
                     ),
                     errorWidget: (context, url, error) =>
-                        Center(child: Text('Image not found')),
+                        const Center(child: Text('Image not found')),
                   ),
                   Consumer<WishlistProvider>(
                       builder: (context, wishlistProvider, child) {
@@ -231,7 +231,7 @@ class _ClothSaleCardState extends State<ClothSaleCard> {
                 },
                 child: const Text(
                   'ADD TO CART',
-                  style: const TextStyle(color: Colors.white),
+                  style: TextStyle(color: Colors.white),
                 ),
               ),
             ),

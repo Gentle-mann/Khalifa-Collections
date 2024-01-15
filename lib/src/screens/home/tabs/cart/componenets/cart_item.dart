@@ -10,11 +10,11 @@ import '../../../../../size_setup.dart';
 
 class CartItem extends StatefulWidget {
   const CartItem({
-    Key? key,
+    super.key,
     required this.cartItem,
     required this.cartDeleteId,
     this.shouldDelete = true,
-  }) : super(key: key);
+  });
   final ProductItem cartItem;
   final String cartDeleteId;
   final bool shouldDelete;
@@ -29,6 +29,7 @@ class _CartItemState extends State<CartItem> {
     final rSize = SizeSetup.rSize!;
     return Container(
       margin: EdgeInsets.only(bottom: rSize),
+      width: double.infinity,
       decoration: const BoxDecoration(),
       child: Row(
         children: [
@@ -41,11 +42,14 @@ class _CartItemState extends State<CartItem> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      widget.cartItem.name,
-                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    SizedBox(
+                      width: SizeSetup.width! * 0.4,
+                      child: Text(
+                        widget.cartItem.name,
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
-                    const Text('Size: '),
                     Text(
                       '₦${widget.cartItem.price}',
                       style: const TextStyle(fontWeight: FontWeight.bold),

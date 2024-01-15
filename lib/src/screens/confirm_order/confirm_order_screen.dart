@@ -160,8 +160,7 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                     title: 'Confirm Order & Contact Us',
                     onPressed: () async {
                       List<String> orderNameList = [];
-                      String message =
-                          'Hey Khalifa Collections, I have ordered:\n';
+                      String message = 'Hey Khalifa Collections, I need:\n';
                       final ordersProvider =
                           Provider.of<OrdersProvider>(context, listen: false);
                       for (var element in widget.checkoutItems) {

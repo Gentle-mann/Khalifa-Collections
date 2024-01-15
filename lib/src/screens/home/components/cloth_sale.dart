@@ -3,10 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:seed/src/colors.dart';
 import 'package:seed/src/models/products_model.dart';
 import 'package:seed/src/provider/categories_provider.dart';
 import 'package:seed/src/provider/wishlist_provider.dart';
 
+import '../../../core/utils/snackbar.dart';
+import '../../../models/add_to_cart.dart';
+import '../../../provider/app_state_provider.dart';
+import '../../../provider/cart_provider.dart';
 import '../../../size_setup.dart';
 
 class ClothSale extends StatefulWidget {
@@ -43,7 +48,7 @@ class _ClothSaleState extends State<ClothSale> {
           } else if (snapshot.hasError) {
             return Center(
               child: Text(
-                'Error Found: Poor connection or no internet. ${snapshot.error}',
+                'Error Found: Poor connection or no internet.',
                 style: TextStyle(
                   fontSize: rSize * 2,
                 ),
@@ -57,9 +62,11 @@ class _ClothSaleState extends State<ClothSale> {
             return GridView.builder(
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
+                padding: EdgeInsets.zero,
                 primary: false,
                 itemCount: snapshot.data!.length,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    childAspectRatio: 0.8,
                     crossAxisCount:
                         MediaQuery.of(context).size.width > 600 ? 4 : 2,
                     crossAxisSpacing: rSize,
@@ -110,7 +117,6 @@ class _ClothSaleCardState extends State<ClothSaleCard> {
               padding: const EdgeInsets.only(top: 8),
               width: double.infinity,
               decoration: BoxDecoration(
-                //color: Colors.red,
                 borderRadius: BorderRadius.circular(rSize),
               ),
               child: Stack(
@@ -119,11 +125,13 @@ class _ClothSaleCardState extends State<ClothSaleCard> {
                   CachedNetworkImage(
                     key: UniqueKey(),
                     imageUrl: widget.product.imageUrl[0],
-                    fit: BoxFit.fitHeight,
-                    placeholder: (context, url) =>
-                        const CircularProgressIndicator.adaptive(),
+                    //fit: BoxFit.fitHeight,
+                    progressIndicatorBuilder: (context, url, progress) =>
+                        CircularProgressIndicator(
+                      value: progress.progress,
+                    ),
                     errorWidget: (context, url, error) =>
-                        const Text('Image not found'),
+                        Center(child: Text('Image not found')),
                   ),
                   Consumer<WishlistProvider>(
                       builder: (context, wishlistProvider, child) {
@@ -187,7 +195,44 @@ class _ClothSaleCardState extends State<ClothSaleCard> {
             child: Text(
               '₦${widget.product.price}',
               style: const TextStyle(
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(bottom: rSize, right: rSize, left: rSize),
+            child: SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.kLightPrimary),
+                onPressed: () async {
+                  final isLoggedIn =
+                      Provider.of<AppStateProvider>(context, listen: false)
+                          .isLoggedIn;
+                  if (isLoggedIn) {
+                    final addToCartModel = AddToCartModel(
+                        cartItem: widget.product.id, quantity: 1);
+                    final cartProvider =
+                        Provider.of<CartProvider>(context, listen: false);
+
+                    await cartProvider.createCart(addToCartModel).then((value) {
+                      if (value) {
+                        ShowSnackBar.showSnackBar(
+                            'Added to cart successfully!', context);
+                      } else {
+                        ShowSnackBar.showSnackBar(
+                            'Unable to add to cart', context);
+                      }
+                    });
+                  } else {
+                    context.go('/guest');
+                  }
+                },
+                child: const Text(
+                  'ADD TO CART',
+                  style: const TextStyle(color: Colors.white),
+                ),
               ),
             ),
           ),

@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:seed/src/models/cart_products.dart';
@@ -23,7 +22,6 @@ import 'screens/welcome/welcome_screen.dart';
 
 class AppRouter {
   final AppStateProvider appStateProvider;
-  //final AuthProvider authProvider;
   AppRouter({
     required this.appStateProvider,
   });
@@ -91,8 +89,8 @@ class AppRouter {
         builder: (context, state) => const WelcomeScreen(),
       ),
       GoRoute(
-        path: '/signup',
-        name: SignUpScreen.routeName,
+        path: '/sign-up',
+        name: 'sign-up',
         builder: (context, state) => const SignUpScreen(),
       ),
       GoRoute(

@@ -16,7 +16,9 @@ class SignOutConfirmation extends StatelessWidget {
     final rSize = SizeSetup.rSize!;
 
     return Container(
-      height: SizeSetup.height! * 0.5,
+      height: SizeSetup.width! > 500
+          ? SizeSetup.height! * 0.5
+          : SizeSetup.height! * 0.3,
       padding: EdgeInsets.only(
         top: rSize * 4,
         right: rSize * 2,

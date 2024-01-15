@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:seed/src/app_components/standard_bold_text.dart';
-import 'package:seed/src/core/responsive/responsive.dart';
 
 import 'package:seed/src/models/profile.dart';
 import 'package:seed/src/services/auth_service.dart';
@@ -90,27 +89,27 @@ class ProfileImage extends StatelessWidget {
           backgroundImage: const AssetImage('assets/images/profilepic.jpeg'),
           radius: rSize * 6,
         ),
-        Positioned(
-          bottom: 0,
-          right: rSize * 0.5,
-          child: Container(
-            height: rSize * 4,
-            width: rSize * 4,
-            decoration: BoxDecoration(
-              color: AppColors.kPrimaryColor,
-              shape: BoxShape.circle,
-              border: Border.all(
-                color: Colors.white,
-                width: 3,
-              ),
-            ),
-            child: Icon(
-              Icons.edit,
-              color: Colors.white,
-              size: rSize * 1.5,
-            ),
-          ),
-        ),
+        // Positioned(
+        //   bottom: 0,
+        //   right: rSize * 0.5,
+        //   child: Container(
+        //     height: rSize * 4,
+        //     width: rSize * 4,
+        //     decoration: BoxDecoration(
+        //       color: AppColors.kPrimaryColor,
+        //       shape: BoxShape.circle,
+        //       border: Border.all(
+        //         color: Colors.white,
+        //         width: 3,
+        //       ),
+        //     ),
+        //     child: Icon(
+        //       Icons.edit,
+        //       color: Colors.white,
+        //       size: rSize * 1.5,
+        //     ),
+        //   ),
+        // ),
       ],
     );
   }

@@ -25,7 +25,7 @@ class GuestScreen extends StatelessWidget {
               child: CustomButton(
                   title: 'Sign In',
                   onPressed: () {
-                    context.go('/sign-in');
+                    context.go('/sign-up');
                   }),
             )
           ],

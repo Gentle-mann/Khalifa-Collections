@@ -27,7 +27,9 @@ class SignInScreen extends StatelessWidget {
           child: Column(
             children: [
               const HeaderText('Sign In'),
-              const Text('Hello, welcome back. We\'ve missed you! 😊'),
+              const Text(
+                'Hello, welcome back. Sign in with your email address and password below 👇🏿 😊',
+              ),
               SizedBox(height: rSize * 3),
               const SignInForm(),
               // SizedBox(height: rSize * 5),
@@ -72,7 +74,7 @@ class SignInScreen extends StatelessWidget {
                           .register(false);
                       Provider.of<AuthProvider>(context, listen: false)
                           .toggleLoading(false);
-                      context.goNamed('/signup');
+                      context.goNamed('sign-up');
                     },
                   ),
                 ],

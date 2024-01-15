@@ -1,11 +1,7 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:seed/src/app_cache/app_cache.dart';
-import 'package:seed/src/provider/orders_provider.dart';
-import 'package:seed/src/provider/wishlist_provider.dart';
 
 class AppStateProvider extends ChangeNotifier {
   bool _isRegistered = false;
@@ -13,7 +9,7 @@ class AppStateProvider extends ChangeNotifier {
   bool _hasOnboarded = false;
   bool _isDarkMode = false;
   int _homePage = 0;
-  String _userEmail = '';
+  final String _userEmail = '';
   List<dynamic> favIds = [];
 
   bool get isRegistered {

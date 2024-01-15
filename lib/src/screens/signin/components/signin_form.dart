@@ -65,7 +65,7 @@ class _SignInFormState extends State<SignInForm> {
                   },
                   autocorrect: false,
                   keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     hintText: 'Enter your email address',
                     floatingLabelBehavior: FloatingLabelBehavior.auto,
                   ),
@@ -116,12 +116,11 @@ class _SignInFormState extends State<SignInForm> {
                       _formKey.currentState!.save();
                       final signInModel = SignInModel(
                         email: authValidationProvider.email,
-                        password: authValidationProvider.password,
+                        password: authValidationProvider.password.trim(),
                       );
                       await signInProvider
                           .signInUser(signInModel)
                           .then((signInResponse) {
-                        print('signInResponse: $signInResponse');
                         if (signInResponse) {
                           Provider.of<AppStateProvider>(context, listen: false)
                               .login();

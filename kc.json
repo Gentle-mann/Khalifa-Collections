@@ -1,19 +1,15 @@
-[
+[ 
     {
-        "name": "Nike Slippers",
-        "title": "Double reinforce Nike Slippers",
-        "description": "You've seen the picture, and you love what you see. Order one today!",       
-        "category": "Unisex",
+        "name": "Trainers",
+        "title": "Nike Sports Trainers",
+        "description": "These trainers are super light and comfortable and will not bug you down and will make you able to run faster!",       
+        "category": "Men",
         "subCategory": "Shoes",
-        "subSubCategory": "Slippers",
-        "price": "5,000.00",
+        "subSubCategory": "Boots",
+        "price": "7,000.00",
         "imageUrl": [
-            "https://res.cloudinary.com/dxjimzdsw/image/upload/v1702854955/kc/uon24ghcwhrj5cs341wi.jpg"
             ],
         "sizes": [
-                {
-                    "size": "39", "isSelected": false
-                },
                 {
                     "size": "40", "isSelected": false
                 },
@@ -28,7 +24,46 @@
                 {
                     "size": "43",
                     "isSelected": false
+                },
+                {
+                    "size": "44",
+                    "isSelected": false
+                },
+                {
+                    "size": "45",
+                    "isSelected": false
                 }
             ]
-        }
+        },
+        {
+            "name": "Upper Moon Shirts",
+            "title": "Upper Moon Shirts",
+            "description": "Upper Moon Shirts Highest qualit shirts",
+            "category": "Men",
+            "subCategory": "Shirts",
+            "subSubCategory": "Short sleeves",
+            "price": "8,000.00",
+            "imageUrl": [
+                "https://res.cloudinary.com/dxjimzdsw/image/upload/v1705076872/kc%202/fdvny6slxnyt9hhalb4p.jpg",
+                "https://res.cloudinary.com/dxjimzdsw/image/upload/v1705076866/kc%202/tnlaa9tsaqfyxqralt0s.jpg",
+                "https://res.cloudinary.com/dxjimzdsw/image/upload/v1705076862/kc%202/nezm1sybjimsezxpeetj.jpg"
+                ],
+            "sizes": [
+                    {
+                        "size": "L", "isSelected": false
+                    },
+                    {
+                        "size": "XL", "isSelected": false
+                    },
+                    {
+                        "size": "XXL",
+                        "isSelected": false
+                    },
+                    {
+                        "size": "XXXL",
+                        "isSelected": false
+                    }
+                    
+                ]
+            }
 ]

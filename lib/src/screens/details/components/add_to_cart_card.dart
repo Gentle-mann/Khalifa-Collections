@@ -18,26 +18,16 @@ class AddToCartCard extends StatelessWidget {
           topRight: Radius.circular(rSize),
         ),
       ),
-      child: Row(
-        children: [
-          const Column(
+      child: Expanded(
+        child: ElevatedButton(
+          onPressed: () {},
+          child: Row(
             children: [
-              Text('Total price'),
-              Text('\$83.97'),
+              SvgPicture.asset('assets/icons/bag_filled.svg'),
+              const Text('Add to Cart'),
             ],
           ),
-          Expanded(
-            child: ElevatedButton(
-              onPressed: () {},
-              child: Row(
-                children: [
-                  SvgPicture.asset('assets/icons/bag_filled.svg'),
-                  const Text('Add to Cart'),
-                ],
-              ),
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }

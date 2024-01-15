@@ -39,13 +39,11 @@ class _SignUpFormState extends State<SignUpForm> {
               return CustomButton(
                 title: 'Sign up',
                 onPressed: () async {
-                  print(
-                      'pass: ${authValidationProvider.password} and confpass: ${authValidationProvider.confirmPassword}, email: ${authValidationProvider.email}, username: ${authValidationProvider.username}');
                   if (_formKey.currentState!.validate()) {
                     _formKey.currentState!.save();
                     final signUpModel = SignUpModel(
                       email: authValidationProvider.email,
-                      password: authValidationProvider.password,
+                      password: authValidationProvider.password.trim(),
                       username: authValidationProvider.username,
                     );
                     await authProvider

@@ -24,6 +24,9 @@ class ItemImageCard extends StatelessWidget {
       ),
       child: CachedNetworkImage(
         imageUrl: imageUrl,
+        errorWidget: (context, url, error) => const Center(
+          child: Text('Image not found'),
+        ),
       ),
     );
   }

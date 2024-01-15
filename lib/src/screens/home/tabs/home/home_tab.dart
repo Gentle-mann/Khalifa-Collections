@@ -103,7 +103,7 @@ class _HomeTabState extends State<HomeTab> {
                 child: Center(
                   child: SelectableText(
                     'Call or WhatsApp to order quickly: 09033696162',
-                    style: TextStyle(color: Colors.white),
+                    style: const TextStyle(color: Colors.white),
                     onTap: () {
                       Provider.of<LaunchLinkProvider>(context, listen: false)
                           .shareOrderToWhatsApp(

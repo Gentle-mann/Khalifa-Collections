@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:seed/src/app_theme/dark_theme.dart';
@@ -74,7 +73,7 @@ class _SeedState extends State<Seed> {
                 appStateProvider.isDarkMode ? ThemeMode.dark : ThemeMode.light;
             return MaterialApp.router(
               debugShowCheckedModeBanner: false,
-              title: 'Seed',
+              title: 'Khalifa Collections',
               themeMode: themeMode,
               theme: LightTheme.lightTheme(),
               darkTheme: DarkTheme.darkTheme(),

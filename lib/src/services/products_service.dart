@@ -7,7 +7,6 @@ class ProductsService {
   Future<List<Products>> getNewestProducts() async {
     var url = Uri.https(Config.apiUrl, Config.products);
     var response = await client.get(url);
-    print('newest: ${response.statusCode}');
     if (response.statusCode == 200) {
       final products = productsFromJson(response.body);
       return products;
@@ -17,10 +16,8 @@ class ProductsService {
   }
 
   Future<List<Products>> getAllProducts() async {
-    print('all products: ');
     var url = Uri.https(Config.apiUrl, Config.products);
     var response = await client.get(url);
-    print('all products: ${response.statusCode}');
     if (response.statusCode == 200) {
       final products = productsFromJson(response.body);
       products.shuffle();
@@ -33,12 +30,11 @@ class ProductsService {
   Future<List<Products>> getAffordableProducts() async {
     var url = Uri.https(Config.apiUrl, Config.products);
     var response = await client.get(url);
-    print('affordable: ${response.statusCode}');
     if (response.statusCode == 200) {
       final products = productsFromJson(response.body);
 
       return products.where((element) {
-        return double.parse(element.price.replaceAll(',', '')) < 6001;
+        return double.parse(element.price.replaceAll(',', '')) < 7001;
       }).toList();
     } else {
       throw Exception('Failed to get products');
@@ -52,7 +48,7 @@ class ProductsService {
       final products = productsFromJson(response.body);
 
       return products.where((element) {
-        return double.parse(element.price.replaceAll(',', '')) > 6000;
+        return double.parse(element.price.replaceAll(',', '')) > 7001;
       }).toList();
     } else {
       throw Exception('Failed to get products');
@@ -77,8 +73,8 @@ class ProductsService {
     var response = await client.get(url);
     if (response.statusCode == 200) {
       final products = productsFromJson(response.body);
-      var maleProducts = products.where((element) =>
-          element.category == 'Women' || element.category == 'Unisex');
+      var maleProducts =
+          products.where((element) => element.category == 'Women');
       return maleProducts.toList();
     } else {
       throw Exception('Failed to get products');

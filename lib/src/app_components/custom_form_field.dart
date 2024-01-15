@@ -96,8 +96,7 @@ class PasswordField extends StatelessWidget {
         title: 'Password',
         textInputType: TextInputType.visiblePassword,
         onChanged: (password) {
-          authProvider.onPasswordChangedOrSaved(password);
-          print(' password: ${authProvider.password}');
+          authProvider.onPasswordChangedOrSaved(password.trim());
         },
         validator: (password) {
           if (password!.length < 6) {
@@ -106,7 +105,7 @@ class PasswordField extends StatelessWidget {
           return null;
         },
         onSaved: (password) {
-          authProvider.onPasswordChangedOrSaved(password!);
+          authProvider.onPasswordChangedOrSaved(password!.trim());
         },
         // suffixIcon: IconButton(
         //   onPressed: () {},
@@ -128,11 +127,10 @@ class ConfirmPasswordField extends StatelessWidget {
         hintText: 'Confirm your password',
         title: 'Confirm password',
         onSaved: (confirmPassword) {
-          authProvider.onConfirmPasswordChangedOrSaved(confirmPassword!);
-          print('confirm password: ${authProvider.confirmPassword}');
+          authProvider.onConfirmPasswordChangedOrSaved(confirmPassword!.trim());
         },
         validator: (confirmPassword) {
-          if (confirmPassword != authProvider.password) {
+          if (confirmPassword!.trim() != authProvider.password) {
             return 'Passwords don\'t match';
           }
           return null;
